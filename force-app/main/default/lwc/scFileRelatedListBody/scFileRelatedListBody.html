@@ -1,3 +1,49 @@
+<!-- scFileRelatedListBody.html -->
 <template>
-    
-</template>
+    <lightning-tabset variant="scoped" active-tab-value={viewType}>
+      <template if:true={viewtypeTable}>
+        <lightning-tab label="Table" value="table" onactive={handleViewTypeChange}>
+          <c-sc-file-related-list-table
+            file-data={fileData}
+            file-count={fileCount}
+            act-no={actNo}
+            ondatatablerowselection={handleCheckboxClick}
+            onsortdata={handleSortData}>
+          </c-sc-file-related-list-table>
+        </lightning-tab>
+      </template>
+      
+      <template if:true={viewtypeThumbnail}>
+        <lightning-tab label="Thumbnail" value="thumbnail" onactive={handleViewTypeChange}>
+          <c-sc-file-related-list-thumbnail
+            file-data={fileData}
+            file-count={fileCount}
+            act-no={actNo}
+            onthumbnailclick={handleThumbnailClick}>
+          </c-sc-file-related-list-thumbnail>
+        </lightning-tab>
+      </template>
+      
+      <template if:true={viewtypeCard}>
+        <lightning-tab label="Card" value="card" onactive={handleViewTypeChange}>
+          <c-sc-file-related-list-card
+            file-data={fileData}
+            img-card-show-info={imgCardShowInfo}
+            img-card-info-title-color={imgCardInfoTitleColor}
+            img-card-info-date-color={imgCardInfoDateColor}
+            onimgcardactionclicked={handleImgCardActionClicked}
+            onimgcardmouseover={handleImgCardMouseOver}
+            onimgcardmouseout={handleImgCardMouseOut}>
+          </c-sc-file-related-list-card>
+        </lightning-tab>
+      </template>
+      
+      <template if:true={viewtypeSlide}>
+        <lightning-tab label="Slide" value="slide" onactive={handleViewTypeChange}>
+          <c-sc-file-related-list-slide
+            file-data={fileData}>
+          </c-sc-file-related-list-slide>
+        </lightning-tab>
+      </template>
+    </lightning-tabset>
+  </template>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>59.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="actUploadBtn" type="Boolean" label="선택: 업로드 버튼" default="false"/>
+            <property name="actDownloadBtn" type="Boolean" label="선택: 선택 다운로드 버튼" default="false"/>
+            <property name="actDeleteBtn" type="Boolean" label="선택: 선택 삭제 버튼" default="false"/>
+            <property name="actNo" type="Boolean" label="선택: No. 필드" default="false"/>
+            <property name="actSectionOpen" type="Boolean" label="선택: 섹션 초기 오픈" default="true"/>
+            <property name="actDropZone" type="Boolean" label="선택: Drop Zone 활성화" default="true"/>
+
+            <property name="defaultViewType" type="String" label="기본값: View Type" datasource="테이블, 썸네일, 이미지 카드, 슬라이드" default="테이블"/>
+            <property name="viewType_table" type="Boolean" label="Type: 테이블"/>
+            <property name="viewType_thumbnail" type="Boolean" label="Type: 썸네일"/>
+            <property name="viewType_card" type="Boolean" label="Type: 이미지 카드"/>
+            <property name="viewType_slide" type="Boolean" label="Type: 슬라이드"/>
+
+
+            <property name="imgCardShowInfo" type="Boolean" label="이미지 카드 정보 보기" default="true"/>
+            <property name="imgCardInfoTitleColor" type="String" label="이미지 카드 타이틀 색상" default="rgb(255,255,255)"/>
+            <property name="imgCardInfoDateColor" type="String" label="이미지 카드 작성일자 색상" default="rgb(255,255,255)"/>
+            
+
+            <property name="category" type="String" label="Category" default="" description="파일 구분 기준."/>
+            <property name="title" type="String" label="Title" default="" description="파일 구분 기준."/>
+            <property name="icon" type="String" label="Icon" default="standard:file" description=""/>
+            <property name="themeColor" type="String" label="테마 색상 변경" datasource="white, red, orange, yellow, green, blue, purple" default="white"/>
+            <property name="countRecord" type="String" label="페이지당 레코드 수" default="10"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>
