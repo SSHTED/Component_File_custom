@@ -1,0 +1,74 @@
+# Salesforce cache
+.sf/
+.sfdx/
+.localdevserver/
+deploy-options.json
+
+# LWC VSCode autocomplete
+**/lwc/jsconfig.json
+
+# LWC Jest coverage reports
+coverage/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+
+# Eslint cache
+.eslintcache
+
+# System files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Local environment variables
+.env
+
+# Metadata cache
+**/cache/*  
+
+# Local static resources
+**/staticresources/*
+
+# Local community sites
+**/sites/*  
+
+# Ignored file extensions
+*.cmp
+*.auradoc
+*.avsc  
+*.css
+*.dataset
+*.ds
+*.gz
+*.ids
+*.json
+*.map  
+*.md
+*.pdf
+*.png  
+*.resource
+*.ride
+*.rtf
+*.scc
+*.svg
+*.tgz
+*.tmp
+*.txt
+*.xlsx
+*.zip
+.prettierignore
+.prettierrc
+jest.config.js
+.forceignore
+.husky
+scripts
