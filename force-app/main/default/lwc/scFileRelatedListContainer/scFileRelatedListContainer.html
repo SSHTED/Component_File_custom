@@ -16,30 +16,27 @@
         </c-sc-file-related-list-header>
 
         <!-- body -->
-        <template if:true={isTableVisible}>
-            <div class="slds-card__body slds-card__body_inner" style="margin-top: 0; padding: 0;">
-              <c-sc-file-related-list-body
-                view-type={defaultViewType}
-                viewtype-table={viewType_table}
-                viewtype-thumbnail={viewType_thumbnail}
-                viewtype-card={viewType_card}
-                viewtype-slide={viewType_slide}
-                img-card-show-info={imgCardShowInfo}
-                img-card-info-title-color={imgCardInfoTitleColor}
-                img-card-info-date-color={imgCardInfoDateColor}
-                file-data={fileData}
-                file-count={fileCount}
-                act-no={actNo}
-                ondatatablerowselection={handleCheckboxClick}
-                onimgcardactionclicked={handleCellEvent}
-                onimgcardmouseover={showButton}
-                onimgcardmouseout={hideButton}
-                onthumbnailclick={handleThumbnailClick}
-                onviewtypechange={handleViewTypeChange}
-                onsortdata={handleSortedByDesc}>
-              </c-sc-file-related-list-body>
-            </div>
-        </template>
+        <c-sc-file-related-list-body
+            view-type={defaultViewType}
+            viewtype-table={viewType_table}
+            viewtype-thumbnail={viewType_thumbnail}
+            viewtype-card={viewType_card}
+            viewtype-slide={viewType_slide}
+            img-card-show-info={imgCardShowInfo}
+            img-card-info-title-color={imgCardInfoTitleColor}
+            img-card-info-date-color={imgCardInfoDateColor}
+            file-data={fileData}
+            file-count={fileCount}
+            act-no={actNo}
+            ondatatablerowselection={handleCheckboxClick}
+            onimgcardactionclicked={handleCellEvent}
+            onimgcardmouseover={showButton}
+            onimgcardmouseout={hideButton}
+            onthumbnailclick={handleThumbnailClick}
+            onviewtypechange={handleViewTypeChange}
+            onsortdata={handleSortedByDesc}>
+        </c-sc-file-related-list-body>  
+
         
         <!-- footer -->
         <c-sc-file-related-list-footer></c-sc-file-related-list-footer>
