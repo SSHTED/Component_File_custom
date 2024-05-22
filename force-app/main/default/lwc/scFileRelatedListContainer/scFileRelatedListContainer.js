@@ -11,17 +11,30 @@ import deleteFilesByRecordId from '@salesforce/apex/SC_FileRelatedListController
 import saveData from '@salesforce/apex/SC_FileRelatedListController.saveData';
 
 export default class ScFileRelatedListContainer extends LightningElement {
-    @api recordId;
-    @api category; @api title; @api icon;
-    @api actDropZone; @api isActiveNo; @api isActiveDel;
-    @api countRecord;
+    // 기능 활성화/비활성화
+    @api actDeleteBtn;
+    @api actDownloadBtn;
+    @api actDropZone;
+    @api actNo;
     @api actSectionOpen;
+    @api actUploadBtn;
+    // 파일 정보
+    @api category;
+    @api title;
+    @api icon;
+    // 기타
+    @api recordId;
     @api themeColor;
-    @api actUploadBtn; @api actDeleteBtn;
-    @api actDownloadBtn; @api actNo;
+    @api countRecord;
+    @api isActiveNo;
+    @api isActiveDel;
+    // 뷰 타입
     @api defaultViewType;
-    @api viewType_table; @api viewType_thumbnail;
-    @api viewType_card; @api viewType_slide;
+    @api viewType_table;
+    @api viewType_thumbnail;
+    @api viewType_card;
+    @api viewType_slide;
+    // 이미지 카드 관련
     @api imgCardShowInfo;
     @api imgCardInfoTitleColor;
     @api imgCardInfoDateColor;
@@ -47,11 +60,6 @@ export default class ScFileRelatedListContainer extends LightningElement {
     imgTitle;
     imgSrc;
 
-    viewTypeMap = {
-        '테이블': 'viewType_table', '썸네일': 'viewType_thumbnail',
-        '이미지 카드': 'viewType_card', '슬라이드': 'viewType_slide'
-    };
-
     tableColumns = [
         { label: '제목', value: 'Title' },
         { label: '파일 형식', value: 'FileType' },
@@ -66,6 +74,13 @@ export default class ScFileRelatedListContainer extends LightningElement {
 
     connectedCallback() {
         this.getFileList();
+
+        this.viewType_table = this.viewType_table || this.defaultViewType === '테이블';
+        this.viewType_thumbnail = this.viewType_thumbnail || this.defaultViewType === '썸네일';
+        this.viewType_card = this.viewType_card || this.defaultViewType === '이미지 카드';
+        this.viewType_slide = this.viewType_slide || this.defaultViewType === '슬라이드';
+
+        
     }
 
     getFileList() {

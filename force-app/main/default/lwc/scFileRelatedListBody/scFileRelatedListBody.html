@@ -1,49 +1,70 @@
 <!-- scFileRelatedListBody.html -->
 <template>
-    <lightning-tabset variant="scoped" active-tab-value={viewType}>
-      <template if:true={viewtypeTable}>
-        <lightning-tab label="Table" value="table" onactive={handleViewTypeChange}>
-          <c-sc-file-related-list-table
-            file-data={fileData}
-            file-count={fileCount}
-            act-no={actNo}
-            ondatatablerowselection={handleCheckboxClick}
-            onsortdata={handleSortData}>
-          </c-sc-file-related-list-table>
-        </lightning-tab>
-      </template>
-      
-      <template if:true={viewtypeThumbnail}>
-        <lightning-tab label="Thumbnail" value="thumbnail" onactive={handleViewTypeChange}>
-          <c-sc-file-related-list-thumbnail
-            file-data={fileData}
-            file-count={fileCount}
-            act-no={actNo}
-            onthumbnailclick={handleThumbnailClick}>
-          </c-sc-file-related-list-thumbnail>
-        </lightning-tab>
-      </template>
-      
-      <template if:true={viewtypeCard}>
-        <lightning-tab label="Card" value="card" onactive={handleViewTypeChange}>
-          <c-sc-file-related-list-card
-            file-data={fileData}
-            img-card-show-info={imgCardShowInfo}
-            img-card-info-title-color={imgCardInfoTitleColor}
-            img-card-info-date-color={imgCardInfoDateColor}
-            onimgcardactionclicked={handleImgCardActionClicked}
-            onimgcardmouseover={handleImgCardMouseOver}
-            onimgcardmouseout={handleImgCardMouseOut}>
-          </c-sc-file-related-list-card>
-        </lightning-tab>
-      </template>
-      
-      <template if:true={viewtypeSlide}>
-        <lightning-tab label="Slide" value="slide" onactive={handleViewTypeChange}>
-          <c-sc-file-related-list-slide
-            file-data={fileData}>
-          </c-sc-file-related-list-slide>
-        </lightning-tab>
-      </template>
-    </lightning-tabset>
-  </template>
+  <div class="slds-card__body slds-card__body_inner" style="margin-top: 0; padding: 0;">
+    <div class="mainData">
+      <lightning-tabset variant="scoped" active-tab-value={defaultViewTypeValue}>
+        <template for:each={viewTypeTabs} for:item="tab">
+          
+          <lightning-tab label={tab.label} key={tab.value} value={tab.value} style="margin-bottom:-13px;">
+            <div style="padding-left:5px; height:30px;">
+              <p style="float:left;">{fileCount} items</p>
+              <!-- <template if:true={isSorted}>
+                <p style="float:left;">&nbsp;● Sorted by {sortOrder}</p>
+                <lightning-button-icon variant="border-filled" icon-name="utility:sort" size="x-small" onclick={handleSortedByDesc} style="margin-left:10px;"></lightning-button-icon>
+              </template> -->
+            </div>
+
+            <!-- 테이블 형태 -->
+            <template if:true={tab.isTable}>
+              <c-sc-file-related-list-table
+                file-data={fileData}
+                file-count={fileCount}
+                act-no={actNo}
+                table-columns={tableColumns}
+                oncheckboxrowselection={handleTableRowCheckboxClick}
+                oncheckboxheaderselection={handleTableHeaderCheckboxClick}>
+              </c-sc-file-related-list-table>
+            </template>
+
+            <!-- 썸네일 형태 -->
+            <template if:true={tab.isThumbnail}>
+              <c-sc-file-related-list-thumbnail
+                file-data={fileData}
+                act-no={actNo}
+                thumbnail-columns={thumbnailColumns}
+                oncheckboxrowselection={handleThumbnailRowCheckboxClick}
+                oncheckboxheaderselection={handleThumbnailHeaderCheckboxClick}>
+              </c-sc-file-related-list-thumbnail>
+            </template>
+
+            <!-- 이미지 카드 형태 -->
+            <template if:true={tab.isCard}>
+              <c-sc-file-related-list-card
+                file-data={fileData}
+                img-card-show-info={imgCardShowInfo}>
+              </c-sc-file-related-list-card>
+            </template>
+
+            <!-- 슬라이드 형태 -->
+            <template if:true={tab.isSlide}>
+              <c-sc-file-related-list-slide
+                file-data={fileData}
+                is-small-size-box={isSmallSizeBox}
+                img-src={imgSrc}
+                img-title={imgTitle}
+                toggle-play-icon={togglePlayIcon}
+                onthumbnailclick={handleThumbnailClick}
+                onprevimage={previousImage}
+                onnextimage={nextImage}
+                onplayclick={handlePalying}
+                onslidemouseover={showImgInfo}
+                onslidemouseout={hideImgInfo}>
+              </c-sc-file-related-list-slide>
+            </template>
+            
+          </lightning-tab>
+        </template>
+      </lightning-tabset>
+    </div>
+  </div>
+</template>
