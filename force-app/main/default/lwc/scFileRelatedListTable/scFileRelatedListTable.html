@@ -4,31 +4,51 @@
       <table class="dataTable slds-table slds-table_cell-buffer slds-table_bordered" style="border-top:none;">
         <thead>
           <tr>
-            <template if:true={actNo}>
-              <th style="padding:0; text-align:center; width:50px;">No</th>
+            <template for:each={tableThead} for:item="th">
+              <th key={th.fieldName}>
+                <!-- No -->
+                <template if:true={th.isindex}>
+                  <div style="padding:0; text-align:center; width:50px;">{th.label}</div>
+                </template>
+
+                <!-- 체크박스 -->
+                <template if:true={th.ischeckbox}>
+                  <div style="width:33px;">
+                    <lightning-input type="checkbox" onchange={handleHeaderCheckboxChange}></lightning-input>
+                  </div>
+                </template>
+
+                <!-- 텍스트 -->
+                <template if:true={th.isdata}>
+                  <div class="slds-truncate">
+                    <template if:false={th.sortable}>
+                      {th.label}
+                    </template>
+                    <template if:true={th.sortable}>
+                      <a href="javascript:void(0);" onclick={handleSortData} data-sort-by={th.fieldName}>{th.label}</a>
+                    </template>
+                  </div>
+                </template>
+              </th>
             </template>
-            <th style="width:33px;">
-              <lightning-input type="checkbox" onchange={handleHeaderCheckboxChange}></lightning-input>
-            </th>
-            <th class="slds-truncate">파일명</th>
-            <th class="slds-truncate">확장자</th>
-            <th class="slds-truncate">
-              <a href="javascript:void(0);" onclick={handleSortData} data-sort-by="ContentSize">크기(KB)</a>
-            </th>
           </tr>
         </thead>
         <tbody>
-          <template for:each={fileData} for:item="file" for:index="index">
-            <tr key={file.Id}>
+          <template for:each={fileData} for:item="data" for:index="index">
+            <tr key={data.Id}>
+              <!-- No -->
               <template if:true={actNo}>
-                <td style="padding:0; text-align:center;">{file.index}</td>
+                <td style="padding:0; text-align:center;">{data.index}</td>
               </template>
+
+              <!-- 체크박스 -->
               <td>
-                <lightning-input type="checkbox" data-id={file.Id} onchange={handleRowCheckboxChange}></lightning-input>
+                <lightning-input type="checkbox" data-id={data.Id} onchange={handleRowCheckboxChange}></lightning-input>
               </td>
-              <td class="slds-truncate" title={file.Title}>{file.Title}</td>
-              <td class="slds-truncate" title={file.FileExtension}>{file.FileExtension}</td>
-              <td class="slds-truncate" title={file.ContentSize}>{file.ContentSize}</td>
+              <!-- 텍스트 -->
+              <td class="slds-truncate" title={data.Title}>{data.Title}</td>
+              <td class="slds-truncate" title={data.FileExtension}>{data.FileExtension}</td>
+              <td class="slds-truncate" title={data.ContentSize}>{data.ContentSize}</td>
             </tr>
           </template>
         </tbody>

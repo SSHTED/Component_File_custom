@@ -6,6 +6,14 @@ export default class ScFileRelatedListTable extends LightningElement {
     @api fileCount;
     @api actNo;
 
+    tableThead = [
+        { label: 'No', fieldName: 'index', sortable: false, isindex: true, ischeckbox: false, isdata: false },
+        { label: '', fieldName: 'checkbox', sortable: false, isindex: false, ischeckbox: true, isdata: false },
+        { label: '파일명', fieldName: 'Title', sortable: true, isindex: false, ischeckbox: false, isdata: true },
+        { label: '확장자', fieldName: 'FileExtension', sortable: true, isindex: false, ischeckbox: false, isdata: true },
+        { label: '크기', fieldName: 'ContentSize', sortable: true, isindex: false, ischeckbox: false, isdata: true }
+    ];
+
     handleHeaderCheckboxChange(event) {
         const isChecked = event.target.checked;
         const checkboxes = this.template.querySelectorAll('lightning-input[type="checkbox"]');
