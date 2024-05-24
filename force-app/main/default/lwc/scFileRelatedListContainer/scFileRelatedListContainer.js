@@ -4,9 +4,9 @@ import ScFileRelatedListHeader from 'c/scFileRelatedListHeader';
 import ScFileRelatedListBody from 'c/scFileRelatedListBody';
 import ScFileRelatedListFooter from 'c/scFileRelatedListFooter';
 
-import getInit from '@salesforce/apex/SC_FileRelatedListController.getInit';
-import getFileDataByRecordId from '@salesforce/apex/SC_FileRelatedListController.getFileDataByRecordId';
-import getFileDataByCategory from '@salesforce/apex/SC_FileRelatedListController.getFileDataByCategory';
+// import getFileDataByRecordId from '@salesforce/apex/SC_FileRelatedListController.getFileDataByRecordId';
+// import getFileDataByCategory from '@salesforce/apex/SC_FileRelatedListController.getFileDataByCategory';
+import getFileData from '@salesforce/apex/SC_FileRelatedListController.getFileData';
 import deleteFilesByRecordId from '@salesforce/apex/SC_FileRelatedListController.deleteFilesByRecordId';
 import saveData from '@salesforce/apex/SC_FileRelatedListController.saveData';
 
@@ -39,7 +39,6 @@ export default class ScFileRelatedListContainer extends LightningElement {
     @api imgCardInfoTitleColor;
     @api imgCardInfoDateColor;
 
-    defaultViewTypeValue;
     currentViewType;
     customClass = '';
     fileCount;
@@ -73,93 +72,107 @@ export default class ScFileRelatedListContainer extends LightningElement {
     ];
 
     connectedCallback() {
-        this.getFileList();
-
-        this.viewType_table = this.viewType_table || this.defaultViewType === '테이블';
-        this.viewType_thumbnail = this.viewType_thumbnail || this.defaultViewType === '썸네일';
-        this.viewType_card = this.viewType_card || this.defaultViewType === '이미지 카드';
-        this.viewType_slide = this.viewType_slide || this.defaultViewType === '슬라이드';
-
-        
+        // this.getFileList();
+        this.fetchFileData();
     }
 
-    getFileList() {
-        if (this.category) {
-            // 카테고리 있는 애들 가져오기
-            getFileDataByCategory({ category: this.category, recordId: this.recordId })
-                .then(result => {
-                    console.log('result >>>>>>>>>', result)
-                    this.fileData = result.Result.map((fileData, index) => {
-                        return {
-                            ...fileData,
-                            index: index + 1
-                        };
-                    });
-                    console.log('📌 카테고리 있는 fileData 데이터 >>>> ', JSON.stringify(this.fileData, null, 2));
-                    this.handleImageSlide();
-                })
-                .catch(error => {
-                    console.error('오류 발생:', error);
-                });
+    fetchFileData(){
+        const params = { recordId: this.recordId };
+        if(this.category){
+            params.category = this.category;
+        }
+
+        getFileData(params)
+            .then(result => {
+                console.log('getFileData result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', result);
+                this.fileCount = result.Result.length;
+                this.fileData = result.Result.map((fileData,index) => this.processFileData(fileData, index));
+
+                console.log('this.fileData: ', JSON.stringify(this.fileData, null, 2));
+
+                this.handleImageSlide();
+            })
+            .catch(error => {
+                console.log('getFileData error >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', error);
+            });
+    }
+
+    processFileData(fileData, index){
+        let fileDataArr = {
+            Id: fileData.Id,
+            Title: fileData.Title + '.' + fileData.FileExtension,
+            SharingOption: fileData.SharingOption,  //레코드 공유 옵션 (A: 누구나 액세스 가능, R: 역할 기반 액세스, U: 사용자 액세스 제어 목록 기반 액세스, N: 공유되지 않음)
+            SharingPrivacy: fileData.SharingPrivacy,    //레코드의 공유 범위 (N: 네트워크 전용, P: 포탈 공유, O: 조직 전체 공유)
+            PathOnClient: fileData.PathOnClient, //파일 이름
+            ContentBodyId: fileData.ContentBodyId,
+            FileType: fileData.FileType,
+            PublishStatus: fileData.PublishStatus,  //컨텐츠의 게시 상태 (P: 게시됨, R: 작업용, A: 아카이브됨)
+            ContentSize: (fileData.ContentSize / 1024).toFixed(2),
+            FileExtension: fileData.FileExtension,
+            VersionDataUrl: fileData.VersionDataUrl,
+            CreatedDate: fileData.CreatedDate,
+            index: index + 1
+        };
+        fileDataArr.ImgSrc = this.getImgSrc(fileData);
+        
+        this.calculateImageSize(fileDataArr);
+
+        return fileDataArr;
+    }
+
+    getImgSrc(fileData) {
+        if (fileData.FileExtension == 'png' || fileData.FileExtension == 'jpg' || fileData.FileExtension == 'jpeg') {
+            return 'https://dk-smart-component-dev-ed.develop.file.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_' + fileData.FileExtension + '&versionId=' + fileData.Id + '&operationContext=CHATTER&contentId=' + fileData.ContentBodyId + '&page=0';
         } else {
-            // 여기는 카테고리 없는 데이터 가져오기
-            getFileDataByRecordId({ recordId: this.recordId })
-                .then(result => {
-                    console.log('result >>>>>>>>>', result)
-
-                    this.fileCount = result.Result.length;
-
-                    this.fileData = result.Result.map((fileData, index) => {
-                        let fileDataArr = {
-                            Id: fileData.Id,
-                            Title: fileData.Title + '.' + fileData.FileExtension,
-                            SharingOption: fileData.SharingOption,
-                            SharingPrivacy: fileData.SharingPrivacy,
-                            PathOnClient: fileData.PathOnClient,
-                            ContentBodyId: fileData.ContentBodyId,
-                            FileType: fileData.FileType,
-                            PublishStatus: fileData.PublishStatus,
-                            ContentSize: (fileData.ContentSize / 1024).toFixed(2),
-                            FileExtension: fileData.FileExtension,
-                            VersionDataUrl: fileData.VersionDataUrl,
-                            CreatedDate: fileData.CreatedDate,
-                            index: index + 1
-                        };
-                        console.log('📌 카테고리 없는 fileData 데이터 >>>> ', JSON.stringify(this.fileData, null, 2));
-
-                        if (fileData.FileExtension == 'png' || fileData.FileExtension == 'jpg' || fileData.FileExtension == 'jpeg') {
-                            // fileDataArr.ImgSrc = fileData.VersionDataUrl;
-                            fileDataArr.ImgSrc = 'https://dk-smart-component-dev-ed.develop.file.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_' + fileData.FileExtension + '&versionId='
-                                + fileData.Id + '&operationContext=CHATTER&contentId=' + fileData.ContentBodyId + '&page=0';
-                        } else {
-                            fileDataArr.ImgSrc = 'https://dk-smart-component-dev-ed.develop.file.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=SVGZ&versionId='
-                                + fileData.Id + '&operationContext=CHATTER&contentId=' + fileData.ContentBodyId + '&page=0';
-                        };
-
-
-                        let imgElement = new Image();
-                        imgElement.src = fileDataArr.ImgSrc;
-
-                        imgElement.onload = () => {
-                            let aspectRatio = imgElement.width / imgElement.height;
-                            let height = 230 / aspectRatio;
-
-                            fileDataArr.className = height > 250 ? 'card card_x_large' :
-                                height > 180 ? 'card card_large' :
-                                    height > 130 ? 'card card_medium' :
-                                        'card card_small';
-                        }
-                        return fileDataArr;
-                    });
-                    this.handleImageSlide();
-                })
-                .catch(error => {
-                    console.error('오류 발생:', error);
-                });
+            return 'https://dk-smart-component-dev-ed.develop.file.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=SVGZ&versionId=' + fileData.Id + '&operationContext=CHATTER&contentId=' + fileData.ContentBodyId + '&page=0';
         }
     }
 
+    calculateImageSize(fileDataArr) {
+        let imgElement = new Image();
+        imgElement.src = fileDataArr.ImgSrc;
+        imgElement.onload = () => {
+            let aspectRatio = imgElement.width / imgElement.height;
+            let height = 230 / aspectRatio;
+            fileDataArr.imgCardClass = height > 250 ? 'card card_x_large' :
+                height > 180 ? 'card card_large' :
+                    height > 130 ? 'card card_medium' :
+                        'card card_small';
 
+            console.log(`Title: ${fileDataArr.Title} ------ imgCardClass: ${fileDataArr.imgCardClass}`);
+        };
+    }
+
+    // 이미지 슬라이드 배열 생성 및 자동 슬라이드 기능
+    handleImageSlide() {
+        let slideImgArr = [];
+        let imageIndex = 0;
+
+        for (let i = 0; i < this.fileData.length; i++) {
+            slideImgArr.push({
+                key: this.fileData[i].Title,
+                Url: this.fileData[i].ImgSrc
+            });
+            
+            // console.log('slideImgArr', JSON.stringify(slideImgArr, null, 2));
+        }
+
+        this.imgTitle = slideImgArr[0].key;
+        this.imgSrc = slideImgArr[0].Url;
+
+
+        this.intervalId = setInterval(() => {
+            if (this.isPlaying) {
+                imageIndex++;
+                if (imageIndex >= slideImgArr.length) {
+                    imageIndex = 0;
+                }
+                this.imgTitle = slideImgArr[imageIndex].key;
+                this.imgSrc = slideImgArr[imageIndex].Url;
+            }
+        }, 3000);
+    }
+    
     // 파일 업로드 처리
     handleFileUpload() {
         // 파일 업로드 로직 구현

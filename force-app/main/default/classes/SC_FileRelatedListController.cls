@@ -12,68 +12,6 @@ global with sharing class SC_FileRelatedListController {
     // ContentVersion 오브젝트의 서브쿼리로 ContentDocumentLink를 사용할 수 없다.
     // 그래서 두 번의 쿼리 수행이 필요.
     // ContentDocumentLink 쿼리 결과 -> ContentVersion의 IsLatest = true, 동일한 ContentDocumentId 값 비교
-    // @AuraEnabled(cacheable=true)
-    // global static Map<String, Object> getFileDataByRecordId(String recordId){
-    //     Map<String, Object> resultMap = new Map<String, Object>();
-    //     Set<Id> cdIdList = new Set<Id>();
-
-    //     // ContentDocumentLink에서 해당 레코드의 파일 목록 가져오기
-    //     for(ContentDocumentLink cd : [SELECT ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId = :recordId]){
-    //         cdIdList.add(cd.ContentDocumentId);
-    //     }
-    //     System.debug('getInit cdIdList :' + cdIdList);
-
-    //     String soql = ' SELECT '
-    //                 + '     Id, Title, Description, ReasonForChange, SharingOption '
-    //                 + '     , SharingPrivacy, PathOnClient, ContentBodyId, FileType, PublishStatus, ContentSize '
-    //                 + '     , FileExtension, TextPreview, Category__c, VersionDataUrl, CreatedDate '
-    //                 + ' FROM ContentVersion '
-    //                 + ' WHERE ContentDocumentId IN :cdIdList '
-    //                 + ' AND IsLatest = true ';
-
-    //     try {
-    //         List<ContentVersion> fileList = Database.query(soql);
-    //         System.debug('getInit fileList :' + fileList);
-
-    //         resultMap.put('Result', fileList);
-    //     } catch (DmlException e) {
-    //         System.debug('DmlException Error >>> ' + e.getMessage());
-    //         resultMap.put('Result', false);
-    //     }
-    //     return resultMap;
-    // }
-
-    // // 카테고리에 해당하는 파일 데이터 가져오기
-    // @AuraEnabled(cacheable=true)
-    // global static Map<String, Object> getFileDataByCategory(String recordId, String category){
-    //     Map<String, Object> resultMap = new Map<String, Object>();
-    //     Set<Id> cdIdList = new Set<Id>();
-
-    //     // ContentDocumentLink에서 해당 레코드의 파일 목록 가져오기
-    //     for(ContentDocumentLink cd : [SELECT ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId = :recordId]){
-    //         cdIdList.add(cd.ContentDocumentId);
-    //     }
-
-    //     String soql = ' SELECT '
-    //                 + '     Id, Title, Description, ReasonForChange, SharingOption '
-    //                 + '     , SharingPrivacy, PathOnClient, ContentBodyId, FileType, PublishStatus, ContentSize '
-    //                 + '     , FileExtension, TextPreview, Category__c, VersionDataUrl, CreatedDate '
-    //                 + ' FROM ContentVersion '
-    //                 + ' WHERE ContentDocumentId IN :cdIdList '
-    //                 + ' AND IsLatest = true '
-    //                 + ' AND Category__c = :category ';
-
-    //     try {
-    //         List<ContentVersion> fileList = Database.query(soql);
-    //         resultMap.put('Result', fileList);
-    //     } catch (DmlException e) {
-    //         System.debug('DmlException Error >>> ' + e.getMessage());
-    //         resultMap.put('Result', false);
-    //     }
-
-    //     return resultMap;
-    // }
-
     @AuraEnabled(cacheable=true)
     global static Map<String, Object> getFileData(String recordId, String category){
         Map<String, Object> resultMap = new Map<String, Object>();
@@ -142,29 +80,7 @@ global with sharing class SC_FileRelatedListController {
         }
     }
 
-    // 데이터 삭제( 파라미터는 리스트 형태로 )
-    // @AuraEnabled
-    // global static Map<String, Object> deleteData(String recordId, String deleteIdList){
-    //     Map<String, Object> resultMap = new Map<String, Object>();
-        
-    //     List<Object> idList = (List<Object>)JSON.deserializeUntyped(deleteIdList);
-    //     String soql = ' SELECT Id FROM ContentDocumentLink WHERE LinkedEntityId = \'' +recordId+ '\' AND ContentDocumentId IN (\'' + String.join(idList, '\', \'') + '\')';
-    //     System.debug('soql : ' + soql);
-    //     List<sObject> queryResult = Database.query(soql);
-
-    //     try {
-    //         if(queryResult.size() > 0){
-    //             delete queryResult;  
-    //         }
-    //         resultMap.put('Result', true);
-    //         resultMap.put('Count', queryResult.size());
-    //     } catch (DmlException e) {
-    //         resultMap.put('Result', false);
-    //         resultMap.put('Count', -1);
-    //     }
-    //     return resultMap;
-    // }
-
+    //데이터 호출과 마찬가지로 두 번의 쿼리 필요
     @AuraEnabled
     global static Map<String, Object> deleteFilesByRecordId(String recordId, List<String> deleteIdList) {
         Map<String, Object> resultMap = new Map<String, Object>();
