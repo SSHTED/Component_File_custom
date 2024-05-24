@@ -16,26 +16,30 @@
         </c-sc-file-related-list-header>
 
         <!-- body -->
-        <c-sc-file-related-list-body
-            default-view-type={defaultViewType}
-            view-type_table={viewType_table}
-            view-type_thumbnail={viewType_thumbnail}
-            view-type_card={viewType_card}
-            view-type_slide={viewType_slide}
-            img-card-show-info={imgCardShowInfo}
-            img-card-info-title-color={imgCardInfoTitleColor}
-            img-card-info-date-color={imgCardInfoDateColor}
-            file-data={fileData}
-            file-count={fileCount}
-            act-no={actNo}
-            ondatatablerowselection={handleCheckboxClick}
-            onimgcardactionclicked={handleCellEvent}
-            onimgcardmouseover={showButton}
-            onimgcardmouseout={hideButton}
-            onthumbnailclick={handleThumbnailClick}
-            onviewtypechange={handleViewTypeChange}
-            onsortdata={handleSortedByDesc}>
-        </c-sc-file-related-list-body>  
+        <template if:true={actSectionOpen}>
+            <c-sc-file-related-list-body
+                default-view-type={defaultViewType}
+                view-type_table={viewType_table}
+                view-type_thumbnail={viewType_thumbnail}
+                view-type_card={viewType_card}
+                view-type_slide={viewType_slide}
+
+                img-card-show-info={imgCardShowInfo}
+                img-card-info-title-color={imgCardInfoTitleColor}
+                img-card-info-date-color={imgCardInfoDateColor}
+
+                file-data={fileData}
+                file-count={fileCount}
+                act-no={actNo}
+                ondatatablerowselection={handleCheckboxClick}
+                onimgcardactionclicked={handleCellEvent}
+                onimgcardmouseover={showButton}
+                onimgcardmouseout={hideButton}
+                onthumbnailclick={handleThumbnailClick}
+                onviewtypechange={handleViewTypeChange}
+                onsortdata={handleSortedByDesc}>
+            </c-sc-file-related-list-body>  
+        </template>
 
         
         <!-- footer -->

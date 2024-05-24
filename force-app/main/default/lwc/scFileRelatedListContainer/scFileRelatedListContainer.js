@@ -12,12 +12,11 @@ import saveData from '@salesforce/apex/SC_FileRelatedListController.saveData';
 
 export default class ScFileRelatedListContainer extends LightningElement {
     // 기능 활성화/비활성화
-    @api actDeleteBtn;
+    @api actUploadBtn;
     @api actDownloadBtn;
-    @api actDropZone;
+    @api actDeleteBtn;
     @api actNo;
     @api actSectionOpen;
-    @api actUploadBtn;
     // 파일 정보
     @api category;
     @api title;
@@ -59,21 +58,21 @@ export default class ScFileRelatedListContainer extends LightningElement {
     imgTitle;
     imgSrc;
 
-    tableColumns = [
-        { label: '제목', value: 'Title' },
-        { label: '파일 형식', value: 'FileType' },
-        { label: '크기', value: 'ContentSize' }
-    ];
-    thumbnailColumns = [
-        { label: '이미지', value: 'Image' },
-        { label: '제목', value: 'Title' },
-        { label: '파일 형식', value: 'FileType' },
-        { label: '크기', value: 'ContentSize' }
-    ];
+    // tableColumns = [
+    //     { label: '제목', value: 'Title' },
+    //     { label: '파일 형식', value: 'FileType' },
+    //     { label: '크기', value: 'ContentSize' }
+    // ];
+    // thumbnailColumns = [
+    //     { label: '이미지', value: 'Image' },
+    //     { label: '제목', value: 'Title' },
+    //     { label: '파일 형식', value: 'FileType' },
+    //     { label: '크기', value: 'ContentSize' }
+    // ];
 
     connectedCallback() {
-        // this.getFileList();
         this.fetchFileData();
+        console.log('actSectionOpen >>>', this.actSectionOpen);
     }
 
     fetchFileData(){
