@@ -8,6 +8,7 @@
             act-upload-btn={actUploadBtn}
             act-download-btn={actDownloadBtn}
             act-delete-btn={actDeleteBtn}
+            
             onuploadbtnclick={handleFileUpload}
             ondownloadbtnclick={handleDownloadSelected}
             ondeletebtnclick={handleDeleteSelected}
@@ -31,6 +32,9 @@
                 file-data={fileData}
                 file-count={fileCount}
                 act-no={actNo}
+                oncheckboxchange={handleCheckboxChange}
+                oncheckboxchangeall={handleCheckboxChangeAll}
+                
                 ondatatablerowselection={handleCheckboxClick}
                 onimgcardactionclicked={handleCellEvent}
                 onimgcardmouseover={showButton}

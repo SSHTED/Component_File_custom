@@ -38,13 +38,16 @@ export default class ScFileRelatedListContainer extends LightningElement {
     @api imgCardInfoTitleColor;
     @api imgCardInfoDateColor;
 
+    selectedRowIds = [];
+
+
     currentViewType;
     customClass = '';
     fileCount;
     isTableVisible = true;
     isPlaying = true;
     intervalId = null;
-    
+
     isSorted = false;
     sortCriteria;
     isDescending;
@@ -58,26 +61,18 @@ export default class ScFileRelatedListContainer extends LightningElement {
     imgTitle;
     imgSrc;
 
-    // tableColumns = [
-    //     { label: '제목', value: 'Title' },
-    //     { label: '파일 형식', value: 'FileType' },
-    //     { label: '크기', value: 'ContentSize' }
-    // ];
-    // thumbnailColumns = [
-    //     { label: '이미지', value: 'Image' },
-    //     { label: '제목', value: 'Title' },
-    //     { label: '파일 형식', value: 'FileType' },
-    //     { label: '크기', value: 'ContentSize' }
-    // ];
-
     connectedCallback() {
         this.fetchFileData();
-        console.log('actSectionOpen >>>', this.actSectionOpen);
+        this.logCheckSetting();
     }
 
-    fetchFileData(){
+    logCheckSetting() {
+        console.log('actSectionOpen: ', this.actSectionOpen);
+    }
+
+    fetchFileData() {
         const params = { recordId: this.recordId };
-        if(this.category){
+        if (this.category) {
             params.category = this.category;
         }
 
@@ -85,7 +80,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
             .then(result => {
                 console.log('getFileData result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', result);
                 this.fileCount = result.Result.length;
-                this.fileData = result.Result.map((fileData,index) => this.processFileData(fileData, index));
+                this.fileData = result.Result.map((fileData, index) => this.processFileData(fileData, index));
 
                 console.log('this.fileData: ', JSON.stringify(this.fileData, null, 2));
 
@@ -96,7 +91,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
             });
     }
 
-    processFileData(fileData, index){
+    processFileData(fileData, index) {
         let fileDataArr = {
             Id: fileData.Id,
             Title: fileData.Title + '.' + fileData.FileExtension,
@@ -113,7 +108,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
             index: index + 1
         };
         fileDataArr.ImgSrc = this.getImgSrc(fileData);
-        
+
         this.calculateImageSize(fileDataArr);
 
         return fileDataArr;
@@ -137,49 +132,93 @@ export default class ScFileRelatedListContainer extends LightningElement {
                 height > 180 ? 'card card_large' :
                     height > 130 ? 'card card_medium' :
                         'card card_small';
-
-            console.log(`Title: ${fileDataArr.Title} ------ imgCardClass: ${fileDataArr.imgCardClass}`);
         };
     }
 
-    // 이미지 슬라이드 배열 생성 및 자동 슬라이드 기능
-    handleImageSlide() {
-        let slideImgArr = [];
-        let imageIndex = 0;
 
-        for (let i = 0; i < this.fileData.length; i++) {
-            slideImgArr.push({
-                key: this.fileData[i].Title,
-                Url: this.fileData[i].ImgSrc
-            });
-            
-            // console.log('slideImgArr', JSON.stringify(slideImgArr, null, 2));
-        }
-
-        this.imgTitle = slideImgArr[0].key;
-        this.imgSrc = slideImgArr[0].Url;
-
-
-        this.intervalId = setInterval(() => {
-            if (this.isPlaying) {
-                imageIndex++;
-                if (imageIndex >= slideImgArr.length) {
-                    imageIndex = 0;
-                }
-                this.imgTitle = slideImgArr[imageIndex].key;
-                this.imgSrc = slideImgArr[imageIndex].Url;
-            }
-        }, 3000);
-    }
-    
     // 파일 업로드 처리
     handleFileUpload() {
         // 파일 업로드 로직 구현
     }
 
-    // 선택 다운로드 처리
+    handleCheckboxChange(event) {
+        const { selectedId, isChecked, allChecked } = event.detail;
+
+        if (isChecked) {
+            console.log('선택된 레코드 ID:', JSON.stringify(selectedId, null, 2));
+            this.selectedRowIds = [...this.selectedRowIds, selectedId];
+        } else {
+            console.log('선택 해제된 레코드 ID:', JSON.stringify(selectedId, null, 2));
+            this.selectedRowIds = this.selectedRowIds.filter(id => id !== selectedId);
+        }
+    }
+
+    handleCheckboxChangeAll(event) {
+        const { selectedIds, isChecked } = event.detail;
+
+        if (isChecked) {
+            console.log('선택된 레코드 ID:', JSON.stringify(selectedIds, null, 2));
+            this.selectedRowIds = selectedIds;
+
+        } else {
+            console.log('선택 해제된 레코드 ID:', JSON.stringify(selectedIds, null, 2));
+            this.selectedRowIds = [];
+        }
+    }
+
+    handleHeaderCheckboxChange(event) {
+        const { checked } = event.detail;
+        this.template.querySelector('.dataTable thead lightning-input').checked = checked;
+    }
+
     handleDownloadSelected() {
-        // 선택 다운로드 로직 구현
+        const activeTab = this.viewTypeTabs.find(tab => tab.value === this.defaultViewTypeValue);
+
+        if (activeTab.isTable) {
+            const rowCheckboxes = this.template.querySelectorAll('.dataTable tbody lightning-input');
+            rowCheckboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    this.selectedRowIds.push(checkbox.dataset.id);
+                }
+            });
+        } else if (activeTab.isThumbnail) {
+            const rowCheckboxes = this.template.querySelectorAll('.thumbnailTable tbody lightning-input');
+            rowCheckboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    this.selectedRowIds.push(checkbox.dataset.id);
+                }
+            });
+        }
+        console.log('선택한 쳌밬', JSON.stringify(this.selectedRowIds, null, 2));
+
+        if (this.selectedRowIds.length === 0) {
+            alert('다운로드할 항목을 선택해주세요.');
+            return;
+        }
+
+        // 선택한 파일 데이터 필터링
+        const selectedFiles = this.fileData.filter(file => this.selectedRowIds.includes(file.Id));
+
+        // 파일 데이터를 사용하여 다운로드 시작
+        let index = 0;
+        const downloadNextFile = () => {
+            if (index >= selectedFiles.length) {
+                return;
+            }
+
+            const file = selectedFiles[index];
+            const downloadLink = document.createElement('a');
+            downloadLink.href = file.VersionDataUrl;
+            downloadLink.download = file.Title;
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+
+            index++;
+            setTimeout(downloadNextFile, 500);
+        };
+
+        downloadNextFile();
     }
 
     // 선택 삭제 처리
@@ -189,6 +228,8 @@ export default class ScFileRelatedListContainer extends LightningElement {
 
     // 정렬 기준 처리
     handleSortedBy(event) {
+        const sortBy = event.detail;
+
         // 정렬 기준 로직 구현
     }
 

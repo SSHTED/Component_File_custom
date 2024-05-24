@@ -14,7 +14,7 @@
               <!-- 체크박스 -->
               <template if:true={th.isCheckbox}>
                 <div style="width:33px;">
-                  <lightning-input type="checkbox" onchange={handleHeaderCheckboxChange}></lightning-input>
+                  <lightning-input type="checkbox" onchange={handleAllCheckboxesChange}></lightning-input>
                 </div>
               </template>
 
@@ -43,9 +43,9 @@
 
             <!-- 체크박스 -->
             <td>
-              <lightning-input type="checkbox" data-id={td.Id} onchange={handleRowCheckboxChange}></lightning-input>
+              <lightning-input type="checkbox" data-id={td.Id} onchange={handleCheckboxChange}></lightning-input>
             </td>
-            
+
             <!-- 텍스트 -->
             <td class="slds-truncate" title={td.Title}>{td.Title}</td>
             <td class="slds-truncate" title={td.FileExtension}>{td.FileExtension}</td>
