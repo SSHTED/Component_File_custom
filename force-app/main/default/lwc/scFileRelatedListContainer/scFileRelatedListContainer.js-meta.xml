@@ -12,7 +12,6 @@
             <property name="actDeleteBtn" type="Boolean" label="선택: 선택 삭제 버튼" default="false"/>
             <property name="actNo" type="Boolean" label="선택: No. 필드" default="false"/>
             <property name="actSectionOpen" type="Boolean" label="선택: 섹션 초기 오픈" default="true"/>
-            <property name="actDropZone" type="Boolean" label="선택: Drop Zone 활성화" default="true"/>
 
             <property name="defaultViewType" type="String" label="기본값: View Type" datasource="테이블, 썸네일, 이미지 카드, 슬라이드" default="테이블"/>
             <property name="viewType_table" type="Boolean" label="Type: 테이블"/>
