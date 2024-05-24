@@ -1,41 +1,61 @@
 <!-- scFileRelatedListThumbnail.html -->
 <template>
-    <div style="max-height:400px; overflow:auto;">
-      <table class="thumbnailTable slds-table slds-table_cell-buffer slds-table_bordered" style="border-top:none;">
-        <thead>
-          <tr>
-            <template if:true={actNo}>
-              <th style="padding:0; text-align:center; width:50px;">No</th>
-            </template>
-            <th style="width:33px;">
-              <lightning-input type="checkbox" onchange={handleHeaderCheckboxChange}></lightning-input>
-            </th>
-            <th class="slds-truncate">썸네일</th>
-            <th class="slds-truncate">파일명</th>
-            <th class="slds-truncate">확장자</th>
-            <th class="slds-truncate">크기(KB)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <template for:each={fileData} for:item="file" for:index="index">
-            <tr key={file.Id}>
-              <template if:true={actNo}>
-                <td style="padding:0; text-align:center;">{file.index}</td>
+  <div style="max-height:400px; overflow:auto;">
+    <table class="thumbnailTable slds-table slds-table_cell-buffer slds-table_bordered" style="border-top:none;">
+      <thead>
+        <tr>
+          <template for:each={extendedThumbnailThead} for:item="th">
+            <th key={th.fieldName}>
+              <!-- No -->
+              <template if:true={th.isIndex}>
+                <div style="padding:0; text-align:center; width:50px;">{th.label}</div>
               </template>
-              <td>
-                <lightning-input type="checkbox" data-id={file.Id} onchange={handleRowCheckboxChange}></lightning-input>
-              </td>
-              <td style="padding-left:10px;">
-                <div style="width:80px; height:90px;">
-                  <img src={file.ImgSrc} style="width:100%; height:100%;" onclick={handleThumbnailClick} data-id={file.Id}>
+              <!-- 체크박스 -->
+              <template if:true={th.isCheckbox}>
+                <div style="width:33px;">
+                  <lightning-input type="checkbox" onchange={handleHeaderCheckboxChange}></lightning-input>
                 </div>
-              </td>
-              <td class="slds-truncate" title={file.Title}>{file.Title}</td>
-              <td class="slds-truncate" title={file.FileExtension}>{file.FileExtension}</td>
-              <td class="slds-truncate" title={file.ContentSize}>{file.ContentSize}</td>
-            </tr>
+              </template>
+              <!-- 썸네일 -->
+              <template if:true={th.isThumbnail}>
+                <div class="slds-truncate">{th.label}</div>
+              </template>
+              <!-- 텍스트 -->
+              <template if:true={th.isData}>
+                <div class="slds-truncate">
+                  <template if:false={th.sortable}>
+                    {th.label}
+                  </template>
+                  <template if:true={th.sortable}>
+                    <a href="javascript:void(0);" onclick={handleSortData} data-sort-by={th.fieldName}>{th.label}</a>
+                  </template>
+                </div>
+              </template>
+            </th>
           </template>
-        </tbody>
-      </table>
-    </div>
-  </template>
+        </tr>
+      </thead>
+      <tbody>
+        <template for:each={fileData} for:item="td" for:index="index">
+          <tr key={td.Id}>
+            <template if:true={actNo}>
+              <td style="padding:0; text-align:center;">{td.index}</td>
+            </template>
+            <td>
+              <lightning-input type="checkbox" data-id={td.Id} onchange={handleRowCheckboxChange}></lightning-input>
+            </td>
+            <td style="padding-left:10px;">
+              <div style="width:80px; height:90px;">
+                <img src={td.ImgSrc} style="width:100%; height:100%;" onclick={handleThumbnailClick}
+                  data-id={td.Id}>
+              </div>
+            </td>
+            <td class="slds-truncate" title={td.Title}>{td.Title}</td>
+            <td class="slds-truncate" title={td.FileExtension}>{td.FileExtension}</td>
+            <td class="slds-truncate" title={td.ContentSize}>{td.ContentSize}</td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </div>
+</template>
