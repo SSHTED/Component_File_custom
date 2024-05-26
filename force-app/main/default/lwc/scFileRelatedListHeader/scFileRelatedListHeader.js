@@ -9,13 +9,13 @@ export default class ScFileRelatedListHeader extends LightningElement {
     @api actDeleteBtn;
     @api tableToggleIcon;
 
+    // 데이터
     @api fileData;
     @api selectedRowIds;
 
-    customClass = '';
     isVisibleActionBtn;
-    isLogicExecuted = false;
-    
+    isDownloading = false;
+
 
     connectedCallback() {
         if(this.actUploadBtn || this.actDownloadBtn || this.actDeleteBtn) {
@@ -42,11 +42,19 @@ export default class ScFileRelatedListHeader extends LightningElement {
             return;
         }
 
-        const selectedFiles = this.fileData.filter(file => this.selectedRowIds.includes(file.Id));
+        if (this.isDownloading) {
+            alert('이미 다운로드 중입니다.');
+            return;
+        }
 
+        this.isDownloading = true;
+
+        const selectedFiles = this.fileData.filter(file => this.selectedRowIds.includes(file.Id));
         let index = 0;
+
         const downloadNextFile = () => {
             if (index >= selectedFiles.length) {
+                this.isDownloading = false;
                 return;
             }
 
