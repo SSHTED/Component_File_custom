@@ -167,61 +167,6 @@ export default class ScFileRelatedListContainer extends LightningElement {
         }
     }
 
-    handleHeaderCheckboxChange(event) {
-        const { checked } = event.detail;
-        this.template.querySelector('.dataTable thead lightning-input').checked = checked;
-    }
-
-    handleDownloadSelected() {
-        const activeTab = this.viewTypeTabs.find(tab => tab.value === this.defaultViewTypeValue);
-
-        if (activeTab.isTable) {
-            const rowCheckboxes = this.template.querySelectorAll('.dataTable tbody lightning-input');
-            rowCheckboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    this.selectedRowIds.push(checkbox.dataset.id);
-                }
-            });
-        } else if (activeTab.isThumbnail) {
-            const rowCheckboxes = this.template.querySelectorAll('.thumbnailTable tbody lightning-input');
-            rowCheckboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    this.selectedRowIds.push(checkbox.dataset.id);
-                }
-            });
-        }
-        console.log('선택한 쳌밬', JSON.stringify(this.selectedRowIds, null, 2));
-
-        if (this.selectedRowIds.length === 0) {
-            alert('다운로드할 항목을 선택해주세요.');
-            return;
-        }
-
-        // 선택한 파일 데이터 필터링
-        const selectedFiles = this.fileData.filter(file => this.selectedRowIds.includes(file.Id));
-
-        // 파일 데이터를 사용하여 다운로드 시작
-        let index = 0;
-        const downloadNextFile = () => {
-            if (index >= selectedFiles.length) {
-                return;
-            }
-
-            const file = selectedFiles[index];
-            const downloadLink = document.createElement('a');
-            downloadLink.href = file.VersionDataUrl;
-            downloadLink.download = file.Title;
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
-
-            index++;
-            setTimeout(downloadNextFile, 500);
-        };
-
-        downloadNextFile();
-    }
-
     // 선택 삭제 처리
     handleDeleteSelected() {
         // 선택 삭제 로직 구현

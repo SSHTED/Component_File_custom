@@ -1,23 +1,36 @@
 <!-- scFileRelatedListHeader.html -->
 <template>
-    <div class="slds-card__header slds-grid" style="padding-top:0; padding-left:0; padding-right:0;">
-      <div class="slds-media slds-media_center" style="margin-top:13px; padding-left:15px;">
-        <div class="slds-media__figure">
-          <div class="title">
-            <!-- 아이콘 -->
-            <lightning-icon icon-name={icon} size="small" style="float:left;"></lightning-icon>
-            <!-- 타이틀 -->
-            <p class="headerTitle" title={title}>{title}</p>
-          </div>
+  <div class="slds-card__header slds-grid" style="padding-top:0; padding-left:0; padding-right:0;">
+    <div class="slds-media slds-media_center" style="margin-top:13px; padding-left:15px;">
+      <div class="slds-media__figure">
+        <div class="title">
+          <!-- 아이콘 -->
+          <lightning-icon icon-name={icon} size="small" style="float:left;"></lightning-icon>
+          <!-- 타이틀 -->
+          <template if:true={isSmallSizeBox}>
+            <p class="headerTitle_small">
+              <a href="#" target="_blank" title={title}
+                style="font-size:16px; font-weight:bold; color:#191919;">{title}</a>
+            </p>
+          </template>
+          <template if:false={isSmallSizeBox}>
+            <p class="headerTitle_large">
+              <a href="#" target="_blank" title={title}
+                style="font-size:16px; font-weight:bold; color:#191919;">{title}</a>
+            </p>
+          </template>
+
         </div>
-  
+      </div>
+
+      <template if:false={isSmallSizeBox}>
         <!-- 버튼 영역 -->
         <div class="btnGroup">
-          <lightning-button-group>
+          <lightning-button-group style="float:left;">
             <!-- 파일 업로드 버튼 -->
             <template if:true={actUploadBtn}>
               <lightning-button-icon icon-name="utility:upload" variant="border-filled" alternative-text="파일 업로드"
-                title="파일 업로드" onclick={handleUploadBtnClick}></lightning-button-icon>
+                title="파일 업로드" onclick={handleFileUpload}></lightning-button-icon>
             </template>
             <!-- 선택 다운로드 버튼 -->
             <template if:true={actDownloadBtn}>
@@ -27,20 +40,49 @@
             <!-- 선택 삭제 버튼 -->
             <template if:true={actDeleteBtn}>
               <lightning-button-icon icon-name="utility:delete" variant="border-filled" alternative-text="선택 삭제"
-                title="선택 삭제" onclick={handleDeleteBtnClick}></lightning-button-icon>
+                title="선택 삭제" onclick={handleDeleteSelected}></lightning-button-icon>
             </template>
           </lightning-button-group>
-  
+
           <!-- 정렬 버튼 -->
-          <lightning-button-menu menu-alignment="auto" variant="border-filled" icon-name="utility:sort" onselect={handleSortedByClicked}>
+          <lightning-button-menu menu-alignment="auto" variant="border-filled" icon-name="utility:sort"
+            onselect={handleSortedBy} style="margin-left:10px;">
             <lightning-menu-item value="sortByName" label="Sort by Name"></lightning-menu-item>
             <lightning-menu-item value="sortByCreateDate" label="Sort by CreateDate"></lightning-menu-item>
           </lightning-button-menu>
-              
+
           <!-- 확장/축소 버튼 -->
-          <lightning-icon icon-name={tableToggleIcon} alternative-text="Toggle" size="small" onclick={handleTableToggleClicked}
+          <lightning-icon icon-name={tableToggleIcon} alternative-text="Toggle" size="small" onclick={handleTableToggle}
             style="margin-top:3px; margin-left:10px;"></lightning-icon>
         </div>
-      </div>
+      </template>
+
+      <template if:true={isSmallSizeBox}>
+        <template if:true={isVisibleActionBtn}>
+          <div class="btnGroup">
+            <lightning-button-menu menu-alignment="auto" variant="border-filled" style="float:left;">
+              <template if:true={actUploadBtn}>
+                <lightning-menu-item label="파일 업로드" onclick={handleFileUpload}></lightning-menu-item>
+              </template>
+              <template if:true={actDownloadBtn}>
+                <lightning-menu-item label="선택 다운로드" onclick={handleDownloadSelected}></lightning-menu-item>
+              </template>
+              <template if:true={actDeleteBtn}>
+                <lightning-menu-item label="선택 삭제" onclick={handleDeleteSelected}></lightning-menu-item>
+              </template>
+            </lightning-button-menu>
+
+            <lightning-button-menu menu-alignment="auto" variant="border-filled" icon-name="utility:sort"
+              onselect={handleSortedBy} style="margin-left:10px;">
+              <lightning-menu-item value="sortByName" label="Sort by Name"></lightning-menu-item>
+              <lightning-menu-item value="sortByCreateDate" label="Sort by CreateDate"></lightning-menu-item>
+            </lightning-button-menu>
+
+            <lightning-icon icon-name={tableToggleIcon} alternative-text="Toggle" size="small"
+              onclick={handleTableToggle} style="margin-top:3px; margin-left:10px;"></lightning-icon>
+          </div>
+        </template>
+      </template>
     </div>
-  </template>
+  </div>
+</template>
