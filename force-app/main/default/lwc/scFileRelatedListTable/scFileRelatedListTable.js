@@ -14,8 +14,6 @@ export default class ScFileRelatedListTable extends LightningElement {
         { label: '크기', fieldName: 'ContentSize', sortable: true, type: 'data' }
     ];
 
-    connectedCallback() {
-    }
 
     get extendedTableThead() {
         const result = this.tableThead.map(th => {
@@ -29,9 +27,34 @@ export default class ScFileRelatedListTable extends LightningElement {
 
         return result;
     }
+    
+    handleCheckbox(event) {
+        console.log('table handleCheckbox');
+        
+        const selectedId = event.target.dataset.id;
+        const isChecked = event.target.checked;
+        const rowCheckboxes = this.template.querySelectorAll('.dataTable tbody lightning-input');
+        const allChecked = Array.from(rowCheckboxes).every(checkbox => checkbox.checked);
+        
+        const headerCheckbox = this.template.querySelector('.dataTable thead lightning-input');
+  
+        if (headerCheckbox) {
+          headerCheckbox.checked = allChecked;
+        }
 
-    handleAllCheckboxesChange(event) {
-        console.log('table handleAllCheckboxesChange');
+        console.log('child selectedId: ', selectedId);
+        console.log('child isChecked: ', isChecked);
+        console.log('child allChecked: ', allChecked);
+        
+        this.dispatchEvent(new CustomEvent('checkboxchange', {
+            detail: { selectedId, isChecked},
+            bubbles: true,
+            composed: true
+        }));
+    }
+
+    handleCheckboxAll(event) {
+        console.log('table handleCheckboxAll');
         const selectedIds = [];
         const isChecked = event.target.checked;
         const rowCheckboxes = this.template.querySelectorAll('.dataTable tbody lightning-input');
@@ -44,40 +67,6 @@ export default class ScFileRelatedListTable extends LightningElement {
         
         this.dispatchEvent(new CustomEvent('checkboxchangeall', {
             detail: { selectedIds, isChecked },
-            bubbles: true,
-            composed: true
-        }));
-    }
-    
-    handleCheckboxChange(event) {
-        console.log('table handleCheckboxChange');
-        const selectedId = event.target.dataset.id;
-        const isChecked = event.target.checked;
-        const rowCheckboxes = this.template.querySelectorAll('.dataTable tbody lightning-input');
-        const allChecked = Array.from(rowCheckboxes).every(checkbox => checkbox.checked);
-        
-        this.dispatchEvent(new CustomEvent('checkboxchange', {
-            detail: { selectedId, isChecked, allChecked },
-            bubbles: true,
-            composed: true
-        }));
-    }
-
-    handleUpdateHeaderCheckbox(event) {
-        const { allChecked } = event.detail;
-        this.template.querySelector('.dataTable thead lightning-input').checked = allChecked;
-    }
-
-    handleCheckboxChange(event) {
-        console.log('table. handleCheckboxChange');
-
-        const selectedId = event.target.dataset.id;
-        const isChecked = event.target.checked;
-        const rowCheckboxes = this.template.querySelectorAll('.dataTable tbody lightning-input');
-        const allChecked = Array.from(rowCheckboxes).every(checkbox => checkbox.checked);
-    
-        this.dispatchEvent(new CustomEvent('checkboxchange', {
-            detail: { selectedId, isChecked, allChecked },
             bubbles: true,
             composed: true
         }));

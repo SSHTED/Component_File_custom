@@ -14,7 +14,7 @@
               <!-- 체크박스 -->
               <template if:true={th.isCheckbox}>
                 <div style="width:33px;">
-                  <lightning-input type="checkbox" onchange={handleAllCheckboxesChange}></lightning-input>
+                  <lightning-input class="checkbox-item" type="checkbox" data-id={th.Id} onchange={handleCheckboxAll}></lightning-input>
                 </div>
               </template>
 
@@ -43,7 +43,7 @@
 
             <!-- 체크박스 -->
             <td>
-              <lightning-input type="checkbox" data-id={td.Id} onchange={handleCheckboxChange}></lightning-input>
+              <lightning-input class="checkbox-item" type="checkbox" data-id={td.Id} onchange={handleCheckbox}></lightning-input>
             </td>
 
             <!-- 텍스트 -->

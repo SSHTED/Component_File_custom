@@ -142,7 +142,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
     }
 
     handleCheckboxChange(event) {
-        const { selectedId, isChecked, allChecked } = event.detail;
+        const { selectedId, isChecked} = event.detail;
 
         if (isChecked) {
             console.log('선택된 레코드 ID:', JSON.stringify(selectedId, null, 2));
@@ -151,6 +151,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
             console.log('선택 해제된 레코드 ID:', JSON.stringify(selectedId, null, 2));
             this.selectedRowIds = this.selectedRowIds.filter(id => id !== selectedId);
         }
+
     }
 
     handleCheckboxChangeAll(event) {
