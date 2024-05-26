@@ -29,18 +29,48 @@ export default class ScFileRelatedListThumbnail extends LightningElement {
         return result;
     }
 
-    handleHeaderCheckboxChange(event) {
+    handleCheckbox(event) {
+        console.log('table handleCheckbox');
+        
+        const selectedId = event.target.dataset.id;
         const isChecked = event.target.checked;
-        const checkboxes = this.template.querySelectorAll('lightning-input[type="checkbox"]');
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = isChecked;
-        });
-        this.dispatchEvent(new CustomEvent('datatablerowselection', { detail: { isChecked } }));
+        const rowCheckboxes = this.template.querySelectorAll('.thumbnailTable tbody lightning-input');
+        const allChecked = Array.from(rowCheckboxes).every(checkbox => checkbox.checked);
+        
+        const headerCheckbox = this.template.querySelector('.thumbnailTable thead lightning-input');
+  
+        if (headerCheckbox) {
+          headerCheckbox.checked = allChecked;
+        }
+
+        console.log('child selectedId: ', selectedId);
+        console.log('child isChecked: ', isChecked);
+        console.log('child allChecked: ', allChecked);
+        
+        this.dispatchEvent(new CustomEvent('checkboxchange', {
+            detail: { selectedId, isChecked},
+            bubbles: true,
+            composed: true
+        }));
     }
 
-    handleRowCheckboxChange(event) {
-        const selectedRows = this.getSelectedRows();
-        this.dispatchEvent(new CustomEvent('datatablerowselection', { detail: { selectedRows } }));
+    handleCheckboxAll(event) {
+        console.log('table handleCheckboxAll');
+        const selectedIds = [];
+        const isChecked = event.target.checked;
+        const rowCheckboxes = this.template.querySelectorAll('.thumbnailTable tbody lightning-input');
+        
+        rowCheckboxes.forEach(checkbox => {
+            checkbox.checked = isChecked;
+            const selectedId = checkbox.dataset.id;
+            selectedIds.push(selectedId);
+        });
+        
+        this.dispatchEvent(new CustomEvent('checkboxchangeall', {
+            detail: { selectedIds, isChecked },
+            bubbles: true,
+            composed: true
+        }));
     }
 
     getSelectedRows() {
