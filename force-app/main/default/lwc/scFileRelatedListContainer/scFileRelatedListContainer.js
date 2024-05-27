@@ -94,7 +94,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
     processFileData(fileData, index) {
         let fileDataArr = {
             Id: fileData.Id,
-            Title: fileData.Title + '.' + fileData.FileExtension,
+            Title: fileData.Title,
             SharingOption: fileData.SharingOption,  //레코드 공유 옵션 (A: 누구나 액세스 가능, R: 역할 기반 액세스, U: 사용자 액세스 제어 목록 기반 액세스, N: 공유되지 않음)
             SharingPrivacy: fileData.SharingPrivacy,    //레코드의 공유 범위 (N: 네트워크 전용, P: 포탈 공유, O: 조직 전체 공유)
             PathOnClient: fileData.PathOnClient, //파일 이름
@@ -104,7 +104,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
             ContentSize: fileData.ContentSize < 1024 * 1024 ? 
                         (fileData.ContentSize / 1024).toFixed(2) + " KB" :
                         (fileData.ContentSize / (1024 * 1024)).toFixed(2) + " MB",
-            FileExtension: fileData.FileExtension,
+            FileExtension: "." + fileData.FileExtension,
             VersionDataUrl: fileData.VersionDataUrl,
             CreatedDate: fileData.CreatedDate,
             index: index + 1
