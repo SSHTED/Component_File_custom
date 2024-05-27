@@ -7,7 +7,7 @@ import ScFileRelatedListFooter from 'c/scFileRelatedListFooter';
 // import getFileDataByRecordId from '@salesforce/apex/SC_FileRelatedListController.getFileDataByRecordId';
 // import getFileDataByCategory from '@salesforce/apex/SC_FileRelatedListController.getFileDataByCategory';
 import getFileData from '@salesforce/apex/SC_FileRelatedListController.getFileData';
-import deleteFilesByRecordId from '@salesforce/apex/SC_FileRelatedListController.deleteFilesByRecordId';
+// import deleteFilesByRecordId from '@salesforce/apex/SC_FileRelatedListController.deleteFilesByRecordId';
 import saveData from '@salesforce/apex/SC_FileRelatedListController.saveData';
 
 export default class ScFileRelatedListContainer extends LightningElement {
@@ -38,12 +38,15 @@ export default class ScFileRelatedListContainer extends LightningElement {
     @api imgCardInfoTitleColor;
     @api imgCardInfoDateColor;
 
+    fileCount;
     selectedRowIds = [];
+    @api fileData = [];
+    imgSrc;
 
 
     currentViewType;
     customClass = '';
-    fileCount;
+    
     isTableVisible = true;
     isPlaying = true;
     intervalId = null;
@@ -57,17 +60,19 @@ export default class ScFileRelatedListContainer extends LightningElement {
     isSmallSizeBox = false;
     isVisibleActionBtn;
 
-    fileData = [];
     imgTitle;
-    imgSrc;
 
     connectedCallback() {
+        this.initSetting();
         this.fetchFileData();
-        this.logCheckSetting();
     }
 
-    logCheckSetting() {
-        console.log('actSectionOpen: ', this.actSectionOpen);
+    initSetting(){
+        this.customClass += 'themeColor_' + this.themeColor;
+
+        
+        console.log('this.actSectionOpen: ', this.actSectionOpen);
+        console.log('this.customClass: ', this.customClass);
     }
 
     fetchFileData() {
@@ -138,11 +143,6 @@ export default class ScFileRelatedListContainer extends LightningElement {
     }
 
 
-    // 파일 업로드 처리
-    handleFileUpload() {
-        // 파일 업로드 로직 구현
-    }
-
     handleCheckboxChange(event) {
         const { selectedId, isChecked} = event.detail;
 
@@ -167,6 +167,9 @@ export default class ScFileRelatedListContainer extends LightningElement {
             console.log('선택 해제된 레코드 ID:', JSON.stringify(selectedIds, null, 2));
             this.selectedRowIds = [];
         }
+    }
+    handleUpdateFileData(event){
+        this.fileData = event.detail;
     }
 
     // 선택 삭제 처리

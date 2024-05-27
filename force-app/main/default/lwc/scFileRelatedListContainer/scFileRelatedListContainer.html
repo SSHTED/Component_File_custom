@@ -3,6 +3,7 @@
     <article class={customClass} style="position:relative; border-radius:5px; border:1px solid rgb(201, 201, 201)">
         <!-- header -->
         <c-sc-file-related-list-header
+            record-id={recordId}
             title={title}
             icon={icon}
             act-upload-btn={actUploadBtn}
@@ -12,9 +13,8 @@
             file-data={fileData}
             selected-row-ids={selectedRowIds}
             
-            onuploadbtnclick={handleFileUpload}
-            ondownloadbtnclick={handleDownloadSelected}
-            ondeletebtnclick={handleDeleteSelected}
+            onupdatefiledata={handleUpdateFileData}
+
             onsortedbyclicked={handleSortedBy}
             ontabletoggleclicked={handleTableToggle}>
         </c-sc-file-related-list-header>
