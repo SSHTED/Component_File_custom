@@ -101,7 +101,9 @@ export default class ScFileRelatedListContainer extends LightningElement {
             ContentBodyId: fileData.ContentBodyId,
             FileType: fileData.FileType,
             PublishStatus: fileData.PublishStatus,  //컨텐츠의 게시 상태 (P: 게시됨, R: 작업용, A: 아카이브됨)
-            ContentSize: (fileData.ContentSize / 1024).toFixed(2),
+            ContentSize: fileData.ContentSize < 1024 * 1024 ? 
+                        (fileData.ContentSize / 1024).toFixed(2) + " KB" :
+                        (fileData.ContentSize / (1024 * 1024)).toFixed(2) + " MB",
             FileExtension: fileData.FileExtension,
             VersionDataUrl: fileData.VersionDataUrl,
             CreatedDate: fileData.CreatedDate,
