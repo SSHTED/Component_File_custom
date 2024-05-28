@@ -17,7 +17,7 @@ export default class ScFileRelatedListHeader extends LightningElement {
 
     isVisibleActionBtn;
     isDownloading = false;
-
+    isShowModal = false;
 
     connectedCallback() {
         if (this.actUploadBtn || this.actDownloadBtn || this.actDeleteBtn) {
@@ -32,8 +32,11 @@ export default class ScFileRelatedListHeader extends LightningElement {
 
     }
 
-    handleUploadBtnClick() {
-        this.dispatchEvent(new CustomEvent('uploadbtnclick'));
+    handleFileUpload() {
+        this.isShowModal = !this.isShowModal;
+        console.log('헤더. isShowModal: ', this.isShowModal);
+
+        // this.dispatchEvent(new CustomEvent('uploadbtnclick'));
     }
 
     handleDownloadBtnClick() {
@@ -74,7 +77,7 @@ export default class ScFileRelatedListHeader extends LightningElement {
             };
 
             downloadNextFile();
-        } 
+        }
     }
 
     handleDeleteSelected() {
@@ -119,6 +122,10 @@ export default class ScFileRelatedListHeader extends LightningElement {
 
     handleTableToggleClicked() {
         this.dispatchEvent(new CustomEvent('tabletoggleclicked'));
+    }
+
+    handleCloseModal() {
+        this.isShowModal = false;
     }
 
     get tableToggleIcon() {

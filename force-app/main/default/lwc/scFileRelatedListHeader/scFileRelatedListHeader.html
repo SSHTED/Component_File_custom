@@ -87,5 +87,9 @@
   </div>
   
   <!-- 모달 창 -->
-  <c-sc-file-related-list-modal is-open={isModalOpen} onclose={closeModal} onuploadfinished={handleUploadFinished}></c-sc-file-related-list-modal>
+  <c-sc-file-related-list-modal 
+    if:true={isShowModal}
+    record-id={recordId}
+    onclose={handleCloseModal}>
+  </c-sc-file-related-list-modal>
 </template>
