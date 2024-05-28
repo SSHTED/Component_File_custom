@@ -80,6 +80,7 @@ global with sharing class SC_FileRelatedListController {
         }
     }
 
+    //삭제
     //데이터 호출과 마찬가지로 두 번의 쿼리 필요
     @AuraEnabled
     global static Map<String, Object> deleteFilesByRecordId(String recordId, List<String> deleteIdList) {
@@ -92,6 +93,7 @@ global with sharing class SC_FileRelatedListController {
             for (String deleteId : deleteIdList) {
                 deleteIdSet.add(Id.valueOf(deleteId));
             }
+            System.debug('recordId: ' + recordId);
             System.debug('deleteIdSet: ' + deleteIdSet);
             
             // 삭제할 ContentVersion 레코드 가져오기
@@ -116,6 +118,11 @@ global with sharing class SC_FileRelatedListController {
             if (!deleteContentDocuments.isEmpty() && !deleteContentDocumentLinks.isEmpty()) {
                 delete deleteContentDocumentLinks;
                 delete deleteContentDocuments;
+
+                Database.setSavepoint();
+
+
+
                 resultMap.put('Result', true);
                 resultMap.put('Count', deleteContentDocuments.size());
                 System.debug('deleteFilesByRecordId successful. 삭제된 레코드 수 : ' + deleteContentDocuments.size());
