@@ -4,6 +4,7 @@ import { LightningElement, api } from 'lwc';
 export default class ScFileRelatedListSlide extends LightningElement {
     @api fileData;
     @api isSmallSizeBox;
+    @api selectedRowIds;
 
     imgSrc = '';
     imgTitle = '';

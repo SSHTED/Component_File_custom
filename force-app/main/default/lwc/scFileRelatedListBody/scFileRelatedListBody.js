@@ -4,9 +4,11 @@ import { LightningElement, api } from 'lwc';
 export default class ScFileRelatedListBody extends LightningElement {
     @api defaultViewType;
     @api viewType_table;
-    @api viewType_thumbnail; 
+    @api viewType_thumbnail;
     @api viewType_card;
     @api viewType_slide;
+
+    @api selectedRowIds;
 
     @api imgCardShowInfo;
     @api imgCardInfoTitleColor;
@@ -20,6 +22,8 @@ export default class ScFileRelatedListBody extends LightningElement {
     @api tableColumns;
     @api thumbnailColumns;
 
+    checkboxReset = false;
+
     viewTypeMap = {
         '테이블': 'viewType_table',
         '썸네일': 'viewType_thumbnail',
@@ -28,18 +32,15 @@ export default class ScFileRelatedListBody extends LightningElement {
     };
 
     get viewTypeTabs() {
-        const viewTypeLabels = {
-            table: '테이블',
-            thumbnail: '썸네일',
-            card: '이미지 카드',
-            slide: '슬라이드'
-        };
+        const tabs = Object.entries(this.viewTypeMap)
+            .filter(([label, viewType]) => this[viewType])
+            .map(([label, viewType]) => ({
+                value: viewType,
+                label,
+                [`is${viewType.split('_')[1].charAt(0).toUpperCase() + viewType.split('_')[1].slice(1)}`]: true,
+            }));
 
-        return ['table', 'thumbnail', 'card', 'slide'].filter(viewType => this[`viewType_${viewType}`]).map(viewType => ({
-            value: `viewType_${viewType}`,
-            label: viewTypeLabels[viewType],
-            [`is${viewType.charAt(0).toUpperCase() + viewType.slice(1)}`]: true,
-        }));
+        return tabs;
     }
 
     connectedCallback() {
@@ -47,11 +48,19 @@ export default class ScFileRelatedListBody extends LightningElement {
     }
 
     initSetting() {
-        this.defaultViewTypeValue = this.viewTypeMap[this.defaultViewType];
-
-        this[this.viewTypeMap[this.defaultViewType]] = true; //this.viewType_000 = true;
-
+        if (this.defaultViewType && this.viewTypeMap[this.defaultViewType]) {
+            this.defaultViewTypeValue = this.viewTypeMap[this.defaultViewType];
+            this[this.defaultViewTypeValue] = true;
+        }
     }
+
+    handleTabActive(event) {
+        console.log('handleTabActive selectedRowIds: ', JSON.stringify(this.selectedRowIds, null, 2));
+        this.checkboxReset = true;
+
+        this.dispatchEvent(new CustomEvent('clearrowids'));
+      }
+
 
     handleSortedByDesc() {
         this.dispatchEvent(new CustomEvent('sortdata', { detail: { isDescending: true } }));
@@ -59,10 +68,6 @@ export default class ScFileRelatedListBody extends LightningElement {
 
     handleViewTypeChange(event) {
         this.dispatchEvent(new CustomEvent('viewtypechange', { detail: event.target.value }));
-    }
-
-    handleCheckboxClick(event) {
-        this.dispatchEvent(new CustomEvent('datatablerowselection', { detail: event.detail }));
     }
 
     handleSortData(event) {

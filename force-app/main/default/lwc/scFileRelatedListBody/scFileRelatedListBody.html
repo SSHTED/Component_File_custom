@@ -5,7 +5,7 @@
       <lightning-tabset variant="scoped" active-tab-value={defaultViewTypeValue}>
         <template for:each={viewTypeTabs} for:item="tab">
           
-          <lightning-tab label={tab.label} key={tab.value} value={tab.value} style="margin-bottom:-13px;">
+          <lightning-tab label={tab.label} key={tab.value} value={tab.value} onactive={handleTabActive} style="margin-bottom:-13px;">
             <div style="padding-left:5px; height:30px;">
               <p style="float:left;">{fileCount} items</p>
               <!-- <template if:true={isSorted}>
@@ -19,10 +19,10 @@
               <c-sc-file-related-list-table
                 file-data={fileData}
                 file-count={fileCount}
+                selected-row-ids={selectedRowIds}
+                checkbox-reset={checkboxReset}
                 act-no={actNo}
-                table-columns={tableColumns}
-                oncheckboxrowselection={handleTableRowCheckboxClick}
-                oncheckboxheaderselection={handleTableHeaderCheckboxClick}>
+                table-columns={tableColumns}>
               </c-sc-file-related-list-table>
             </template>
 
@@ -30,10 +30,9 @@
             <template if:true={tab.isThumbnail}>
               <c-sc-file-related-list-thumbnail
                 file-data={fileData}
+                selected-row-ids={selectedRowIds}
                 act-no={actNo}
-                thumbnail-columns={thumbnailColumns}
-                oncheckboxrowselection={handleThumbnailRowCheckboxClick}
-                oncheckboxheaderselection={handleThumbnailHeaderCheckboxClick}>
+                thumbnail-columns={thumbnailColumns}>
               </c-sc-file-related-list-thumbnail>
             </template>
 
@@ -41,6 +40,7 @@
             <template if:true={tab.isCard}>
               <c-sc-file-related-list-card
                 file-data={fileData}
+                selected-row-ids={selectedRowIds}
                 img-card-show-info={imgCardShowInfo}>
               </c-sc-file-related-list-card>
             </template>
@@ -49,6 +49,7 @@
             <template if:true={tab.isSlide}>
               <c-sc-file-related-list-slide
                 file-data={fileData}
+                selected-row-ids={selectedRowIds}
                 is-small-size-box={isSmallSizeBox}
                 img-src={imgSrc}
                 img-title={imgTitle}

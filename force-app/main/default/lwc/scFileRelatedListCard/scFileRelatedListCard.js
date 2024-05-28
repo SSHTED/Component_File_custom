@@ -6,6 +6,11 @@ export default class ScFileRelatedListCard extends LightningElement {
     @api imgCardShowInfo;
     @api imgCardInfoTitleColor;
     @api imgCardInfoDateColor;
+    @api selectedRowIds;
+
+    connectedCallback() {
+        console.log('ScFileRelatedListCard fileData: ', JSON.stringify(this.fileData, null, 2));
+    }
 
     handleMouseOver(event) {
         const cardElement = event.currentTarget;

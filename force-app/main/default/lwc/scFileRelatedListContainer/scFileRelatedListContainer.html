@@ -14,6 +14,7 @@
             selected-row-ids={selectedRowIds}
             
             onafterdeletefile={handleAfterDeleteFile}
+            onafteruploadfile={handleAfterUploadFile}
             
             onsortedbyclicked={handleSortedBy}
             ontabletoggleclicked={handleTableToggle}>
@@ -34,11 +35,13 @@
 
                 file-data={fileData}
                 file-count={fileCount}
+                selected-row-ids={selectedRowIds}
+
                 act-no={actNo}
                 oncheckboxchange={handleCheckboxChange}
                 oncheckboxchangeall={handleCheckboxChangeAll}
+                onclearrowids={handleClearRowIds}
                 
-                ondatatablerowselection={handleCheckboxClick}
                 onimgcardactionclicked={handleCellEvent}
                 onimgcardmouseover={showButton}
                 onimgcardmouseout={hideButton}

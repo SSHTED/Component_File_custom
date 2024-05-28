@@ -76,7 +76,6 @@ export default class ScFileRelatedListContainer extends LightningElement {
     }
 
     fetchFileData() {
-        console.log('bbbbbba')
         const params = { recordId: this.recordId };
         if (this.category) {
             params.category = this.category;
@@ -90,10 +89,10 @@ export default class ScFileRelatedListContainer extends LightningElement {
 
                 console.log('this.fileData: ', JSON.stringify(this.fileData, null, 2));
 
-                this.handleImageSlide();
+                // this.handleImageSlide();
             })
             .catch(error => {
-                console.log('getFileData error >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', error);
+                console.log('getFileData error >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', error.message);
             });
     }
 
@@ -177,12 +176,30 @@ export default class ScFileRelatedListContainer extends LightningElement {
                 index: index + 1
             };
         });
+        console.log('삭제 후 부모 컴포넌트 받는 메소드: ', JSON.stringify(this.fileData, null, 2))
     }
 
-    // 선택 삭제 처리
-    handleDeleteSelected() {
-        // 선택 삭제 로직 구현
+    handleAfterUploadFile() {
+        console.log('업로드 끝');
+        console.log('handleAfterUploadFile: ', JSON.stringify(this.fileData, null, 2))
+
+        this.fetchFileData()
+            .then((result) => {
+                this.fileData = result.map((item, index) => {
+                    return { ...item, index: index + 1 };
+                });
+            })
+            .catch((error) => {
+                console.error('Error handleAfterUploadFile: ', error);
+            });
     }
+
+    handleClearRowIds(){
+        console.log('handleClearRowIds a: ', JSON.stringify(this.selectedRowIds, null, 2));
+        this.selectedRowIds = [];
+        console.log('handleClearRowIds b: ', JSON.stringify(this.selectedRowIds, null, 2));
+    }
+
 
     // 정렬 기준 처리
     handleSortedBy(event) {
@@ -204,11 +221,6 @@ export default class ScFileRelatedListContainer extends LightningElement {
     // 정렬 순서 변경 처리
     handleSortedByDesc() {
         // 정렬 순서 변경 로직 구현
-    }
-
-    // 체크박스 클릭 처리
-    handleCheckboxClick(event) {
-        // 체크박스 클릭 로직 구현
     }
 
     // 이미지 카드 액션 처리

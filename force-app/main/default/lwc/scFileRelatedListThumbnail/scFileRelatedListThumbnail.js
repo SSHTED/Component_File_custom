@@ -5,6 +5,7 @@ export default class ScFileRelatedListThumbnail extends LightningElement {
     @api fileData;
     @api fileCount;
     @api actNo;
+    @api selectedRowIds;
 
     thumbnailThead = [
         { label: 'No', fieldName: 'index', sortable: false, type: 'index' },
@@ -27,6 +28,10 @@ export default class ScFileRelatedListThumbnail extends LightningElement {
         });
 
         return result;
+    }
+
+    connectedCallback() {
+        console.log('ScFileRelatedListThumbnail selectedRowIds: ', JSON.stringify(this.selectedRowIds, null, 2));
     }
 
     handleCheckbox(event) {
@@ -72,7 +77,7 @@ export default class ScFileRelatedListThumbnail extends LightningElement {
             composed: true
         }));
     }
-
+    //?
     getSelectedRows() {
         const selectedRows = [];
         const checkboxes = this.template.querySelectorAll('lightning-input[type="checkbox"]');
@@ -84,6 +89,7 @@ export default class ScFileRelatedListThumbnail extends LightningElement {
         return selectedRows;
     }
 
+    // 개발 예정. 썸네일 미리보기
     handleThumbnailClick(event) {
         const fileId = event.currentTarget.dataset.id;
         this.dispatchEvent(new CustomEvent('thumbnailclick', { detail: { fileId } }));

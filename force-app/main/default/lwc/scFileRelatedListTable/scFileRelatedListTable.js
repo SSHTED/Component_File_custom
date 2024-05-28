@@ -5,6 +5,8 @@ export default class ScFileRelatedListTable extends LightningElement {
     @api fileData;
     @api fileCount;
     @api actNo;
+    @api selectedRowIds;
+    @api checkboxReset;
 
     tableThead = [
         { label: 'No', fieldName: 'index', sortable: false, type: 'index' },
@@ -13,7 +15,6 @@ export default class ScFileRelatedListTable extends LightningElement {
         { label: '확장자', fieldName: 'FileExtension', sortable: true, type: 'data' },
         { label: '크기', fieldName: 'ContentSize', sortable: true, type: 'data' }
     ];
-
 
     get extendedTableThead() {
         const result = this.tableThead.map(th => {
@@ -27,7 +28,12 @@ export default class ScFileRelatedListTable extends LightningElement {
 
         return result;
     }
-    
+
+    connectedCallback() {
+        console.log('ScFileRelatedListTable selectedRowIds: ', JSON.stringify(this.selectedRowIds, null, 2));
+        console.log('리셋 체크박스', this.checkboxReset);
+    }
+
     handleCheckbox(event) {
         console.log('table handleCheckbox');
         
@@ -72,6 +78,7 @@ export default class ScFileRelatedListTable extends LightningElement {
         }));
     }
 
+    //?
     getSelectedRows() {
         const selectedRows = [];
         const checkboxes = this.template.querySelectorAll('lightning-input[type="checkbox"]');
@@ -83,6 +90,7 @@ export default class ScFileRelatedListTable extends LightningElement {
         return selectedRows;
     }
 
+    // 개발 예정. 정렬
     handleSortData(event) {
         const sortBy = event.currentTarget.dataset.sortBy;
         this.dispatchEvent(new CustomEvent('sortdata', { detail: { sortBy } }));

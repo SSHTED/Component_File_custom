@@ -2,7 +2,7 @@
 <template>
     <div class="imgCard" style="position:relative; max-height:400px; overflow:auto;">
         <template for:each={fileData} for:item="fileData">
-            <div class={fileData.className} key={fileData.Id} data-id={fileData.Id} onmouseover={handleMouseOver} onmouseout={handleMouseOut}>
+            <div class={fileData.imgCardClass} key={fileData.Id} data-id={fileData.Id} onmouseover={handleMouseOver} onmouseout={handleMouseOut}>
                 <img src={fileData.ImgSrc} alt={fileData.Title} />
 
                 <div class="btn_area">
