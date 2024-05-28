@@ -34,9 +34,6 @@ export default class ScFileRelatedListHeader extends LightningElement {
 
     handleFileUpload() {
         this.isShowModal = !this.isShowModal;
-        console.log('헤더. isShowModal: ', this.isShowModal);
-
-        // this.dispatchEvent(new CustomEvent('uploadbtnclick'));
     }
 
     handleDownloadBtnClick() {
@@ -96,8 +93,9 @@ export default class ScFileRelatedListHeader extends LightningElement {
                     if (result.Result) {
                         console.log('삭제된 항목 수:', result.Count);
                         this.fileData = this.fileData.filter(item => !this.selectedRowIds.includes(item.Id));
+                        console.log('삭제후 file Data: ', JSON.stringify(this.fileData, null, 2))
                         this.selectedRowIds = [];
-                        this.dispatchEvent(new CustomEvent('updatefiledata', { detail: this.fileData }));
+                        this.dispatchEvent(new CustomEvent('afterdeletefile', { detail: this.fileData }));
 
                     } else {
                         console.error('삭제 실패');

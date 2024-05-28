@@ -12,18 +12,18 @@
             </header>
             <div class="slds-modal__content slds-p-around_medium modal-content">
                 <lightning-file-upload 
-                label="" 
-                name="fileUploader" 
-                accept={acceptedFormats} 
-                record-id={recordId}
-                onuploadfinished={handleUploadFinished}
-                multiple>
+                    label="" 
+                    name="fileUploader" 
+                    accept={acceptedFormats} 
+                    record-id={recordId}
+                    onuploadfinished={handleUploadFinished}
+                    multiple>
                 </lightning-file-upload>
             </div>
-            <footer class="slds-modal__footer">
+            <!-- <footer class="slds-modal__footer">
                 <button class="slds-button slds-button_neutral" onclick={handleCloseModal}>취소</button>
                 <button class="slds-button slds-button_brand" onclick={handleUploadFiles}>업로드</button>
-            </footer>
+            </footer> -->
         </div>
     </div>
     <div class="slds-backdrop slds-backdrop_open"></div>
