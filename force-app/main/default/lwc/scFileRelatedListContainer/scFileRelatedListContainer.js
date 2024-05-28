@@ -46,7 +46,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
 
     currentViewType;
     customClass = '';
-    
+
     isTableVisible = true;
     isPlaying = true;
     intervalId = null;
@@ -67,15 +67,16 @@ export default class ScFileRelatedListContainer extends LightningElement {
         this.fetchFileData();
     }
 
-    initSetting(){
+    initSetting() {
         this.customClass += 'themeColor_' + this.themeColor;
 
-        
+
         console.log('this.actSectionOpen: ', this.actSectionOpen);
         console.log('this.customClass: ', this.customClass);
     }
 
     fetchFileData() {
+        console.log('bbbbbba')
         const params = { recordId: this.recordId };
         if (this.category) {
             params.category = this.category;
@@ -106,9 +107,9 @@ export default class ScFileRelatedListContainer extends LightningElement {
             ContentBodyId: fileData.ContentBodyId,
             FileType: fileData.FileType,
             PublishStatus: fileData.PublishStatus,  //컨텐츠의 게시 상태 (P: 게시됨, R: 작업용, A: 아카이브됨)
-            ContentSize: fileData.ContentSize < 1024 * 1024 ? 
-                        (fileData.ContentSize / 1024).toFixed(2) + " KB" :
-                        (fileData.ContentSize / (1024 * 1024)).toFixed(2) + " MB",
+            ContentSize: fileData.ContentSize < 1024 * 1024 ?
+                (fileData.ContentSize / 1024).toFixed(2) + " KB" :
+                (fileData.ContentSize / (1024 * 1024)).toFixed(2) + " MB",
             FileExtension: "." + fileData.FileExtension,
             VersionDataUrl: fileData.VersionDataUrl,
             CreatedDate: fileData.CreatedDate,
@@ -144,7 +145,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
 
 
     handleCheckboxChange(event) {
-        const { selectedId, isChecked} = event.detail;
+        const { selectedId, isChecked } = event.detail;
 
         if (isChecked) {
             console.log('선택된 레코드 ID:', JSON.stringify(selectedId, null, 2));
@@ -168,8 +169,14 @@ export default class ScFileRelatedListContainer extends LightningElement {
             this.selectedRowIds = [];
         }
     }
-    handleUpdateFileData(event){
-        this.fileData = event.detail;
+
+    handleAfterDeleteFile(event) {
+        this.fileData = event.detail.map((item, index) => {
+            return {
+                ...item,
+                index: index + 1
+            };
+        });
     }
 
     // 선택 삭제 처리
