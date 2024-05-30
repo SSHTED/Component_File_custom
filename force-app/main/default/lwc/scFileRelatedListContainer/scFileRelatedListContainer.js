@@ -209,7 +209,13 @@ export default class ScFileRelatedListContainer extends LightningElement {
         try {
             this.fetchAfterUploadData()
                 .then((newData) => {
-                    this.fileData = this.fileData.concat(newData);
+                    const startIndex = this.fileData.length;
+                    const updatedNewData = newData.map((fileData, index) => ({
+                        ...fileData,
+                        index: startIndex + index + 1,
+                    }));
+
+                    this.fileData = this.fileData.concat(updatedNewData);
                     this.fileCount = this.fileData.length;
                     console.log('Updated fileData: ', JSON.stringify(this.fileData, null, 2));
                 })
