@@ -11,7 +11,7 @@ export default class ScFileRelatedListHeader extends LightningElement {
     @api actDeleteBtn;
     @api tableToggleIcon;
     @api actSectionOpen;
-    
+
     // 데이터
     @api fileData;
     @api selectedRowIds;
@@ -120,7 +120,11 @@ export default class ScFileRelatedListHeader extends LightningElement {
         this.sortDirection[sortBy] = this.sortDirection[sortBy] === 'asc' ? 'desc' : 'asc';
 
         sortedFileData = this.sortData(sortedFileData, sortBy, this.sortDirection[sortBy]);
-
+        sortedFileData = sortedFileData.map((file, index) => ({
+            ...file,
+            index: index + 1
+        }));
+        
         this.dispatchEvent(new CustomEvent('sortedbyclicked', { detail: sortedFileData }));
     }
 
@@ -148,7 +152,7 @@ export default class ScFileRelatedListHeader extends LightningElement {
     handleExpandToggle() {
         this.actSectionOpen = !this.actSectionOpen;
 
-        this.dispatchEvent(new CustomEvent('expandtoggleclicked', {detail: { actSectionOpen: this.actSectionOpen }}));
+        this.dispatchEvent(new CustomEvent('expandtoggleclicked', { detail: { actSectionOpen: this.actSectionOpen } }));
     }
 
     handleCloseModal() {
