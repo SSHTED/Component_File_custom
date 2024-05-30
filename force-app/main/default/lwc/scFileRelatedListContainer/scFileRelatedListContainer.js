@@ -4,11 +4,7 @@ import ScFileRelatedListHeader from 'c/scFileRelatedListHeader';
 import ScFileRelatedListBody from 'c/scFileRelatedListBody';
 import ScFileRelatedListFooter from 'c/scFileRelatedListFooter';
 
-// import getFileDataByRecordId from '@salesforce/apex/SC_FileRelatedListController.getFileDataByRecordId';
-// import getFileDataByCategory from '@salesforce/apex/SC_FileRelatedListController.getFileDataByCategory';
 import getFileData from '@salesforce/apex/SC_FileRelatedListController.getFileData';
-// import deleteFilesByRecordId from '@salesforce/apex/SC_FileRelatedListController.deleteFilesByRecordId';
-import saveData from '@salesforce/apex/SC_FileRelatedListController.saveData';
 
 export default class ScFileRelatedListContainer extends LightningElement {
     // 기능 활성화/비활성화
@@ -75,24 +71,49 @@ export default class ScFileRelatedListContainer extends LightningElement {
         console.log('this.customClass: ', this.customClass);
     }
 
+    fetchFileDataFromServer(params) {
+        return new Promise((resolve, reject) => {
+            getFileData(params)
+                .then(result => {
+                    console.log('getFileData result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', result);
+                    const processedData = result.Result.map((fileData, index) => this.processFileData(fileData, index));
+                    console.log('processedData: ', JSON.stringify(processedData, null, 2));
+                    resolve(processedData);
+                })
+                .catch(error => {
+                    console.log('getFileData error >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', error.message);
+                    reject(error);
+                });
+        });
+    }
+    
+    fetchAfterUploadData() {
+        const params = { recordId: this.recordId };
+        if (this.category) {
+            params.category = this.category;
+        }
+        if (this.uploadedAfter) {
+            params.uploadedAfter = this.uploadedAfter;
+        }
+        
+        return this.fetchFileDataFromServer(params);
+    }
+    
     fetchFileData() {
         const params = { recordId: this.recordId };
         if (this.category) {
             params.category = this.category;
         }
-
-        getFileData(params)
-            .then(result => {
-                console.log('getFileData result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', result);
-                this.fileCount = result.Result.length;
-                this.fileData = result.Result.map((fileData, index) => this.processFileData(fileData, index));
-
+        if (this.uploadedAfter) {
+            params.uploadedAfter = this.uploadedAfter;
+        }
+        
+        return this.fetchFileDataFromServer(params)
+            .then(processedData => {
+                this.fileCount = processedData.length;
+                this.fileData = processedData;
                 console.log('this.fileData: ', JSON.stringify(this.fileData, null, 2));
-
-                // this.handleImageSlide();
-            })
-            .catch(error => {
-                console.log('getFileData error >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', error.message);
+                return processedData;
             });
     }
 
@@ -181,17 +202,23 @@ export default class ScFileRelatedListContainer extends LightningElement {
 
     handleAfterUploadFile() {
         console.log('업로드 끝');
-        console.log('handleAfterUploadFile: ', JSON.stringify(this.fileData, null, 2))
-
-        this.fetchFileData()
-            .then((result) => {
-                this.fileData = result.map((item, index) => {
-                    return { ...item, index: index + 1 };
+        console.log('handleAfterUploadFile: ', JSON.stringify(this.fileData, null, 2));
+        this.uploadedAfter = Date.now();
+        console.log('시간: ', this.uploadedAfter);
+        
+        try {
+            this.fetchAfterUploadData()
+                .then((newData) => {
+                    this.fileData = this.fileData.concat(newData);
+                    this.fileCount = this.fileData.length;
+                    console.log('Updated fileData: ', JSON.stringify(this.fileData, null, 2));
+                })
+                .catch((error) => {
+                    console.error('Error in fetchAfterUploadData: ', error);
                 });
-            })
-            .catch((error) => {
-                console.error('Error handleAfterUploadFile: ', error);
-            });
+        } catch (error) {
+            console.error('Error in handleAfterUploadFile: ', error);
+        }
     }
 
     handleClearRowIds(){
