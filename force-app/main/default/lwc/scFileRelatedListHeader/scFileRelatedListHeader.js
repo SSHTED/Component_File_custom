@@ -32,10 +32,6 @@ export default class ScFileRelatedListHeader extends LightningElement {
 
     }
 
-    handleFileUpload() {
-        this.isShowModal = !this.isShowModal;
-    }
-
     handleDownloadBtnClick() {
         console.log('헤더. handleDownloadBtnClick');
         console.log('헤더. 다운 selectedRowIds: ', JSON.stringify(this.selectedRowIds, null, 2));
@@ -77,8 +73,8 @@ export default class ScFileRelatedListHeader extends LightningElement {
         }
     }
 
-    handleDeleteSelected() {
-        console.log('헤더. handleDeleteSelected');
+    handleDeleteBtnClick() {
+        console.log('헤더. handleDeleteBtnClick');
         console.log('헤더. 삭제 selectedRowIds: ', JSON.stringify(this.selectedRowIds, null, 2));
 
         if (this.selectedRowIds.length === 0) {
@@ -110,10 +106,6 @@ export default class ScFileRelatedListHeader extends LightningElement {
 
     }
 
-    handleDeleteBtnClick() {
-        this.dispatchEvent(new CustomEvent('deletebtnclick'));
-    }
-
     handleSortedByClicked(event) {
         this.dispatchEvent(new CustomEvent('sortedbyclicked', { detail: event.detail.value }));
     }
@@ -124,6 +116,10 @@ export default class ScFileRelatedListHeader extends LightningElement {
 
     handleCloseModal() {
         this.isShowModal = false;
+    }
+    
+    handleFileUpload() {
+        this.isShowModal = !this.isShowModal;
     }
 
     get tableToggleIcon() {

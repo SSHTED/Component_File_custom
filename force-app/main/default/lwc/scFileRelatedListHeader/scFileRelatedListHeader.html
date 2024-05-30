@@ -40,7 +40,7 @@
             <!-- 선택 삭제 버튼 -->
             <template if:true={actDeleteBtn}>
               <lightning-button-icon icon-name="utility:delete" variant="border-filled" alternative-text="선택 삭제"
-                title="선택 삭제" onclick={handleDeleteSelected}></lightning-button-icon>
+                title="선택 삭제" onclick={handleDeleteBtnClick}></lightning-button-icon>
             </template>
           </lightning-button-group>
 
@@ -68,7 +68,7 @@
                 <lightning-menu-item label="선택 다운로드" onclick={handleDownloadSelected}></lightning-menu-item>
               </template>
               <template if:true={actDeleteBtn}>
-                <lightning-menu-item label="선택 삭제" onclick={handleDeleteSelected}></lightning-menu-item>
+                <lightning-menu-item label="선택 삭제" onclick={handleDeleteBtnClick}></lightning-menu-item>
               </template>
             </lightning-button-menu>
 
