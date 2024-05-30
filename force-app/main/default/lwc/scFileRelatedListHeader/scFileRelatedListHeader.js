@@ -18,6 +18,7 @@ export default class ScFileRelatedListHeader extends LightningElement {
     isVisibleActionBtn;
     isDownloading = false;
     isShowModal = false;
+    sortDirection = {};
 
     connectedCallback() {
         if (this.actUploadBtn || this.actDownloadBtn || this.actDeleteBtn) {
@@ -110,8 +111,36 @@ export default class ScFileRelatedListHeader extends LightningElement {
 
     }
 
-    handleSortedByClicked(event) {
-        this.dispatchEvent(new CustomEvent('sortedbyclicked', { detail: event.detail.value }));
+    handleSortBtnClick(event) {
+        const sortBy = event.detail.value;
+        let sortedFileData = [...this.fileData];
+
+        this.sortDirection[sortBy] = this.sortDirection[sortBy] === 'asc' ? 'desc' : 'asc';
+
+        sortedFileData = this.sortData(sortedFileData, sortBy, this.sortDirection[sortBy]);
+
+        this.dispatchEvent(new CustomEvent('sortedbyclicked', { detail: sortedFileData }));
+    }
+
+    sortData(data, sortBy, sortDirection) {
+        return data.sort((a, b) => {
+            switch (sortBy) {
+                case 'sortByName':
+                    return sortDirection === 'asc'
+                        ? a.Title.localeCompare(b.Title)
+                        : b.Title.localeCompare(a.Title);
+                case 'sortByCreateDate':
+                    return sortDirection === 'asc'
+                        ? new Date(a.CreatedDate) - new Date(b.CreatedDate)
+                        : new Date(b.CreatedDate) - new Date(a.CreatedDate);
+                case 'sortBytype':
+                    return sortDirection === 'asc'
+                        ? a.FileExtension.localeCompare(b.FileExtension)
+                        : b.FileExtension.localeCompare(a.FileExtension);
+                default:
+                    return 0;
+            }
+        });
     }
 
     handleTableToggleClicked() {

@@ -46,9 +46,10 @@
 
           <!-- 정렬 버튼 -->
           <lightning-button-menu menu-alignment="auto" variant="border-filled" icon-name="utility:sort"
-            onselect={handleSortedBy} style="margin-left:10px;">
-            <lightning-menu-item value="sortByName" label="Sort by Name"></lightning-menu-item>
-            <lightning-menu-item value="sortByCreateDate" label="Sort by CreateDate"></lightning-menu-item>
+            onselect={handleSortBtnClick} style="margin-left:10px;">
+            <lightning-menu-item value="sortByName" label="정렬: 파일명"></lightning-menu-item>
+            <lightning-menu-item value="sortByCreateDate" label="정렬: 생성 일자"></lightning-menu-item>
+            <lightning-menu-item value="sortBytype" label="정렬: 확장자"></lightning-menu-item>
           </lightning-button-menu>
 
           <!-- 확장/축소 버튼 -->
@@ -73,9 +74,10 @@
             </lightning-button-menu>
 
             <lightning-button-menu menu-alignment="auto" variant="border-filled" icon-name="utility:sort"
-              onselect={handleSortedBy} style="margin-left:10px;">
-              <lightning-menu-item value="sortByName" label="Sort by Name"></lightning-menu-item>
-              <lightning-menu-item value="sortByCreateDate" label="Sort by CreateDate"></lightning-menu-item>
+              onselect={handleSortBtnClick} style="margin-left:10px;">
+              <lightning-menu-item value="sortByName" label="정렬: 파일명"></lightning-menu-item>
+              <lightning-menu-item value="sortByCreateDate" label="정렬: 생성 일자"></lightning-menu-item>
+              <lightning-menu-item value="sortBytype" label="정렬: 확장자"></lightning-menu-item>
             </lightning-button-menu>
 
             <lightning-icon icon-name={tableToggleIcon} alternative-text="Toggle" size="small"
