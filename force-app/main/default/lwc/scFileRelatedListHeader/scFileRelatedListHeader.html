@@ -30,7 +30,7 @@
             <!-- 파일 업로드 버튼 -->
             <template if:true={actUploadBtn}>
               <lightning-button-icon icon-name="utility:upload" variant="border-filled" alternative-text="파일 업로드"
-                title="파일 업로드" onclick={handleFileUpload}></lightning-button-icon>
+                title="파일 업로드" onclick={handleFileUploadBtnClick}></lightning-button-icon>
             </template>
             <!-- 선택 다운로드 버튼 -->
             <template if:true={actDownloadBtn}>
@@ -62,7 +62,7 @@
           <div class="btnGroup">
             <lightning-button-menu menu-alignment="auto" variant="border-filled" style="float:left;">
               <template if:true={actUploadBtn}>
-                <lightning-menu-item label="파일 업로드" onclick={handleFileUpload}></lightning-menu-item>
+                <lightning-menu-item label="파일 업로드" onclick={handleFileUploadBtnClick}></lightning-menu-item>
               </template>
               <template if:true={actDownloadBtn}>
                 <lightning-menu-item label="선택 다운로드" onclick={handleDownloadSelected}></lightning-menu-item>

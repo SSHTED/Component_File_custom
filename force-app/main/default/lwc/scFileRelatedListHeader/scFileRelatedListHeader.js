@@ -32,6 +32,10 @@ export default class ScFileRelatedListHeader extends LightningElement {
 
     }
 
+    handleFileUploadBtnClick() {
+        this.isShowModal = !this.isShowModal;
+    }
+
     handleDownloadBtnClick() {
         console.log('헤더. handleDownloadBtnClick');
         console.log('헤더. 다운 selectedRowIds: ', JSON.stringify(this.selectedRowIds, null, 2));
@@ -116,10 +120,6 @@ export default class ScFileRelatedListHeader extends LightningElement {
 
     handleCloseModal() {
         this.isShowModal = false;
-    }
-    
-    handleFileUpload() {
-        this.isShowModal = !this.isShowModal;
     }
 
     get tableToggleIcon() {

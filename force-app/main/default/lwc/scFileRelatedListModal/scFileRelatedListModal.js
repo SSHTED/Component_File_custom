@@ -13,7 +13,7 @@ export default class ScFileRelatedModal extends LightningElement {
     handleCloseModal() {
         this.dispatchEvent(new CustomEvent('close'));
     }
-
+    
     handleUploadFinished(event) {
         this.dispatchEvent(new CustomEvent('afteruploadfile', {
             detail: {}, 
