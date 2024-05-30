@@ -236,14 +236,13 @@ export default class ScFileRelatedListContainer extends LightningElement {
 
     // 정렬 기준 처리
     handleSortedBy(event) {
-        const sortBy = event.detail;
-
-        // 정렬 기준 로직 구현
+        console.log('eve', event);
+        this.fileData = event.detail;
     }
 
-    // 테이블 토글 처리
-    handleTableToggle() {
-        // 테이블 토글 로직 구현
+    handleExpandToggle(event) {
+        console.log('부모 토글오픈 섹션', this.actSectionOpen)
+        this.actSectionOpen = event.detail.actSectionOpen;
     }
 
     // 뷰 타입 변경 처리

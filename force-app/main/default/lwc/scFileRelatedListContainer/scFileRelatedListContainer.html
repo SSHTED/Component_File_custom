@@ -12,12 +12,12 @@
             
             file-data={fileData}
             selected-row-ids={selectedRowIds}
-            
+            act-section-open={actSectionOpen}
             onafterdeletefile={handleAfterDeleteFile}
             onafteruploadfile={handleAfterUploadFile}
             
             onsortedbyclicked={handleSortedBy}
-            ontabletoggleclicked={handleTableToggle}>
+            onexpandtoggleclicked={handleExpandToggle}>
         </c-sc-file-related-list-header>
 
         <!-- body -->
@@ -40,14 +40,7 @@
                 act-no={actNo}
                 oncheckboxchange={handleCheckboxChange}
                 oncheckboxchangeall={handleCheckboxChangeAll}
-                onclearrowids={handleClearRowIds}
-                
-                onimgcardactionclicked={handleCellEvent}
-                onimgcardmouseover={showButton}
-                onimgcardmouseout={hideButton}
-                onthumbnailclick={handleThumbnailClick}
-                onviewtypechange={handleViewTypeChange}
-                onsortdata={handleSortedByDesc}>
+                onclearrowids={handleClearRowIds}>
             </c-sc-file-related-list-body>  
         </template>
 

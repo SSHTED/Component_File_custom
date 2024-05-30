@@ -10,7 +10,8 @@ export default class ScFileRelatedListHeader extends LightningElement {
     @api actDownloadBtn;
     @api actDeleteBtn;
     @api tableToggleIcon;
-
+    @api actSectionOpen;
+    
     // 데이터
     @api fileData;
     @api selectedRowIds;
@@ -29,6 +30,7 @@ export default class ScFileRelatedListHeader extends LightningElement {
         console.log('헤더. actDownloadBtn: ', this.actDownloadBtn);
         console.log('헤더. actDeleteBtn: ', this.actDeleteBtn);
         console.log('헤더. selectedRowIds: ', this.selectedRowIds);
+        console.log('헤더. actSectionOpen: ', this.actSectionOpen);
         console.log('헤더. fileData: ', JSON.stringify(this.fileData));
 
     }
@@ -143,8 +145,10 @@ export default class ScFileRelatedListHeader extends LightningElement {
         });
     }
 
-    handleTableToggleClicked() {
-        this.dispatchEvent(new CustomEvent('tabletoggleclicked'));
+    handleExpandToggle() {
+        this.actSectionOpen = !this.actSectionOpen;
+
+        this.dispatchEvent(new CustomEvent('expandtoggleclicked', {detail: { actSectionOpen: this.actSectionOpen }}));
     }
 
     handleCloseModal() {
@@ -152,6 +156,6 @@ export default class ScFileRelatedListHeader extends LightningElement {
     }
 
     get tableToggleIcon() {
-        return this.isTableVisible ? 'utility:chevronup' : 'utility:chevrondown';
+        return this.actSectionOpen ? 'utility:chevrondown' : 'utility:chevronup';
     }
 }
