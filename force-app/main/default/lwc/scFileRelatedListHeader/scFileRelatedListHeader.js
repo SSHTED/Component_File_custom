@@ -16,9 +16,13 @@ export default class ScFileRelatedListHeader extends LightningElement {
     @api fileData;
     @api selectedRowIds;
 
+    downloadProgress = 0;
+    totalFilesToDownload = 0;
     isVisibleActionBtn;
     isDownloading = false;
-    isShowModal = false;
+    isDownloadEnd = false;
+    isShowUploadModal = false;
+    isShowDownloadModal = false;
     isSortBtnClick = false;
     sortDirection = {};
 
@@ -37,31 +41,29 @@ export default class ScFileRelatedListHeader extends LightningElement {
     }
 
     handleFileUploadBtnClick() {
-        this.isShowModal = !this.isShowModal;
+        this.isShowUploadModal = !this.isShowUploadModal;
     }
 
     handleDownloadBtnClick() {
         console.log('헤더. handleDownloadBtnClick');
         console.log('헤더. 다운 selectedRowIds: ', JSON.stringify(this.selectedRowIds, null, 2));
-
+        
         if (this.selectedRowIds.length === 0) {
             alert('다운로드할 항목을 선택해주세요.');
             return;
         }
 
-        if (this.isDownloading) {
-            alert('이미 다운로드 중입니다.');
-            return;
-        }
-
         if (confirm('선택한 항목을 다운로드 하시겠습니까?')) {
-            this.isDownloading = true;
+            this.isShowDownloadModal = !this.isShowDownloadModal;
             const selectedFiles = this.fileData.filter(file => this.selectedRowIds.includes(file.Id));
             let index = 0;
+            this.downloadProgress = 0;
+            this.totalFilesToDownload = selectedFiles.length;
 
             const downloadNextFile = () => {
                 if (index >= selectedFiles.length) {
-                    this.isDownloading = false;
+                    this.downloadProgress = this.totalFilesToDownload;
+                    this.isDownloadEnd = true;
                     return;
                 }
 
@@ -74,6 +76,7 @@ export default class ScFileRelatedListHeader extends LightningElement {
                 document.body.removeChild(downloadLink);
 
                 index++;
+                this.downloadProgress = index;
                 setTimeout(downloadNextFile, 500);
             };
 
@@ -165,7 +168,9 @@ export default class ScFileRelatedListHeader extends LightningElement {
     }
 
     handleCloseModal() {
-        this.isShowModal = false;
+        this.isShowUploadModal = false;
+        this.isShowDownloadModal = false;
+        this.isDownloadEnd = false;
     }
 
     get tableToggleIcon() {

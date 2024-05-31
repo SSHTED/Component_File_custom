@@ -1,0 +1,33 @@
+<!-- scFileRelatedDownloadModal.html -->
+<template>
+    <div class="slds-modal slds-fade-in-open">
+      <div class="slds-modal__container">
+        <header class="slds-modal__header">
+          <h2 class="slds-text-heading_medium slds-hyphenate">파일 다운로드</h2>
+          <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="닫기" onclick={handleCloseModal}>
+            <lightning-icon icon-name="utility:close" variant="inverse" size="small"></lightning-icon>
+          </button>
+        </header>
+        <div class="slds-modal__content slds-p-around_medium modal-content">
+          <div class="slds-grid slds-grid_vertical">
+            <!-- <div class="slds-col">
+              <p>파일 다운로드 중...</p>
+            </div> -->
+            <div class="slds-col slds-m-top_small">
+              <lightning-progress-bar value={progress} size="large" variant="circular"></lightning-progress-bar>
+            </div>
+            <div class="slds-col slds-m-top_small">
+              <p>{downloadProgress} / {totalFilesToDownload}</p>
+            </div>
+          </div>
+        </div>
+        <footer class="slds-modal__footer">
+          <button class="slds-button slds-button_neutral" onclick={handleCancelDownload}>다운로드 취소</button>
+          <template if:true={isDownloadEnd}>
+            <button class="slds-button slds-button_brand" onclick={handleCompleteDownload}>다운로드 완료</button>
+          </template>
+        </footer>
+      </div>
+    </div>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </template>

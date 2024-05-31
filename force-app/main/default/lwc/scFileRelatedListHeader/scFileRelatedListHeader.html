@@ -75,7 +75,7 @@
                 <lightning-menu-item label="파일 업로드" onclick={handleFileUploadBtnClick}></lightning-menu-item>
               </template>
               <template if:true={actDownloadBtn}>
-                <lightning-menu-item label="선택 다운로드" onclick={handleDownloadSelected}></lightning-menu-item>
+                <lightning-menu-item label="선택 다운로드" onclick={handleDownloadBtnClick}></lightning-menu-item>
               </template>
               <template if:true={actDeleteBtn}>
                 <lightning-menu-item label="선택 삭제" onclick={handleDeleteBtnClick}></lightning-menu-item>
@@ -97,11 +97,20 @@
     </div>
   </div>
 
-  <!-- 모달 창 -->
-  <c-sc-file-related-list-modal 
-    if:true={isShowModal}
+  <!-- 업로드 모달 창 -->
+  <c-sc-file-related-list-upload-modal 
+    if:true={isShowUploadModal}
     file-data={fileData}
     record-id={recordId}
     onclose={handleCloseModal}>
-  </c-sc-file-related-list-modal>
+  </c-sc-file-related-list-upload-modal>
+  <!-- 다운로드 모달 창 -->
+  <c-sc-file-related-list-download-modal    
+    if:true={isShowDownloadModal}
+    download-progress={downloadProgress}
+    total-files-to-download={totalFilesToDownload}
+    is-download-end={isDownloadEnd}
+    onclose={handleCloseModal}>
+  </c-sc-file-related-list-download-modal> 
+
 </template>
