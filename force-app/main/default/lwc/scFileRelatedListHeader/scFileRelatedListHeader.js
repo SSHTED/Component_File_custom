@@ -143,10 +143,10 @@ export default class ScFileRelatedListHeader extends LightningElement {
     sortData(data, sortBy, sortDirection) {
         return data.sort((a, b) => {
             switch (sortBy) {
-                case '파일명':
+                case '파일명': //유니코드 기준 정렬
                     return sortDirection === 'asc'
-                        ? a.Title.localeCompare(b.Title)
-                        : b.Title.localeCompare(a.Title);
+                        ? a.Title.localeCompare(b.Title, 'ko')
+                        : b.Title.localeCompare(a.Title, 'ko');
                 case '생성일자':
                     return sortDirection === 'asc'
                         ? new Date(a.CreatedDate) - new Date(b.CreatedDate)
