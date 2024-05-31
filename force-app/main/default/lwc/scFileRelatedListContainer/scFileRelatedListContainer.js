@@ -34,10 +34,10 @@ export default class ScFileRelatedListContainer extends LightningElement {
     @api imgCardInfoTitleColor;
     @api imgCardInfoDateColor;
 
-    fileCount;
-    selectedRowIds = [];
     @api fileData = [];
+    selectedRowIds = [];
     imgSrc;
+    sortOptions = {};
 
 
     currentViewType;
@@ -232,20 +232,14 @@ export default class ScFileRelatedListContainer extends LightningElement {
         console.log('handleClearRowIds b: ', JSON.stringify(this.selectedRowIds, null, 2));
     }
 
-
     // 정렬 기준 처리
     handleSortedBy(event) {
-        console.log('eve', event);
         this.fileData = event.detail.sortedData;
         this.sortOptions = {
             sortBy: event.detail.sortBy,
-            sortDirection: event.detail.sortDirection
+            sortDirection: event.detail.sortDirection,
+            isSortBtnClick: event.detail.isSortBtnClick
         }
-
-        console.log('부모 sortBy', this.sortBy)
-        console.log('부모 sortDirection', this.sortDirection)
-        console.log('부모 sortOptions', JSON.stringify(this.sortOptions))
-
     }
 
     handleExpandToggle(event) {

@@ -10,15 +10,24 @@
           <template if:true={isSmallSizeBox}>
             <p class="headerTitle_small">
               <a href="#" target="_blank" title={title}
-                style="font-size:16px; font-weight:bold; color:#191919;">{title}</a>
+                style="font-size:16px; font-weight:bold; color:#191919;">{title}
+              </a>
             </p>
           </template>
+
           <template if:false={isSmallSizeBox}>
             <p class="headerTitle_large">
-              <a href="#" target="_blank" title={title}
-                style="font-size:16px; font-weight:bold; color:#191919;">{title}</a>
+              <a href="#" target="_blank" title={title}>{title}</a>
             </p>
-          </template>
+            <div>
+              <div class="headerTitle_Info">
+                <p>items : {fileData.length}</p>
+                <template if:true={isSortBtnClick}>
+                  <p>정렬 : {sortOptions.sortBy}</p>
+                </template>
+              </div>
+            </div>
+           </template>
 
         </div>
       </div>
@@ -47,14 +56,14 @@
           <!-- 정렬 버튼 -->
           <lightning-button-menu menu-alignment="auto" variant="border-filled" icon-name="utility:sort"
             onselect={handleSortBtnClick} style="margin-left:10px;">
-            <lightning-menu-item value="sortByName" label="정렬: 파일명"></lightning-menu-item>
-            <lightning-menu-item value="sortByCreateDate" label="정렬: 생성 일자"></lightning-menu-item>
-            <lightning-menu-item value="sortBytype" label="정렬: 확장자"></lightning-menu-item>
+            <lightning-menu-item value="파일명" label="정렬: 파일명"></lightning-menu-item>
+            <lightning-menu-item value="생성일자" label="정렬: 생성 일자"></lightning-menu-item>
+            <lightning-menu-item value="확장자" label="정렬: 확장자"></lightning-menu-item>
           </lightning-button-menu>
 
           <!-- 확장/축소 버튼 -->
-          <lightning-icon icon-name={tableToggleIcon} alternative-text="Toggle" size="small" onclick={handleExpandToggle}
-            style="margin-top:3px; margin-left:10px;"></lightning-icon>
+          <lightning-icon icon-name={tableToggleIcon} alternative-text="Toggle" size="small"
+            onclick={handleExpandToggle} style="margin-top:3px; margin-left:10px;"></lightning-icon>
         </div>
       </template>
 
@@ -75,9 +84,9 @@
 
             <lightning-button-menu menu-alignment="auto" variant="border-filled" icon-name="utility:sort"
               onselect={handleSortBtnClick} style="margin-left:10px;">
-              <lightning-menu-item value="sortByName" label="정렬: 파일명"></lightning-menu-item>
-              <lightning-menu-item value="sortByCreateDate" label="정렬: 생성 일자"></lightning-menu-item>
-              <lightning-menu-item value="sortBytype" label="정렬: 확장자"></lightning-menu-item>
+              <lightning-menu-item value="파일명" label="정렬: 파일명"></lightning-menu-item>
+              <lightning-menu-item value="생성일자" label="정렬: 생성 일자"></lightning-menu-item>
+              <lightning-menu-item value="확장자" label="정렬: 확장자"></lightning-menu-item>
             </lightning-button-menu>
 
             <lightning-icon icon-name={tableToggleIcon} alternative-text="Toggle" size="small"
@@ -87,7 +96,7 @@
       </template>
     </div>
   </div>
-  
+
   <!-- 모달 창 -->
   <c-sc-file-related-list-modal 
     if:true={isShowModal}

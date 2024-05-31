@@ -11,7 +11,7 @@ export default class ScFileRelatedListHeader extends LightningElement {
     @api actDeleteBtn;
     @api tableToggleIcon;
     @api actSectionOpen;
-
+    @api sortOptions;
     // 데이터
     @api fileData;
     @api selectedRowIds;
@@ -19,6 +19,7 @@ export default class ScFileRelatedListHeader extends LightningElement {
     isVisibleActionBtn;
     isDownloading = false;
     isShowModal = false;
+    isSortBtnClick = false;
     sortDirection = {};
 
     connectedCallback() {
@@ -32,7 +33,7 @@ export default class ScFileRelatedListHeader extends LightningElement {
         console.log('헤더. selectedRowIds: ', this.selectedRowIds);
         console.log('헤더. actSectionOpen: ', this.actSectionOpen);
         console.log('헤더. fileData: ', JSON.stringify(this.fileData));
-
+        console.log('헤더. sortOptions: ', JSON.stringify(this.sortOptions));
     }
 
     handleFileUploadBtnClick() {
@@ -115,8 +116,9 @@ export default class ScFileRelatedListHeader extends LightningElement {
 
     handleSortBtnClick(event) {
         const sortBy = event.detail.value;
+        this.isSortBtnClick = true;
+        
         let sortedFileData = [...this.fileData];
-
         this.sortDirection[sortBy] = this.sortDirection[sortBy] === 'asc' ? 'desc' : 'asc';
 
         sortedFileData = this.sortData(sortedFileData, sortBy, this.sortDirection[sortBy]);
@@ -129,7 +131,8 @@ export default class ScFileRelatedListHeader extends LightningElement {
             detail: {
                 sortedData: sortedFileData,
                 sortBy: sortBy,
-                sortDirection: this.sortDirection[sortBy]
+                sortDirection: this.sortDirection[sortBy],
+                isSortBtnClick: this.isSortBtnClick
             }
         }));
     }
@@ -137,15 +140,15 @@ export default class ScFileRelatedListHeader extends LightningElement {
     sortData(data, sortBy, sortDirection) {
         return data.sort((a, b) => {
             switch (sortBy) {
-                case 'sortByName':
+                case '파일명':
                     return sortDirection === 'asc'
                         ? a.Title.localeCompare(b.Title)
                         : b.Title.localeCompare(a.Title);
-                case 'sortByCreateDate':
+                case '생성일자':
                     return sortDirection === 'asc'
                         ? new Date(a.CreatedDate) - new Date(b.CreatedDate)
                         : new Date(b.CreatedDate) - new Date(a.CreatedDate);
-                case 'sortBytype':
+                case '확장자':
                     return sortDirection === 'asc'
                         ? a.FileExtension.localeCompare(b.FileExtension)
                         : b.FileExtension.localeCompare(a.FileExtension);

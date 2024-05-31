@@ -6,13 +6,13 @@
         <template for:each={viewTypeTabs} for:item="tab">
           
           <lightning-tab label={tab.label} key={tab.value} value={tab.value} onactive={handleTabActive} style="margin-bottom:-13px;">
-            <div style="padding-left:5px; height:30px;">
-              <p style="float:left;">{fileCount} items</p>
+            <!-- <div style="padding-left:5px; height:30px;"> -->
+              <!-- <p style="float:left;">{fileCount} items</p> -->
               <!-- <template if:true={isSorted}>
                 <p style="float:left;">&nbsp;● Sorted by {sortOrder}</p>
                 <lightning-button-icon variant="border-filled" icon-name="utility:sort" size="x-small" onclick={handleSortedByDesc} style="margin-left:10px;"></lightning-button-icon>
               </template> -->
-            </div>
+            <!-- </div> -->
 
             <!-- 테이블 형태 -->
             <template if:true={tab.isTable}>
