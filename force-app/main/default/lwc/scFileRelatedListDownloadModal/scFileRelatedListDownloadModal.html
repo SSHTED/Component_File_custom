@@ -10,17 +10,14 @@
         </header>
         <div class="slds-modal__content slds-p-around_medium modal-content">
           <div class="slds-grid slds-grid_vertical">
-            <!-- <div class="slds-col">
-              <p>파일 다운로드 중...</p>
-            </div> -->
             <template if:false={isDownloadEnd}>
               <div class="slds-col">
-                <p>파일 다운로드 중...</p>
+                <p>다운로드 중...</p>
               </div>            
             </template>
             <template if:true={isDownloadEnd}>
               <div class="slds-col">
-                <p>파일 다운로드 완료</p>
+                <p>완료</p>
               </div>            
             </template>
             <div class="slds-col slds-m-top_small">
@@ -32,7 +29,9 @@
           </div>
         </div>
         <footer class="slds-modal__footer">
-          <button class="slds-button slds-button_neutral" onclick={handleCancelDownload}>다운로드 취소</button>
+          <template if:false={isDownloadEnd}>
+            <button class="slds-button slds-button_neutral" onclick={handleCancelDownload}>다운로드 취소</button>
+          </template>
           <template if:true={isDownloadEnd}>
             <button class="slds-button slds-button_brand" onclick={handleCompleteDownload}>다운로드 완료</button>
           </template>
