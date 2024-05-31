@@ -77,7 +77,6 @@ export default class ScFileRelatedListContainer extends LightningElement {
                 .then(result => {
                     console.log('getFileData result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', result);
                     const processedData = result.Result.map((fileData, index) => this.processFileData(fileData, index));
-                    console.log('processedData: ', JSON.stringify(processedData, null, 2));
                     resolve(processedData);
                 })
                 .catch(error => {
@@ -237,7 +236,16 @@ export default class ScFileRelatedListContainer extends LightningElement {
     // 정렬 기준 처리
     handleSortedBy(event) {
         console.log('eve', event);
-        this.fileData = event.detail;
+        this.fileData = event.detail.sortedData;
+        this.sortOptions = {
+            sortBy: event.detail.sortBy,
+            sortDirection: event.detail.sortDirection
+        }
+
+        console.log('부모 sortBy', this.sortBy)
+        console.log('부모 sortDirection', this.sortDirection)
+        console.log('부모 sortOptions', JSON.stringify(this.sortOptions))
+
     }
 
     handleExpandToggle(event) {

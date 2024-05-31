@@ -124,8 +124,14 @@ export default class ScFileRelatedListHeader extends LightningElement {
             ...file,
             index: index + 1
         }));
-        
-        this.dispatchEvent(new CustomEvent('sortedbyclicked', { detail: sortedFileData }));
+
+        this.dispatchEvent(new CustomEvent('sortedbyclicked', {
+            detail: {
+                sortedData: sortedFileData,
+                sortBy: sortBy,
+                sortDirection: this.sortDirection[sortBy]
+            }
+        }));
     }
 
     sortData(data, sortBy, sortDirection) {
