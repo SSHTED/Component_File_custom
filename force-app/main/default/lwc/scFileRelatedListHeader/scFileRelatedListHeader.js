@@ -155,6 +155,12 @@ export default class ScFileRelatedListHeader extends LightningElement {
                     return sortDirection === 'asc'
                         ? a.FileExtension.localeCompare(b.FileExtension)
                         : b.FileExtension.localeCompare(a.FileExtension);
+                case '크기':
+                    const sizeA = parseFloat(a.ContentSize);
+                    const sizeB = parseFloat(b.ContentSize);
+                    return sortDirection === 'asc'
+                        ? sizeA - sizeB
+                        : sizeB - sizeA;
                 default:
                     return 0;
             }
