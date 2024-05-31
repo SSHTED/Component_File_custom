@@ -69,7 +69,7 @@
       </template>
 
       <template if:true={isSmallSizeBox}>
-        <template if:true={isVisibleActionBtn}>
+        <template if:true={isDropdownVisible}>
           <div class="btnGroup">
             <lightning-button-menu menu-alignment="auto" variant="border-filled" style="float:left;">
               <template if:true={actUploadBtn}>
@@ -112,6 +112,7 @@
     download-progress={downloadProgress}
     total-files-to-download={totalFilesToDownload}
     is-download-end={isDownloadEnd}
+    ondownloadcancel={handleDownloadCancel}
     onclose={handleCloseModal}>
   </c-sc-file-related-list-download-modal> 
 
