@@ -4,7 +4,7 @@ export default class ScFileRelatedDownloadModal extends LightningElement {
     @api downloadProgress;
     @api totalFilesToDownload;
     @api isDownloadEnd;
-    
+
     connectedCallback() {
     }
 
@@ -16,8 +16,13 @@ export default class ScFileRelatedDownloadModal extends LightningElement {
         this.dispatchEvent(new CustomEvent('close'));
     }
 
+    handleCancelDownload() {
+        this.dispatchEvent(new CustomEvent('downloadcancel', {
+            detail: { isDownloadCancelled: true }
+        }));
+    }
+
     handleCompleteDownload() {
-        
         this.dispatchEvent(new CustomEvent('close'));
     }
 }
