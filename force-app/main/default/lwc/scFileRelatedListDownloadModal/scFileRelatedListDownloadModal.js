@@ -13,7 +13,13 @@ export default class ScFileRelatedDownloadModal extends LightningElement {
     }
 
     handleCloseModal() {
-        this.dispatchEvent(new CustomEvent('close'));
+        if(!this.isDownloadEnd){
+            if(confirm('파일 다운로드 중입니다. 정말 창을 닫으시겠습니까?')){
+                this.handleCancelDownload();
+            }
+        }else{
+            this.dispatchEvent(new CustomEvent('close'));
+        }
     }
 
     handleCancelDownload() {
