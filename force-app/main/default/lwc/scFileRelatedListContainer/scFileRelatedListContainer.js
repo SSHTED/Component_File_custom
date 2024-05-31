@@ -54,7 +54,6 @@ export default class ScFileRelatedListContainer extends LightningElement {
     isDebug = true;
     isLogicExecuted = false;
     isSmallSizeBox = false;
-    isVisibleActionBtn;
 
     imgTitle;
 
