@@ -20,9 +20,10 @@
   
       <template if:false={isSmallSizeBox}>
         <div class="main_left">
-          <template for:each={fileData} for:item="fileData">
-            <div key={fileData.Id} onclick={handleThumbnailClick} data-img-title={fileData.Title} data-img-url={fileData.ImgSrc}
-              style="position:relative; display:block; margin-bottom:10px; width:100%; height:90px; background-color:black;">
+          <template for:each={fileData} for:item="fileData" for:index="index">
+            <div key={fileData.Id} data-img-title={fileData.Title} data-img-url={fileData.ImgSrc}
+              style="position:relative; display:block; margin-bottom:10px; width:100%; height:90px; background-color:black;"
+              onclick={handleThumbnailClick} data-index={index}>
               <img src={fileData.ImgSrc} alt="썸네일 이미지" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); height:100%;" />
             </div>
           </template>
@@ -37,6 +38,7 @@
               <img src={imgSrc} alt="슬라이드 이미지" style="height:100%;" />
             </div>
           </div>
+          <!-- action -->
           <div class="functionArea">
             <lightning-icon icon-name="utility:chevronleft" size="small" onclick={previousImage}
               style="position:absolute; top:calc(1.5rem - 12px); left:5rem; cursor:pointer;"></lightning-icon>
