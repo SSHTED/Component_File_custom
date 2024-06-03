@@ -17,7 +17,13 @@ export default class ScFileRelatedListTable extends LightningElement {
     ];
 
     get extendedTableThead() {
-        const result = this.tableThead.map(th => {
+        let result = this.tableThead;
+
+        if (!this.actNo) {
+            result = result.filter(th => th.type !== 'index');
+        }
+
+        return result.map(th => {
             return {
                 ...th,
                 isIndex: th.type === 'index',
@@ -25,13 +31,12 @@ export default class ScFileRelatedListTable extends LightningElement {
                 isData: th.type === 'data'
             };
         });
-
-        return result;
     }
 
     connectedCallback() {
         console.log('ScFileRelatedListTable selectedRowIds: ', JSON.stringify(this.selectedRowIds, null, 2));
         console.log('리셋 체크박스', this.checkboxReset);
+        console.log('액트 no :', this.actNo);
     }
 
     handleCheckbox(event) {

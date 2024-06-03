@@ -16,8 +16,14 @@ export default class ScFileRelatedListThumbnail extends LightningElement {
         { label: '크기', fieldName: 'ContentSize', sortable: true, type: 'data' }
     ];
 
-    get extendedThumbnailThead(){
-        const result = this.thumbnailThead.map(th => {
+    get extendedThumbnailThead() {
+        let result = this.thumbnailThead;
+
+        if (!this.actNo) {
+            result = result.filter(th => th.type !== 'index');
+        }
+
+        return result.map(th => {
             return {
                 ...th,
                 isIndex: th.type === 'index',
@@ -26,8 +32,6 @@ export default class ScFileRelatedListThumbnail extends LightningElement {
                 isData: th.type === 'data'
             };
         });
-
-        return result;
     }
 
     connectedCallback() {
