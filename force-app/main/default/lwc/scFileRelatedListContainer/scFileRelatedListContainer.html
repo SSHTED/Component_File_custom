@@ -14,6 +14,7 @@
             selected-row-ids={selectedRowIds}
             act-section-open={actSectionOpen}
             sort-options={sortOptions}
+            component-sizeis-big={componentSizeisBig}
 
             onafterdeletefile={handleAfterDeleteFile}
             onafteruploadfile={handleAfterUploadFile}
@@ -41,7 +42,8 @@
                 act-no={actNo}
                 oncheckboxchange={handleCheckboxChange}
                 oncheckboxchangeall={handleCheckboxChangeAll}
-                onclearrowids={handleClearRowIds}>
+                onclearrowids={handleClearRowIds}
+                oncomponentsizeset={handleSetCompSize}>
             </c-sc-file-related-list-body>  
         </template>
 

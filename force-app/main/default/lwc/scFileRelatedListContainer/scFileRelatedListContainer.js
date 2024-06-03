@@ -39,23 +39,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
     imgSrc;
     sortOptions = {};
 
-
-    currentViewType;
     customClass = '';
-
-    isTableVisible = true;
-    isPlaying = true;
-    intervalId = null;
-
-    isSorted = false;
-    sortCriteria;
-    isDescending;
-    sortOrder;
-    isDebug = true;
-    isLogicExecuted = false;
-    isSmallSizeBox = false;
-
-    imgTitle;
 
     connectedCallback() {
         this.initSetting();
@@ -110,7 +94,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
             .then(processedData => {
                 this.fileCount = processedData.length;
                 this.fileData = processedData;
-                console.log('this.fileData: ', JSON.stringify(this.fileData, null, 2));
+                // console.log('this.fileData: ', JSON.stringify(this.fileData, null, 2));
                 return processedData;
             });
     }
@@ -244,6 +228,12 @@ export default class ScFileRelatedListContainer extends LightningElement {
     handleExpandToggle(event) {
         console.log('부모 토글오픈 섹션', this.actSectionOpen)
         this.actSectionOpen = event.detail.actSectionOpen;
+    }
+
+    handleSetCompSize(event){
+        this.componentSizeisBig = event.detail.componentSizeisBig;
+        console.log('handleSetCompSize event, ', event.detail);
+        console.log('handleSetCompSize, ', this.componentSizeisBig)
     }
 
 }

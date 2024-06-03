@@ -15,6 +15,7 @@ export default class ScFileRelatedListHeader extends LightningElement {
     // 데이터
     @api fileData;
     @api selectedRowIds;
+    @api componentSizeisBig
 
     downloadProgress = 0;
     totalFilesToDownload = 0;
@@ -28,6 +29,7 @@ export default class ScFileRelatedListHeader extends LightningElement {
 
     connectedCallback() {
         this.isDropdownVisible  = this.actUploadBtn || this.actDownloadBtn || this.actDeleteBtn;
+        console.log('scFileRelatedListHeader componentSizeisBig: ', this.componentSizeisBig);
     }
 
     handleFileUploadBtnClick() {

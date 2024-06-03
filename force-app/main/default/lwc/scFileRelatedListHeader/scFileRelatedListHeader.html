@@ -7,23 +7,29 @@
           <!-- 아이콘 -->
           <lightning-icon icon-name={icon} size="small" style="float:left;"></lightning-icon>
           <!-- 타이틀 -->
-          <template if:true={isSmallSizeBox}>
+          <template if:true={componentSizeisBig}>
             <p class="headerTitle_small">
-              <a href="#" target="_blank" title={title}
-                style="font-size:16px; font-weight:bold; color:#191919;">{title}
-              </a>
+              <a href="#" target="_blank" title={title}>{title}</a>
             </p>
+            <div>
+              <div class="headerTitle_Info">
+                <p>항목 : {fileData.length}</p>
+                <template if:true={isSortBtnClick}>
+                  <p>• 정렬 : {sortOptions.sortBy}</p>
+                </template>
+              </div>
+            </div>
           </template>
 
-          <template if:false={isSmallSizeBox}>
+          <template if:false={componentSizeisBig}>
             <p class="headerTitle_large">
               <a href="#" target="_blank" title={title}>{title}</a>
             </p>
             <div>
               <div class="headerTitle_Info">
-                <p>items : {fileData.length}</p>
+                <p>항목 : {fileData.length}</p>
                 <template if:true={isSortBtnClick}>
-                  <p>정렬 : {sortOptions.sortBy}</p>
+                  <p>• 정렬 : {sortOptions.sortBy}</p>
                 </template>
               </div>
             </div>
@@ -32,7 +38,7 @@
         </div>
       </div>
 
-      <template if:false={isSmallSizeBox}>
+      <template if:false={componentSizeisBig}>
         <!-- 버튼 영역 -->
         <div class="btnGroup">
           <lightning-button-group style="float:left;">
@@ -68,7 +74,7 @@
         </div>
       </template>
 
-      <template if:true={isSmallSizeBox}>
+      <template if:true={componentSizeisBig}>
         <template if:true={isDropdownVisible}>
           <div class="btnGroup">
             <lightning-button-menu menu-alignment="auto" variant="border-filled" style="float:left;">
