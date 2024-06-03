@@ -59,8 +59,7 @@ export default class ScFileRelatedListBody extends LightningElement {
         this.checkboxReset = true;
 
         this.dispatchEvent(new CustomEvent('clearrowids'));
-      }
-
+    }
 
     handleSortedByDesc() {
         this.dispatchEvent(new CustomEvent('sortdata', { detail: { isDescending: true } }));

@@ -42,13 +42,13 @@ export default class ScFileRelatedListHeader extends LightningElement {
         }
 
         if (confirm('선택한 항목을 다운로드 하시겠습니까?')) {
-            this.isShowDownloadModal = !this.isShowDownloadModal;
             const selectedFiles = this.fileData.filter(file => this.selectedRowIds.includes(file.Id));
-            let index = 0;
-            this.downloadProgress = 0;
             this.totalFilesToDownload = selectedFiles.length;
+            this.isShowDownloadModal = true;
             this.isDownloadCancelled = false;
             this.isDownloadEnd = false;
+            this.downloadProgress = 0;
+            let index = 0;
 
             const downloadNextFile = () => {
                 if (index >= selectedFiles.length || this.isDownloadCancelled) {
@@ -160,15 +160,15 @@ export default class ScFileRelatedListHeader extends LightningElement {
     }
 
     handleCloseModal() {
-        this.resetModals();
+        this.resetModalStates();
     }
 
     handleDownloadCancel(event){
-        this.resetModals();
+        this.resetModalStates();
         this.isDownloadCancelled = event.detail.isDownloadCancelled;
     }
 
-    resetModals() {
+    resetModalStates() {
         this.isShowUploadModal = false;
         this.isShowDownloadModal = false;
         this.isDownloadEnd = false;
