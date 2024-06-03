@@ -14,11 +14,10 @@
             selected-row-ids={selectedRowIds}
             act-section-open={actSectionOpen}
             sort-options={sortOptions}
-            component-sizeis-big={componentSizeisBig}
 
             onafterdeletefile={handleAfterDeleteFile}
             onafteruploadfile={handleAfterUploadFile}
-            
+            oniscomponentsizesmall={handleComponentSizeSet}
             onsortedbyclicked={handleSortedBy}
             onexpandtoggleclicked={handleExpandToggle}>
         </c-sc-file-related-list-header>
@@ -38,12 +37,12 @@
 
                 file-data={fileData}
                 selected-row-ids={selectedRowIds}
-
+                is-component-size-small={isComponentSizeSmall}
                 act-no={actNo}
+                
                 oncheckboxchange={handleCheckboxChange}
                 oncheckboxchangeall={handleCheckboxChangeAll}
-                onclearrowids={handleClearRowIds}
-                oncomponentsizeset={handleSetCompSize}>
+                onclearrowids={handleClearRowIds}>
             </c-sc-file-related-list-body>  
         </template>
 

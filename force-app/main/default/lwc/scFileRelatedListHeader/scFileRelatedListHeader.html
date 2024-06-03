@@ -7,7 +7,7 @@
           <!-- 아이콘 -->
           <lightning-icon icon-name={icon} size="small" style="float:left;"></lightning-icon>
           <!-- 타이틀 -->
-          <template if:true={componentSizeisBig}>
+          <template if:true={isComponentSizeSmall}>
             <p class="headerTitle_small">
               <a href="#" target="_blank" title={title}>{title}</a>
             </p>
@@ -21,7 +21,7 @@
             </div>
           </template>
 
-          <template if:false={componentSizeisBig}>
+          <template if:false={isComponentSizeSmall}>
             <p class="headerTitle_large">
               <a href="#" target="_blank" title={title}>{title}</a>
             </p>
@@ -38,7 +38,7 @@
         </div>
       </div>
 
-      <template if:false={componentSizeisBig}>
+      <template if:false={isComponentSizeSmall}>
         <!-- 버튼 영역 -->
         <div class="btnGroup">
           <lightning-button-group style="float:left;">
@@ -74,7 +74,7 @@
         </div>
       </template>
 
-      <template if:true={componentSizeisBig}>
+      <template if:true={isComponentSizeSmall}>
         <template if:true={isDropdownVisible}>
           <div class="btnGroup">
             <lightning-button-menu menu-alignment="auto" variant="border-filled" style="float:left;">

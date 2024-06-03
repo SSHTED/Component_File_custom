@@ -5,6 +5,7 @@ export default class ScFileRelatedListSlide extends LightningElement {
     @api fileData;
     @api componentSizeisBig;
     @api selectedRowIds;
+    @api isComponentSizeSmall;
 
     imgSrc;
     imgTitle;
@@ -13,7 +14,11 @@ export default class ScFileRelatedListSlide extends LightningElement {
     isPlaying = false;
 
     connectedCallback() {
+        console.log('scFileRelatedListSlide isComponentSizeSmall : ', this.isComponentSizeSmall)
+    }
 
+    renderedCallback(){
+        // this.handlePlaying();
     }
 
     previousImage() {

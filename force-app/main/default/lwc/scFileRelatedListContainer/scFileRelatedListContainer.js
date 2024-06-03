@@ -48,10 +48,6 @@ export default class ScFileRelatedListContainer extends LightningElement {
 
     initSetting() {
         this.customClass += 'themeColor_' + this.themeColor;
-
-
-        console.log('this.actSectionOpen: ', this.actSectionOpen);
-        console.log('this.customClass: ', this.customClass);
     }
 
     fetchFileDataFromServer(params) {
@@ -230,10 +226,9 @@ export default class ScFileRelatedListContainer extends LightningElement {
         this.actSectionOpen = event.detail.actSectionOpen;
     }
 
-    handleSetCompSize(event){
-        this.componentSizeisBig = event.detail.componentSizeisBig;
-        console.log('handleSetCompSize event, ', event.detail);
-        console.log('handleSetCompSize, ', this.componentSizeisBig)
+    handleComponentSizeSet(event){
+        this.isComponentSizeSmall = event.detail.isComponentSizeSmall;
+        console.log('handleSetCompSize event, ', JSON.stringify(event.detail));
     }
 
 }

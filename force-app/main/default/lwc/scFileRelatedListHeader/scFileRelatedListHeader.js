@@ -15,7 +15,6 @@ export default class ScFileRelatedListHeader extends LightningElement {
     // 데이터
     @api fileData;
     @api selectedRowIds;
-    @api componentSizeisBig
 
     downloadProgress = 0;
     totalFilesToDownload = 0;
@@ -25,11 +24,45 @@ export default class ScFileRelatedListHeader extends LightningElement {
     isShowUploadModal = false;
     isShowDownloadModal = false;
     isSortBtnClick = false;
+    isComponentSizeSmall = false;
+    hasInitialLogicExecuted = false;
+    
     sortDirection = {};
 
     connectedCallback() {
         this.isDropdownVisible  = this.actUploadBtn || this.actDownloadBtn || this.actDeleteBtn;
-        console.log('scFileRelatedListHeader componentSizeisBig: ', this.componentSizeisBig);
+    }
+
+    renderedCallback(){
+        this.handleInitialLogic();
+    }
+
+    handleInitialLogic() {
+        if (!this.hasInitialLogicExecuted) {
+            let mainDataElement = this.template.querySelector('.slds-card__header');
+            console.log('로그 찍음대지 1', mainDataElement)
+
+            if (mainDataElement) {
+                let mainDataWidth = mainDataElement.offsetWidth;
+                console.log('로그 찍음대지 2', mainDataWidth);
+
+                if (mainDataWidth <= 930) {
+                    this.isComponentSizeSmall = true;
+                } else {
+                    this.isComponentSizeSmall = false;
+                }
+            }else {
+                console.log('mainDataElement is null');
+            }
+
+            this.hasInitialLogicExecuted = true;
+            console.log('로그 찍음대지 3', this.isComponentSizeSmall)
+            this.dispatchEvent(new CustomEvent('iscomponentsizesmall', {
+                detail: {
+                    isComponentSizeSmall: this.isComponentSizeSmall 
+                }
+            }));
+        }
     }
 
     handleFileUploadBtnClick() {

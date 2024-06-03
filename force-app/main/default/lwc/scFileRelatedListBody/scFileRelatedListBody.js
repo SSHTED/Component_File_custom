@@ -21,10 +21,10 @@ export default class ScFileRelatedListBody extends LightningElement {
     @api sortOrder;
     @api tableColumns;
     @api thumbnailColumns;
+    @api isComponentSizeSmall;
 
     checkboxReset = false;
     hasInitialLogicExecuted = false;
-    componentSizeisBig = false;
 
     viewTypeMap = {
         '테이블': 'viewType_table',
@@ -50,31 +50,6 @@ export default class ScFileRelatedListBody extends LightningElement {
     }
 
     renderedCallback() {
-        this.handleInitialLogic();
-    }
-
-    handleInitialLogic() {
-        if (!this.hasInitialLogicExecuted) {
-            let mainDataElement = this.template.querySelector('.mainData');
-
-            if (mainDataElement) {
-                let mainDataWidth = mainDataElement.offsetWidth;
-
-                if (mainDataWidth <= 930) {
-                    this.componentSizeisBig = true;
-                } else {
-                    this.componentSizeisBig = false;
-                }
-            }
-
-            this.hasInitialLogicExecuted = true;
-
-            this.dispatchEvent(new CustomEvent('componentsizeset', {
-                detail: {
-                    componentSizeisBig: true 
-                }
-            }));
-        }
     }
 
     initSetting() {

@@ -9,7 +9,7 @@ export default class ScFileRelatedListCard extends LightningElement {
     @api selectedRowIds;
 
     connectedCallback() {
-        console.log('ScFileRelatedListCard fileData: ', JSON.stringify(this.fileData, null, 2));
+        
     }
 
     handleMouseOver(event) {

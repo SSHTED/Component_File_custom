@@ -19,15 +19,13 @@
             <property name="viewType_card" type="Boolean" label="Type: 이미지 카드"/>
             <property name="viewType_slide" type="Boolean" label="Type: 슬라이드"/>
 
-
             <property name="imgCardShowInfo" type="Boolean" label="이미지 카드 정보 보기" default="true"/>
             <property name="imgCardInfoTitleColor" type="String" label="이미지 카드 타이틀 색상" default="rgb(255,255,255)"/>
             <property name="imgCardInfoDateColor" type="String" label="이미지 카드 작성일자 색상" default="rgb(255,255,255)"/>
             
-
             <property name="category" type="String" label="Category" default="" description="파일 구분 기준."/>
-            <property name="title" type="String" label="Title" default="" description="파일 구분 기준."/>
-            <property name="icon" type="String" label="Icon" default="standard:file" description=""/>
+            <property name="title" type="String" label="Title" default="Insert Title"/>
+            <property name="icon" type="String" label="Icon" default="standard:file"/>
             <property name="themeColor" type="String" label="테마 색상 변경" datasource="white, red, orange, yellow, green, blue, purple" default="white"/>
             <property name="countRecord" type="String" label="페이지당 레코드 수" default="10"/>
         </targetConfig>
