@@ -55,8 +55,48 @@ export default class ScFileRelatedListBody extends LightningElement {
         }
     }
 
-    handleTabActive() {
-        console.log('handleTabActive');
+    handleTabActive(event) {
+        const activeTabValue = event.target.value;
+        console.log('handleTabActive: ', activeTabValue);
+
+        switch (activeTabValue) {
+            case this.viewTypeMap['테이블']:
+                this.handleTableTabActivated();
+                break;
+            case this.viewTypeMap['썸네일']:
+                this.handleThumbnailTabActivated();
+                break;
+            case this.viewTypeMap['이미지 카드']:
+                this.handleImageCardTabActivated();
+                break;
+            case this.viewTypeMap['슬라이드']:
+                this.handleSlideTabActivated();
+                break;
+            default:
+                console.error('handleTabActive. 탭 활성화 에러');
+                break;
+        }
+
+        this.resetCheckboxInComp();
+    }
+
+    handleTableTabActivated(){
+        console.log('테이블 형태의 탭.');
+    }
+
+    handleThumbnailTabActivated(){
+        console.log('썸네일 형태의 탭.');
+    }
+
+    handleImageCardTabActivated(){
+        console.log('이미지 형태의 탭.');
+    }
+
+    handleSlideTabActivated() {
+        console.log('슬라이드 형태의 탭.');
+    }
+
+    resetCheckboxInComp() {
         const relatedListComponents = [
             ...this.template.querySelectorAll('c-sc-file-related-list-table'),
             ...this.template.querySelectorAll('c-sc-file-related-list-thumbnail')
