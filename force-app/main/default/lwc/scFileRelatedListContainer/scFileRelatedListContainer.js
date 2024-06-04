@@ -23,6 +23,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
     @api countRecord;
     @api isActiveNo;
     @api isActiveDel;
+    @api slideDelayTime;
     // 뷰 타입
     @api defaultViewType;
     @api viewType_table;

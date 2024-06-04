@@ -28,6 +28,7 @@
             <property name="icon" type="String" label="Icon" default="standard:file"/>
             <property name="themeColor" type="String" label="테마 색상 변경" datasource="white, red, orange, yellow, green, blue, purple" default="white"/>
             <property name="countRecord" type="String" label="페이지당 레코드 수" default="10"/>
+            <property name="slideDelayTime" type="String" label="슬라이드 이미지 딜레이 시간" default="2"/>
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>
