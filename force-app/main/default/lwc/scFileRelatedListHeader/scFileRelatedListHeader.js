@@ -3,6 +3,7 @@ import { LightningElement, api } from 'lwc';
 import deleteFilesByRecordId from '@salesforce/apex/SC_FileRelatedListController.deleteFilesByRecordId';
 
 export default class ScFileRelatedListHeader extends LightningElement {
+    // property
     @api recordId;
     @api title;
     @api icon;

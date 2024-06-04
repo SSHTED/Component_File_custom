@@ -2,27 +2,22 @@
 import { LightningElement, api } from 'lwc';
 
 export default class ScFileRelatedListBody extends LightningElement {
+    //property
+    @api actNo;
     @api defaultViewType;
     @api viewType_table;
     @api viewType_thumbnail;
     @api viewType_card;
     @api viewType_slide;
-
-    @api selectedRowIds;
-
     @api imgCardShowInfo;
     @api imgCardInfoTitleColor;
     @api imgCardInfoDateColor;
+    //data
     @api fileData;
-    @api fileCount;
-    @api actNo;
-    @api defaultViewTypeValue;
-    @api isSorted;
-    @api sortOrder;
-    @api tableColumns;
-    @api thumbnailColumns;
+    @api selectedRowIds;
     @api isComponentSizeSmall;
 
+    defaultViewTypeValue;
     checkboxReset = false;
     hasInitialLogicExecuted = false;
 

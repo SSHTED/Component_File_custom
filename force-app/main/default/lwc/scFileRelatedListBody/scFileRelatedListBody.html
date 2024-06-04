@@ -10,30 +10,28 @@
             <!-- 테이블 형태 -->
             <template if:true={tab.isTable}>
               <c-sc-file-related-list-table
-                file-data={fileData}
-                file-count={fileCount}
-                selected-row-ids={selectedRowIds}
-                checkbox-reset={checkboxReset}
                 act-no={actNo}
-                table-columns={tableColumns}>
+                file-data={fileData}
+                selected-row-ids={selectedRowIds}
+                
+                checkbox-reset={checkboxReset}>
               </c-sc-file-related-list-table>
             </template>
 
             <!-- 썸네일 형태 -->
             <template if:true={tab.isThumbnail}>
               <c-sc-file-related-list-thumbnail
-                file-data={fileData}
-                selected-row-ids={selectedRowIds}
                 act-no={actNo}
-                thumbnail-columns={thumbnailColumns}>
+                file-data={fileData}
+                selected-row-ids={selectedRowIds}>
               </c-sc-file-related-list-thumbnail>
             </template>
 
             <!-- 이미지 카드 형태 -->
             <template if:true={tab.isCard}>
               <c-sc-file-related-list-card
-                file-data={fileData}
                 selected-row-ids={selectedRowIds}
+                file-data={fileData}
                 img-card-show-info={imgCardShowInfo}>
               </c-sc-file-related-list-card>
             </template>

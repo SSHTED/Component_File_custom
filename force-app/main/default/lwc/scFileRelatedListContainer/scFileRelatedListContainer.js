@@ -120,12 +120,23 @@ export default class ScFileRelatedListContainer extends LightningElement {
         return fileDataArr;
     }
 
+    // getImgSrc(fileData) {
+    //     if (fileData.FileExtension == 'png' || fileData.FileExtension == 'jpg' || fileData.FileExtension == 'jpeg') {
+    //         return 'https://dk-smart-component-dev-ed.develop.file.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_' + fileData.FileExtension + '&versionId=' + fileData.Id + '&operationContext=CHATTER&contentId=' + fileData.ContentBodyId + '&page=0';
+    //     } else {
+    //         return 'https://dk-smart-component-dev-ed.develop.file.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=SVGZ&versionId=' + fileData.Id + '&operationContext=CHATTER&contentId=' + fileData.ContentBodyId + '&page=0';
+    //     }
+    // }
+
     getImgSrc(fileData) {
-        if (fileData.FileExtension == 'png' || fileData.FileExtension == 'jpg' || fileData.FileExtension == 'jpeg') {
-            return 'https://dk-smart-component-dev-ed.develop.file.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_' + fileData.FileExtension + '&versionId=' + fileData.Id + '&operationContext=CHATTER&contentId=' + fileData.ContentBodyId + '&page=0';
-        } else {
-            return 'https://dk-smart-component-dev-ed.develop.file.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=SVGZ&versionId=' + fileData.Id + '&operationContext=CHATTER&contentId=' + fileData.ContentBodyId + '&page=0';
-        }
+        const origin = window.location.origin;
+        
+        return origin + 
+            '/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_' + 
+            fileData.FileExtension + 
+            '&versionId=' + fileData.Id + 
+            '&operationContext=CHATTER&contentId=' + fileData.ContentBodyId + 
+            '&page=0';
     }
 
     calculateImageSize(fileDataArr) {

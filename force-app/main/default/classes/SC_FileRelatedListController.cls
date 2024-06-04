@@ -46,6 +46,11 @@ global with sharing class SC_FileRelatedListController {
         try {
             List<ContentVersion> fileList = Database.query(soql);
             System.debug('fileList >>> ' + fileList);
+            //디버그용 추후 주석
+            for (ContentVersion file : fileList) {
+                System.debug('file >>> ' + file);
+            }
+
             resultMap.put('Result', fileList);
         } catch (QueryException e) {
             System.debug('QueryException Error >>> ' + e.getMessage());

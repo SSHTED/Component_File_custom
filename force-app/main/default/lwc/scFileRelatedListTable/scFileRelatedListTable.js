@@ -2,9 +2,10 @@
 import { LightningElement, api } from 'lwc';
 
 export default class ScFileRelatedListTable extends LightningElement {
-    @api fileData;
-    @api fileCount;
+    // property
     @api actNo;
+    // data
+    @api fileData;
     @api selectedRowIds;
     @api checkboxReset;
 

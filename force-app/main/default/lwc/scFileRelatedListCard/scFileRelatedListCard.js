@@ -2,10 +2,12 @@
 import { LightningElement, api } from 'lwc';
 
 export default class ScFileRelatedListCard extends LightningElement {
-    @api fileData;
+    // property
     @api imgCardShowInfo;
     @api imgCardInfoTitleColor;
     @api imgCardInfoDateColor;
+    // data
+    @api fileData;
     @api selectedRowIds;
 
     connectedCallback() {

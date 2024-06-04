@@ -1,7 +1,9 @@
 import { LightningElement, api } from 'lwc';
 
 export default class ScFileRelatedModal extends LightningElement {
+    // property
     @api recordId;
+    // data
     @api fileData;
 
     acceptedFormats = '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.gif,.bmp,.txt,.zip,.rar';
