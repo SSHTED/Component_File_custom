@@ -5,7 +5,7 @@
       <thead>
         <tr>
           <template for:each={extendedTableThead} for:item="th">
-            <th key={th.fieldName}>
+            <th key={th.fieldName} class={th.customClass}>
               <!-- No -->
               <template if:true={th.isIndex}>
                 {th.label}
@@ -13,9 +13,7 @@
 
               <!-- 체크박스 -->
               <template if:true={th.isCheckbox}>
-                <div style="width:33px;">
                   <lightning-input class="checkbox-item" type="checkbox" data-id={th.Id} onchange={handleCheckboxAll}></lightning-input>
-                </div>
               </template>
 
               <!-- 텍스트 -->
@@ -38,11 +36,11 @@
           <tr key={td.Id}>
             <!-- No -->
             <template if:true={actNo}>
-              <td style="padding:0; text-align:center;">{td.index}</td>
+              <td>{td.index}</td>
             </template>
 
             <!-- 체크박스 -->
-            <td>
+            <td style="padding-left: 24px;">
               <lightning-input class="checkbox-item" type="checkbox" data-id={td.Id} onchange={handleCheckbox}></lightning-input>
             </td>
 

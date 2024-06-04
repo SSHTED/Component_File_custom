@@ -7,14 +7,25 @@ export default class ScFileRelatedListThumbnail extends LightningElement {
     // data
     @api fileData;
     @api selectedRowIds;
+    @api resetCheckboxAll() {
+        const checkboxes = this.template.querySelectorAll('.checkbox-item');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = false;
+          });
+
+        this.dispatchEvent(new CustomEvent('clearrowids', {
+            bubbles: true,
+            composed: true
+        }));
+    }
 
     thumbnailThead = [
-        { label: 'No', fieldName: 'index', sortable: false, type: 'index' },
-        { label: '', fieldName: 'checkbox', sortable: false, type: 'checkbox' },
-        { label: '썸네일', fieldName: 'thumbnail', sortable: false, type: 'thumbnail' },
-        { label: '파일명', fieldName: 'Title', sortable: true, type: 'data' },
-        { label: '확장자', fieldName: 'FileExtension', sortable: true, type: 'data' },
-        { label: '크기', fieldName: 'ContentSize', sortable: true, type: 'data' }
+        { label: 'No', fieldName: 'index', sortable: false, type: 'index', customClass: 'th1' },
+        { label: '', fieldName: 'checkbox', sortable: false, type: 'checkbox', customClass: 'th2' },
+        { label: '썸네일', fieldName: 'thumbnail', sortable: false, type: 'thumbnail', customClass: 'th3' },
+        { label: '파일명', fieldName: 'Title', sortable: true, type: 'data', customClass: 'th4' },
+        { label: '확장자', fieldName: 'FileExtension', sortable: true, type: 'data', customClass: 'th5' },
+        { label: '크기', fieldName: 'ContentSize', sortable: true, type: 'data', customClass: 'th6' }
     ];
 
     get extendedThumbnailThead() {
@@ -36,7 +47,7 @@ export default class ScFileRelatedListThumbnail extends LightningElement {
     }
 
     connectedCallback() {
-        console.log('ScFileRelatedListThumbnail selectedRowIds: ', JSON.stringify(this.selectedRowIds, null, 2));
+
     }
 
     handleCheckbox(event) {
@@ -81,17 +92,6 @@ export default class ScFileRelatedListThumbnail extends LightningElement {
             bubbles: true,
             composed: true
         }));
-    }
-    //?
-    getSelectedRows() {
-        const selectedRows = [];
-        const checkboxes = this.template.querySelectorAll('lightning-input[type="checkbox"]');
-        checkboxes.forEach(checkbox => {
-            if (checkbox.checked) {
-                selectedRows.push(checkbox.dataset.id);
-            }
-        });
-        return selectedRows;
     }
 
     // 개발 예정. 썸네일 미리보기

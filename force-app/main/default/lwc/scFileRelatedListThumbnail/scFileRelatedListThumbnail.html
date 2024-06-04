@@ -5,7 +5,7 @@
       <thead>
         <tr>
           <template for:each={extendedThumbnailThead} for:item="th">
-            <th key={th.fieldName}>
+            <th key={th.fieldName} class={th.customClass}>
               <!-- No -->
               <template if:true={th.isIndex}>
                 <div style="padding:0; text-align:center; width:50px;">{th.label}</div>

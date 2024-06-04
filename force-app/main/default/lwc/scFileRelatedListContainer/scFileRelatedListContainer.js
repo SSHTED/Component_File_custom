@@ -38,7 +38,6 @@ export default class ScFileRelatedListContainer extends LightningElement {
     selectedRowIds = [];
     imgSrc;
     sortOptions = {};
-
     customClass = '';
 
     connectedCallback() {
@@ -120,14 +119,6 @@ export default class ScFileRelatedListContainer extends LightningElement {
         return fileDataArr;
     }
 
-    // getImgSrc(fileData) {
-    //     if (fileData.FileExtension == 'png' || fileData.FileExtension == 'jpg' || fileData.FileExtension == 'jpeg') {
-    //         return 'https://dk-smart-component-dev-ed.develop.file.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_' + fileData.FileExtension + '&versionId=' + fileData.Id + '&operationContext=CHATTER&contentId=' + fileData.ContentBodyId + '&page=0';
-    //     } else {
-    //         return 'https://dk-smart-component-dev-ed.develop.file.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=SVGZ&versionId=' + fileData.Id + '&operationContext=CHATTER&contentId=' + fileData.ContentBodyId + '&page=0';
-    //     }
-    // }
-
     getImgSrc(fileData) {
         const origin = window.location.origin;
         
@@ -146,9 +137,9 @@ export default class ScFileRelatedListContainer extends LightningElement {
             let aspectRatio = imgElement.width / imgElement.height;
             let height = 230 / aspectRatio;
             fileDataArr.imgCardClass = height > 250 ? 'card card_x_large' :
-                height > 180 ? 'card card_large' :
-                    height > 130 ? 'card card_medium' :
-                        'card card_small';
+                                        height > 180 ? 'card card_large' :
+                                        height > 130 ? 'card card_medium' :
+                                                         'card card_small';
         };
     }
 
@@ -217,9 +208,9 @@ export default class ScFileRelatedListContainer extends LightningElement {
     }
 
     handleClearRowIds(){
-        console.log('handleClearRowIds a: ', JSON.stringify(this.selectedRowIds, null, 2));
+        console.log('handleClearRowIds aaaaaaaa: ', JSON.stringify(this.selectedRowIds, null, 2));
         this.selectedRowIds = [];
-        console.log('handleClearRowIds b: ', JSON.stringify(this.selectedRowIds, null, 2));
+        console.log('handleClearRowIds bbbbbbbb: ', JSON.stringify(this.selectedRowIds, null, 2));
     }
 
     // 정렬 기준 처리

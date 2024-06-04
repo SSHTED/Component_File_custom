@@ -19,7 +19,6 @@ export default class ScFileRelatedListBody extends LightningElement {
 
     defaultViewTypeValue;
     checkboxReset = false;
-    hasInitialLogicExecuted = false;
 
     viewTypeMap = {
         '테이블': 'viewType_table',
@@ -49,43 +48,24 @@ export default class ScFileRelatedListBody extends LightningElement {
 
     initSetting() {
         if (this.defaultViewType && this.viewTypeMap[this.defaultViewType]) {
-            this.defaultViewTypeValue = this.viewTypeMap[this.defaultViewType];
-            this[this.defaultViewTypeValue] = true;
+            if (this.viewTypeMap.hasOwnProperty(this.defaultViewType)) {
+                this.defaultViewTypeValue = this.viewTypeMap[this.defaultViewType];
+                this[this.defaultViewTypeValue] = true;
+            }
         }
     }
 
-    handleTabActive(event) {
-        console.log('handleTabActive selectedRowIds: ', JSON.stringify(this.selectedRowIds, null, 2));
-        this.checkboxReset = true;
+    handleTabActive() {
+        console.log('handleTabActive');
+        const relatedListComponents = [
+            ...this.template.querySelectorAll('c-sc-file-related-list-table'),
+            ...this.template.querySelectorAll('c-sc-file-related-list-thumbnail')
+        ];
 
-        this.dispatchEvent(new CustomEvent('clearrowids'));
-    }
-
-    handleSortedByDesc() {
-        this.dispatchEvent(new CustomEvent('sortdata', { detail: { isDescending: true } }));
-    }
-
-    handleViewTypeChange(event) {
-        this.dispatchEvent(new CustomEvent('viewtypechange', { detail: event.target.value }));
-    }
-
-    handleSortData(event) {
-        this.dispatchEvent(new CustomEvent('sortdata', { detail: event.detail }));
-    }
-
-    handleThumbnailClick(event) {
-        this.dispatchEvent(new CustomEvent('thumbnailclick', { detail: event.detail }));
-    }
-
-    handleImgCardActionClicked(event) {
-        this.dispatchEvent(new CustomEvent('imgcardactionclicked', { detail: event.detail }));
-    }
-
-    handleImgCardMouseOver(event) {
-        this.dispatchEvent(new CustomEvent('imgcardmouseover', { detail: event.detail }));
-    }
-
-    handleImgCardMouseOut(event) {
-        this.dispatchEvent(new CustomEvent('imgcardmouseout', { detail: event.detail }));
+        relatedListComponents.forEach(component => {
+            if (component.resetCheckboxAll) {
+                component.resetCheckboxAll();
+            }
+        });
     }
 }
