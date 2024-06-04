@@ -94,6 +94,15 @@ export default class ScFileRelatedListBody extends LightningElement {
 
     handleSlideTabActivated() {
         console.log('슬라이드 형태의 탭.');
+        
+        setTimeout(() => {
+            const slideComponent = this.template.querySelector('c-sc-file-related-list-slide');
+            console.log('슬라이드 slideComponent', slideComponent);
+    
+            if (slideComponent && slideComponent.handlePlaying) {
+                slideComponent.handlePlaying();
+            }
+        }, 0);
     }
 
     resetCheckboxInComp() {

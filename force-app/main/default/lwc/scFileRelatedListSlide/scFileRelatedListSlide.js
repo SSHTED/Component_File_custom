@@ -36,8 +36,9 @@ export default class ScFileRelatedListSlide extends LightningElement {
             this.imgTitle = lastFile.Title;
         }
     }
-
-    handlePlaying() {
+    
+    @api handlePlaying() {
+        console.log('handlePlaying');
         if (this.isPlaying) {
             // 슬라이드 일시정지
             clearInterval(this.slideInterval);
