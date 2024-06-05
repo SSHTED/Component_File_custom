@@ -6,6 +6,7 @@ export default class ScFileRelatedListSlide extends LightningElement {
     @api componentSizeisBig;
     @api selectedRowIds;
     @api isComponentSizeSmall;
+    @api slideDelayTime;
 
     imgSrc;
     imgTitle;
@@ -15,6 +16,7 @@ export default class ScFileRelatedListSlide extends LightningElement {
 
     connectedCallback() {
         console.log('scFileRelatedListSlide isComponentSizeSmall : ', this.isComponentSizeSmall)
+        console.log('scFileRelatedListSlide slideDelayTime : ', this.slideDelayTime)
     }
 
     renderedCallback(){
@@ -48,7 +50,7 @@ export default class ScFileRelatedListSlide extends LightningElement {
             // 슬라이드 재생
             this.slideInterval = setInterval(() => {
                 this.nextImage();
-            }, 3000); // 3초마다 다음 이미지로 이동
+            }, this.slideDelayTime); // 슬라이드 재생 속도
             this.isPlaying = true;
             this.togglePlayIcon = 'utility:pause';
         }

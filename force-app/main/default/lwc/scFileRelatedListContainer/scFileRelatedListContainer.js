@@ -49,6 +49,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
 
     initSetting() {
         this.customClass += 'themeColor_' + this.themeColor;
+        this.slideDelayTime = this.slideDelayTime * 1000;
     }
 
     fetchFileDataFromServer(params) {

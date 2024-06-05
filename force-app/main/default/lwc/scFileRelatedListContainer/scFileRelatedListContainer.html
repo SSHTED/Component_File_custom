@@ -1,6 +1,6 @@
 <!-- scFileRelatedListContainer.html -->
 <template>
-    <article class={customClass} style="position:relative; border-radius:5px; border:1px solid rgb(201, 201, 201)">
+    <article class={customClass}>
         <!-- header -->
         <c-sc-file-related-list-header
             record-id={recordId}
@@ -9,7 +9,7 @@
             act-upload-btn={actUploadBtn}
             act-download-btn={actDownloadBtn}
             act-delete-btn={actDeleteBtn}
-            
+
             file-data={fileData}
             selected-row-ids={selectedRowIds}
             act-section-open={actSectionOpen}
@@ -35,11 +35,13 @@
                 img-card-show-info={imgCardShowInfo}
                 img-card-info-title-color={imgCardInfoTitleColor}
                 img-card-info-date-color={imgCardInfoDateColor}
+                
+                slide-delay-time={slideDelayTime}
+                act-no={actNo}
 
                 file-data={fileData}
                 selected-row-ids={selectedRowIds}
                 is-component-size-small={isComponentSizeSmall}
-                act-no={actNo}
                 
                 oncheckboxchange={handleCheckboxChange}
                 oncheckboxchangeall={handleCheckboxChangeAll}
