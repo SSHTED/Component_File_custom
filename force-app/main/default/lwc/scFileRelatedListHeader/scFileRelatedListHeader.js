@@ -16,6 +16,7 @@ export default class ScFileRelatedListHeader extends LightningElement {
     // 데이터
     @api fileData;
     @api selectedRowIds;
+    @api activeTabValue;
 
     downloadProgress = 0;
     totalFilesToDownload = 0;
@@ -27,11 +28,13 @@ export default class ScFileRelatedListHeader extends LightningElement {
     isSortBtnClick = false;
     isComponentSizeSmall = false;
     hasInitialLogicExecuted = false;
+    isSortAscending = false;
     
     sortDirection = {};
 
     connectedCallback() {
         this.isDropdownVisible  = this.actUploadBtn || this.actDownloadBtn || this.actDeleteBtn;
+
     }
 
     renderedCallback(){
@@ -72,12 +75,22 @@ export default class ScFileRelatedListHeader extends LightningElement {
 
     handleDownloadBtnClick() {
         console.log('헤더. 다운 selectedRowIds: ', JSON.stringify(this.selectedRowIds, null, 2));
-        if (this.selectedRowIds.length === 0) {
+        console.log('선택된 탭: ', this.activeTabValue);
+
+        const isSelectionRequired = this.isSelectionExemptTab(this.activeTabValue);
+        const hasSelectedRows = this.selectedRowIds.length > 0;
+    
+        if (!isSelectionRequired && !hasSelectedRows) {
             alert('다운로드할 항목을 선택해주세요.');
             return;
         }
+        
+        if (isSelectionRequired) {
+            // isSelectionRequired가 true인 경우 fileData의 모든 항목을 selectedRowIds에 추가
+            this.selectedRowIds = this.fileData.map(file => file.Id);
+        }
 
-        if (confirm('선택한 항목을 다운로드 하시겠습니까?')) {
+        if (confirm('다운로드 하시겠습니까?')) {
             const selectedFiles = this.fileData.filter(file => this.selectedRowIds.includes(file.Id));
             this.totalFilesToDownload = selectedFiles.length;
             this.isShowDownloadModal = true;
@@ -108,6 +121,11 @@ export default class ScFileRelatedListHeader extends LightningElement {
 
             downloadNextFile();
         }
+    }
+
+    isSelectionExemptTab(activeTabValue) {
+        const SELECTION_EXEMPT_TABS = ['viewType_card', 'viewType_slide'];
+        return SELECTION_EXEMPT_TABS.includes(activeTabValue);
     }
 
     handleDeleteBtnClick() {
@@ -143,7 +161,8 @@ export default class ScFileRelatedListHeader extends LightningElement {
     handleSortBtnClick(event) {
         const sortBy = event.detail.value;
         this.isSortBtnClick = true;
-        
+        this.isSortAscending = !this.isSortAscending;
+
         let sortedFileData = [...this.fileData];
         this.sortDirection[sortBy] = this.sortDirection[sortBy] === 'asc' ? 'desc' : 'asc';
 
@@ -212,5 +231,8 @@ export default class ScFileRelatedListHeader extends LightningElement {
 
     get tableToggleIcon() {
         return this.actSectionOpen ? 'utility:chevrondown' : 'utility:chevronup';
+    }
+    get sortDirectionIcon() {
+        return this.isSortAscending ? 'utility:arrowdown' : 'utility:arrowup';
     }
 }

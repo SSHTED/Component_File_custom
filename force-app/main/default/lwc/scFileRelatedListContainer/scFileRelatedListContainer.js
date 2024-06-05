@@ -40,6 +40,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
     imgSrc;
     sortOptions = {};
     customClass = '';
+    activeTabValue;
 
     connectedCallback() {
         this.initSetting();
@@ -232,6 +233,11 @@ export default class ScFileRelatedListContainer extends LightningElement {
     handleComponentSizeSet(event){
         this.isComponentSizeSmall = event.detail.isComponentSizeSmall;
         console.log('handleSetCompSize event, ', JSON.stringify(event.detail));
+    }
+
+    handleTabActive(event) {
+        this.activeTabValue = event.detail;
+        console.log('Parent component received activeTabValue: ', this.activeTabValue);
     }
 
 }

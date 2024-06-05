@@ -14,6 +14,7 @@
             selected-row-ids={selectedRowIds}
             act-section-open={actSectionOpen}
             sort-options={sortOptions}
+            active-tab-value={activeTabValue}
 
             onafterdeletefile={handleAfterDeleteFile}
             onafteruploadfile={handleAfterUploadFile}
@@ -42,7 +43,8 @@
                 
                 oncheckboxchange={handleCheckboxChange}
                 oncheckboxchangeall={handleCheckboxChangeAll}
-                onclearrowids={handleClearRowIds}>
+                onclearrowids={handleClearRowIds}
+                ontabactive={handleTabActive}>
             </c-sc-file-related-list-body>  
         </template>
 

@@ -19,7 +19,7 @@ export default class ScFileRelatedListBody extends LightningElement {
 
     defaultViewTypeValue;
     checkboxReset = false;
-
+    
     viewTypeMap = {
         '테이블': 'viewType_table',
         '썸네일': 'viewType_thumbnail',
@@ -78,6 +78,7 @@ export default class ScFileRelatedListBody extends LightningElement {
         }
 
         this.resetCheckboxInComp();
+        this.dispatchEvent(new CustomEvent('tabactive', { detail: activeTabValue }));
     }
 
     handleTableTabActivated(){
@@ -94,7 +95,7 @@ export default class ScFileRelatedListBody extends LightningElement {
 
     handleSlideTabActivated() {
         console.log('슬라이드 형태의 탭.');
-        
+
         setTimeout(() => {
             const slideComponent = this.template.querySelector('c-sc-file-related-list-slide');
             console.log('슬라이드 slideComponent', slideComponent);
