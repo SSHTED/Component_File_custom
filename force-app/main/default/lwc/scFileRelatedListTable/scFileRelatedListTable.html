@@ -1,7 +1,7 @@
 <!-- scFileRelatedListTable.html -->
 <template>
-  <div style="max-height:400px; overflow:auto;">
-    <table class="dataTable slds-table slds-table_cell-buffer slds-table_bordered" style="border-top:none;">
+  <div class="viewType_Table">
+    <table class="dataTable slds-table slds-table_cell-buffer slds-table_bordered">
       <thead>
         <tr>
           <template for:each={extendedTableThead} for:item="th">
@@ -40,7 +40,7 @@
             </template>
 
             <!-- 체크박스 -->
-            <td style="padding-left: 24px;">
+            <td class="td_checkBox">
               <lightning-input class="checkbox-item" type="checkbox" data-id={td.Id} onchange={handleCheckbox}></lightning-input>
             </td>
 
