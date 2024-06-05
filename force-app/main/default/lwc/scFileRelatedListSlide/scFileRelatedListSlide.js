@@ -11,8 +11,8 @@ export default class ScFileRelatedListSlide extends LightningElement {
     imgSrc;
     imgTitle;
     slideInterval;
-    togglePlayIcon = 'utility:play';
     isPlaying = false;
+    togglePlayIcon = 'utility:play';
 
     connectedCallback() {
         console.log('scFileRelatedListSlide isComponentSizeSmall : ', this.isComponentSizeSmall)
@@ -20,7 +20,6 @@ export default class ScFileRelatedListSlide extends LightningElement {
     }
 
     renderedCallback(){
-        // this.handlePlaying();
     }
 
     previousImage() {
@@ -39,8 +38,8 @@ export default class ScFileRelatedListSlide extends LightningElement {
         }
     }
     
-    @api handlePlaying() {
-        console.log('handlePlaying');
+    @api handleSlidePlay() {
+        console.log('handleSlidePlay');
         if (this.isPlaying) {
             // 슬라이드 일시정지
             clearInterval(this.slideInterval);
@@ -53,6 +52,16 @@ export default class ScFileRelatedListSlide extends LightningElement {
             }, this.slideDelayTime); // 슬라이드 재생 속도
             this.isPlaying = true;
             this.togglePlayIcon = 'utility:pause';
+        }
+    }
+
+    @api handleSlidePlayStop() {
+        console.log('handleSlidePlayStop');
+
+        if (this.isPlaying) {
+            clearInterval(this.slideInterval);
+            this.isPlaying = false;
+            this.togglePlayIcon = 'utility:play';
         }
     }
 

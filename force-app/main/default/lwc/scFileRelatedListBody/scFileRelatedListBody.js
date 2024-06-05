@@ -13,7 +13,7 @@ export default class ScFileRelatedListBody extends LightningElement {
     @api imgCardInfoTitleColor;
     @api imgCardInfoDateColor;
     @api slideDelayTime;
-    
+
     //data
     @api fileData;
     @api selectedRowIds;
@@ -79,6 +79,10 @@ export default class ScFileRelatedListBody extends LightningElement {
                 break;
         }
 
+        if (activeTabValue !== this.viewTypeMap['슬라이드']) {
+            this.handleSlideTabDeactivated();
+        }
+
         this.resetCheckboxInComp();
         this.dispatchEvent(new CustomEvent('tabactive', { detail: activeTabValue }));
     }
@@ -102,10 +106,19 @@ export default class ScFileRelatedListBody extends LightningElement {
             const slideComponent = this.template.querySelector('c-sc-file-related-list-slide');
             console.log('슬라이드 slideComponent', slideComponent);
     
-            if (slideComponent && slideComponent.handlePlaying) {
-                slideComponent.handlePlaying();
+            if (slideComponent) {
+                slideComponent.handleSlidePlay();
             }
         }, 0);
+    }
+
+    handleSlideTabDeactivated() {
+        const slideComponent = this.template.querySelector('c-sc-file-related-list-slide');
+        console.log('슬라이드 slideComponent', slideComponent);
+    
+        if (slideComponent) {
+            slideComponent.handleSlidePlayStop();
+        }
     }
 
     resetCheckboxInComp() {
