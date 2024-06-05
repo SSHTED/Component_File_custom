@@ -23,7 +23,7 @@ global with sharing class SC_FileRelatedListController {
         }
 
         String soql = ' SELECT ' +
-                    '    Id, Title, Description, ReasonForChange, SharingOption' +
+                    '    Id, ContentDocumentId, Title, Description, ReasonForChange, SharingOption' +
                     '    , SharingPrivacy, PathOnClient, ContentBodyId, FileType, PublishStatus, ContentSize' +
                     '    , FileExtension, TextPreview, Category__c, VersionDataUrl, CreatedDate' +
                     ' FROM ContentVersion' +

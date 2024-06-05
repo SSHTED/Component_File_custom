@@ -13,7 +13,7 @@
 
               <!-- 체크박스 -->
               <template if:true={th.isCheckbox}>
-                  <lightning-input class="checkbox-item" type="checkbox" data-id={th.Id} onchange={handleCheckboxAll}></lightning-input>
+                <lightning-input class="checkbox-item" type="checkbox" data-id={th.Id} onchange={handleCheckboxAll}></lightning-input>
               </template>
 
               <!-- 썸네일 -->
@@ -52,8 +52,7 @@
             <!-- 썸네일 -->
             <td class="td_thumbNail">
               <div class="thumbImage">
-                <img src={td.ImgSrc} onclick={handleThumbnailClick}
-                  data-id={td.Id}>
+                <img src={td.ImgSrc} onclick={handleThumbnailClick} data-id={td.Id} data-title={td.Title}>
               </div>
             </td>
             <!-- 텍스트 -->
@@ -65,4 +64,5 @@
       </tbody>
     </table>
   </div>
+
 </template>
