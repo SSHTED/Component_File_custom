@@ -14,21 +14,21 @@ export default class ScFileRelatedListCard extends LightningElement {
         
     }
 
-    handleMouseOver(event) {
-        const cardElement = event.currentTarget;
-        const btnArea = cardElement.querySelector('.btn_area');
-        btnArea.style.display = 'block';
+    // handleMouseOver(event) {
+    //     const cardElement = event.currentTarget;
+    //     const btnArea = cardElement.querySelector('.btn_area');
+    //     btnArea.style.display = 'block';
 
-        this.dispatchEvent(new CustomEvent('imgcardmouseover', { detail: { id: cardElement.dataset.id } }));
-    }
+    //     this.dispatchEvent(new CustomEvent('imgcardmouseover', { detail: { id: cardElement.dataset.id } }));
+    // }
 
-    handleMouseOut(event) {
-        const cardElement = event.currentTarget;
-        const btnArea = cardElement.querySelector('.btn_area');
-        btnArea.style.display = 'none';
+    // handleMouseOut(event) {
+    //     const cardElement = event.currentTarget;
+    //     const btnArea = cardElement.querySelector('.btn_area');
+    //     btnArea.style.display = 'none';
 
-        this.dispatchEvent(new CustomEvent('imgcardmouseout', { detail: { id: cardElement.dataset.id } }));
-    }
+    //     this.dispatchEvent(new CustomEvent('imgcardmouseout', { detail: { id: cardElement.dataset.id } }));
+    // }
 
     handleActionClicked(event) {
         const actionValue = event.currentTarget.dataset.value;

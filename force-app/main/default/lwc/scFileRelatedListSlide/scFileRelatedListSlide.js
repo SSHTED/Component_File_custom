@@ -1,13 +1,15 @@
 // scFileRelatedListSlide.js
 import { LightningElement, api } from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
 
-export default class ScFileRelatedListSlide extends LightningElement {
+export default class ScFileRelatedListSlide extends NavigationMixin(LightningElement) {
     @api fileData;
     @api componentSizeisBig;
     @api selectedRowIds;
     @api isComponentSizeSmall;
     @api slideDelayTime;
 
+    imgId;
     imgSrc;
     imgTitle;
     slideInterval;
@@ -28,11 +30,13 @@ export default class ScFileRelatedListSlide extends LightningElement {
         if (currentIndex > 0) {
             // 이전 이미지로 이동
             const previousFile = this.fileData[currentIndex - 1];
+            this.imgId = previousFile.Id;
             this.imgSrc = previousFile.ImgSrc;
             this.imgTitle = previousFile.Title;
         } else {
             // 첫 번째 이미지인 경우 마지막 이미지로 이동
             const lastFile = this.fileData[this.fileData.length - 1];
+            this.imgId = lastFile.Id;
             this.imgSrc = lastFile.ImgSrc;
             this.imgTitle = lastFile.Title;
         }
@@ -70,11 +74,13 @@ export default class ScFileRelatedListSlide extends LightningElement {
         if (currentIndex < this.fileData.length - 1) {
             // 다음 이미지로 이동
             const nexFile = this.fileData[currentIndex + 1];
+            this.imgId = nexFile.Id;
             this.imgSrc = nexFile.ImgSrc;
             this.imgTitle = nexFile.Title;
         } else {
             // 마지막 이미지인 경우 첫 번째 이미지로 이동
             const firstFile = this.fileData[0];
+            this.imgId = firstFile.Id;
             this.imgSrc = firstFile.ImgSrc;
             this.imgTitle = firstFile.Title;
         }
@@ -86,13 +92,36 @@ export default class ScFileRelatedListSlide extends LightningElement {
 
         // 해당 인덱스의 이미지로 이동
         const selectedFile = this.fileData[index];
+        this.imgId = selectedFile.Id;
         this.imgSrc = selectedFile.ImgSrc;
         this.imgTitle = selectedFile.Title;
     }
 
+    handleTitleClick(event) {
+        console.log('slide handleThumbnailClick');
+        this.selectedFileId = event.target.dataset.id;
+        console.log('slide handleThumbnailClick this.selectedFileId >>, ', this.selectedFileId);
+
+        // 선택된 파일 객체 찾기
+        const selectedFile = this.fileData.find(file => file.Id === this.selectedFileId);
+        console.log('table handleThumbnailClick selectedFile >>, ', JSON.stringify(selectedFile));
+
+        const selectedFileDocId = selectedFile.ContentDocumentId;
+        console.log('table handleThumbnailClick selectedFileDocId >>, ', JSON.stringify(selectedFileDocId));
+
+        this[NavigationMixin.Navigate]({
+            type: 'standard__namedPage',
+            attributes: {
+              pageName: 'filePreview'
+            },
+            state: {
+              recordIds: selectedFileDocId
+            }
+          });
+    }
+
     showImgInfo() {
         this.template.querySelector('.slideImgInfo').style.display = 'block';
-
     }
 
     hideImgInfo() {
