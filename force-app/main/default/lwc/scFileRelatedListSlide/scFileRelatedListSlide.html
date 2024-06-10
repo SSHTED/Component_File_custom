@@ -1,19 +1,15 @@
 <!-- scFileRelatedListSlide.html -->
 <template>
-    <div class="main_slide" style="height:400px; overflow:auto;">
+    <div class="main_slide">
       <template if:true={isComponentSizeSmall}>
-        <div style="width:100%; height:100%;">
-          <div style="position:relative; width:100%; height:calc( 100% - 3rem ); background-color:black;">
-            <img src={imgSrc} alt="슬라이드 이미지"
-              style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); height:100%;" />
+        <div class="inner_main_slide">
+          <div class="slideImgBox">
+            <img src={imgSrc} alt="슬라이드 이미지"/>
           </div>
           <div class="functionArea">
-            <lightning-icon icon-name="utility:chevronleft" size="small" onclick={previousImage}
-              style="position:absolute; top:calc(1.5rem - 12px); left:1.5rem; cursor:pointer;"></lightning-icon>
-            <lightning-icon icon-name={togglePlayIcon} size="small" onclick={handlePlaying}
-              style="position:absolute; top:calc(1.5rem - 12px); left:calc(50% - 12px); cursor:pointer;"></lightning-icon>
-            <lightning-icon icon-name="utility:chevronright" size="small" onclick={nextImage}
-              style="position:absolute; top:calc(1.5rem - 12px); right:1.5rem; cursor:pointer;"></lightning-icon>
+            <lightning-icon class="prevBtn" icon-name="utility:chevronleft" size="small" onclick={previousImage}></lightning-icon>
+            <lightning-icon class="playBtn" icon-name={togglePlayIcon} size="small" onclick={handleSlidePlay}></lightning-icon>
+            <lightning-icon class="nextBtn" icon-name="utility:chevronright" size="small" onclick={nextImage}></lightning-icon>
           </div>
         </div>
       </template>
@@ -21,10 +17,8 @@
       <template if:false={isComponentSizeSmall}>
         <div class="main_left">
           <template for:each={fileData} for:item="fileData" for:index="index">
-            <div key={fileData.Id} data-img-title={fileData.Title} data-img-url={fileData.ImgSrc}
-              style="position:relative; display:block; margin-bottom:10px; width:100%; height:90px; background-color:black;"
-              onclick={handleThumbnailClick} data-index={index}>
-              <img src={fileData.ImgSrc} alt="썸네일 이미지" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); height:100%;" />
+            <div class="main_left_thumbImg" key={fileData.Id} data-img-title={fileData.Title} data-img-url={fileData.ImgSrc} onclick={handleThumbnailClick} data-index={index}>
+              <img src={fileData.ImgSrc} alt="썸네일 이미지"/>
             </div>
           </template>
         </div>
@@ -32,20 +26,17 @@
         <div class="main_right">
           <div class="imgArea" onmouseover={showImgInfo} onmouseout={hideImgInfo}>
             <div class="slideImgInfo">
-              <p style="font-size:20px; color:darkslategray;">{imgTitle}</p>
+              <p>{imgTitle}</p>
             </div>
-            <div class="slideImg">
-              <img src={imgSrc} alt="슬라이드 이미지" style="height:100%;" />
+            <div class="slideImgBox">
+              <img src={imgSrc} alt="슬라이드 이미지" />
             </div>
           </div>
           <!-- action -->
           <div class="functionArea">
-            <lightning-icon icon-name="utility:chevronleft" size="small" onclick={previousImage}
-              style="position:absolute; top:calc(1.5rem - 12px); left:5rem; cursor:pointer;"></lightning-icon>
-            <lightning-icon icon-name={togglePlayIcon} size="small" onclick={handlePlaying}
-              style="position:absolute; top:calc(1.5rem - 12px); left:calc(50% - 12px); cursor:pointer;"></lightning-icon>
-            <lightning-icon icon-name="utility:chevronright" size="small" onclick={nextImage}
-              style="position:absolute; top:calc(1.5rem - 12px); right:5rem; cursor:pointer;"></lightning-icon>
+            <lightning-icon class="prevBtn" icon-name="utility:chevronleft" size="small" onclick={previousImage}></lightning-icon>
+            <lightning-icon class="playBtn" icon-name={togglePlayIcon} size="small" onclick={handleSlidePlay}></lightning-icon>
+            <lightning-icon class="nextBtn" icon-name="utility:chevronright" size="small" onclick={nextImage}></lightning-icon>
           </div>
         </div>
       </template>

@@ -1,6 +1,6 @@
 <!-- scFileRelatedListCard.html -->
 <template>
-    <div class="imgCard" style="position:relative; max-height:400px; overflow:auto;">
+    <div class="imgCard">
         <template for:each={fileData} for:item="fileData">
             <div class={fileData.imgCardClass} key={fileData.Id} data-id={fileData.Id} onmouseover={handleMouseOver} onmouseout={handleMouseOut}>
                 <img src={fileData.ImgSrc} alt={fileData.Title} />
