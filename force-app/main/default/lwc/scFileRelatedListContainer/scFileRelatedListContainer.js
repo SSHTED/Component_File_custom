@@ -53,49 +53,46 @@ export default class ScFileRelatedListContainer extends LightningElement {
         this.slideDelayTime = this.slideDelayTime * 1000;
     }
 
-    fetchFileDataFromServer(params) {
-        return new Promise((resolve, reject) => {
-            getFileData(params)
-                .then(result => {
-                    console.log('getFileData result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', result);
-                    this.objectApiName = result.ObjectApiName;
-                    const processedData = result.Result.map((fileData, index) => this.processFileData(fileData, index));
-                    resolve(processedData);
-                })
-                .catch(error => {
-                    console.log('getFileData error >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', error.message);
-                    reject(error);
-                });
-        });
-    }
-    
-    fetchAfterUploadData() {
-        const params = { recordId: this.recordId };
-        if (this.category) {
-            params.category = this.category;
-        }
-        if (this.uploadedAfter) {
-            params.uploadedAfter = this.uploadedAfter;
-        }
-        
-        return this.fetchFileDataFromServer(params);
-    }
-    
     fetchFileData() {
-        const params = { recordId: this.recordId };
-        if (this.category) {
-            params.category = this.category;
-        }
-        if (this.uploadedAfter) {
-            params.uploadedAfter = this.uploadedAfter;
-        }
-        
+        const params = {
+            recordId: this.recordId,
+            category: this.category,
+            uploadedAfter: this.uploadedAfter
+        };
+
         return this.fetchFileDataFromServer(params)
-            .then(processedData => {
+            .then((processedData) => {
                 this.fileCount = processedData.length;
                 this.fileData = processedData;
-                // console.log('this.fileData: ', JSON.stringify(this.fileData, null, 2));
+                console.log('this.fileData: ', JSON.stringify(this.fileData, null, 2));
                 return processedData;
+            })
+            .catch((error) => {
+                console.log('getFileData error >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', error.message);
+                throw error;
+            });
+    }
+
+    fetchAfterUploadData() {
+        const params = {
+            recordId: this.recordId,
+            category: this.category,
+            uploadedAfter: this.uploadedAfter
+        };
+
+        return this.fetchFileDataFromServer(params);
+    }
+
+    fetchFileDataFromServer(params) {
+        return getFileData(params)
+            .then((result) => {
+                console.log('getFileData result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', result);
+                this.objectApiName = result.ObjectApiName;
+                return result.Result.map((fileData, index) => this.processFileData(fileData, index));
+            })
+            .catch((error) => {
+                console.log('getFileData error >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', error.message);
+                throw error;
             });
     }
 
@@ -111,8 +108,8 @@ export default class ScFileRelatedListContainer extends LightningElement {
             FileType: fileData.FileType,
             PublishStatus: fileData.PublishStatus,  //컨텐츠의 게시 상태 (P: 게시됨, R: 작업용, A: 아카이브됨)
             ContentSize: fileData.ContentSize < 1024 * 1024 ?
-                (fileData.ContentSize / 1024).toFixed(2) + " KB" :
-                (fileData.ContentSize / (1024 * 1024)).toFixed(2) + " MB",
+                        (fileData.ContentSize / 1024).toFixed(2) + " KB" :
+                        (fileData.ContentSize / (1024 * 1024)).toFixed(2) + " MB",
             FileExtension: "." + fileData.FileExtension,
             VersionDataUrl: fileData.VersionDataUrl,
             CreatedDate: fileData.CreatedDate,
@@ -127,12 +124,12 @@ export default class ScFileRelatedListContainer extends LightningElement {
 
     getImgSrc(fileData) {
         const origin = window.location.origin;
-        
-        return origin + 
-            '/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_' + 
-            fileData.FileExtension + 
-            '&versionId=' + fileData.Id + 
-            '&operationContext=CHATTER&contentId=' + fileData.ContentBodyId + 
+
+        return origin +
+            '/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_' +
+            fileData.FileExtension +
+            '&versionId=' + fileData.Id +
+            '&operationContext=CHATTER&contentId=' + fileData.ContentBodyId +
             '&page=0';
     }
 
@@ -143,9 +140,9 @@ export default class ScFileRelatedListContainer extends LightningElement {
             let aspectRatio = imgElement.width / imgElement.height;
             let height = 230 / aspectRatio;
             fileDataArr.imgCardClass = height > 250 ? 'imgMain card_x_large' :
-                                        height > 180 ? 'imgMain card_large' :
-                                        height > 130 ? 'imgMain card_medium' :
-                                        'imgMain card_small';
+                height > 180 ? 'imgMain card_large' :
+                    height > 130 ? 'imgMain card_medium' :
+                        'imgMain card_small';
         };
     }
 
@@ -190,7 +187,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
         console.log('handleAfterUploadFile: ', JSON.stringify(this.fileData, null, 2));
         this.uploadedAfter = Date.now();
         console.log('시간: ', this.uploadedAfter);
-        
+
         try {
             this.fetchAfterUploadData()
                 .then((newData) => {
@@ -212,7 +209,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
         }
     }
 
-    handleClearRowIds(){
+    handleClearRowIds() {
         console.log('handleClearRowIds aaaaaaaa: ', JSON.stringify(this.selectedRowIds, null, 2));
         this.selectedRowIds = [];
         console.log('handleClearRowIds bbbbbbbb: ', JSON.stringify(this.selectedRowIds, null, 2));
@@ -233,7 +230,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
         this.actSectionOpen = event.detail.actSectionOpen;
     }
 
-    handleComponentSizeSet(event){
+    handleComponentSizeSet(event) {
         this.isComponentSizeSmall = event.detail.isComponentSizeSmall;
         console.log('handleSetCompSize event, ', JSON.stringify(event.detail));
     }

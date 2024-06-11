@@ -3,7 +3,7 @@
 
     <div class="imgCard">
         <template for:each={fileData} for:item="fileData">
-            <div class="imgMain card_medium" data-id={fileData.Id} key={fileData.Id} onmouseover={handleMouseOver} onmouseout={handleMouseOut}>
+            <div class={fileData.imgCardClass} data-id={fileData.Id} key={fileData.Id} onmouseover={handleMouseOver} onmouseout={handleMouseOut}>
                 
                 <div class="imgWrapper">
                     <img src={fileData.ImgSrc} alt={fileData.Title}/>
