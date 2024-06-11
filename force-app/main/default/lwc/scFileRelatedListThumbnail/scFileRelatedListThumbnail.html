@@ -28,7 +28,8 @@
                     {th.label}
                   </template>
                   <template if:true={th.sortable}>
-                    <a href="javascript:void(0);" onclick={handleSortData} data-sort-by={th.fieldName}>{th.label}</a>
+                    <!-- <a href="javascript:void(0);" onclick={handleSortData} data-sort-by={th.fieldName}>{th.label}</a> -->
+                    <span class="" onclick={handleSortData} data-sort-by={th.fieldName}>{th.label}</span>
                   </template>
                 </div>
               </template>
