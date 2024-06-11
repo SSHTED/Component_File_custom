@@ -1,7 +1,8 @@
 // scFileRelatedListFooter.js
 import { LightningElement, api } from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
 
-export default class ScFileRelatedListFooter extends LightningElement {
+export default class ScFileRelatedListFooter extends NavigationMixin(LightningElement) {
     @api recordId;
     @api objectApiName;
 
@@ -18,6 +19,13 @@ export default class ScFileRelatedListFooter extends LightningElement {
 
     handleViewAllClick(event) {
         event.preventDefault();
-        window.open(this.allRecordsUrl, '_blank');
-    }
+        this[NavigationMixin.Navigate]({
+            type: 'standard__recordRelationshipPage',
+            attributes: {
+                recordId: this.recordId,
+                objectApiName: this.objectApiName,
+                relationshipApiName: 'CombinedAttachments',
+                actionName: 'view'
+            }
+        });    }
 }
