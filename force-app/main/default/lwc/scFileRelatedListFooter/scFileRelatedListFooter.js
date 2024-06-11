@@ -6,15 +6,13 @@ export default class ScFileRelatedListFooter extends NavigationMixin(LightningEl
     @api recordId;
     @api objectApiName;
 
-    get allRecordsUrl() {
+    get fileRelatedListUrl() {
         return this.getUrl(this.objectApiName, this.recordId);
     }
 
     getUrl(objectApiName, recordId) {
         let baseUrl = window.location.origin;
-        // return `${baseUrl}/lightning/o/${objectApiName}/home`;
         return `${baseUrl}/lightning/r/${objectApiName}/${recordId}/related/CombinedAttachments/view`;
-
     }
 
     handleViewAllClick(event) {
@@ -27,5 +25,6 @@ export default class ScFileRelatedListFooter extends NavigationMixin(LightningEl
                 relationshipApiName: 'CombinedAttachments',
                 actionName: 'view'
             }
-        });    }
+        });
+    }
 }
