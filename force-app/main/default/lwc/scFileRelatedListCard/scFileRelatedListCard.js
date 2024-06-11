@@ -11,11 +11,40 @@ export default class ScFileRelatedListCard extends LightningElement {
     @api selectedRowIds;
 
     connectedCallback() {
-        // console.log('📌📌 이거 나오나??? ', JSON.stringify(this.fileData, null, 2));
+        this.calculateImageSize();
     }
-
-    renderedCallback() {
-        // console.log('📌📌 이거 나오나??? ', JSON.stringify(this.fileData, null, 2));
+    
+    calculateImageSize() {
+        const fileDataPromises = this.fileData.map(file => {
+    
+            return new Promise((resolve) => {
+                let imgElement = new Image();
+                imgElement.src = file.ImgSrc;
+                imgElement.onload = () => {
+    
+                    let aspectRatio = imgElement.width / imgElement.height;
+                    let height = 230 / aspectRatio;
+                    const cleanedFile = {
+                        ...file,
+                        imgCardClass: height > 250 ? 'imgMain card_x_large' :
+                                    height > 180 ? 'imgMain card_large' :
+                                    height > 130 ? 'imgMain card_medium' :
+                                                    'imgMain card_small'
+                    };
+    
+                    console.log('정제된 파일 imgCardClass:', JSON.stringify(cleanedFile.imgCardClass, null, 2));
+                    resolve(cleanedFile);
+                };
+            });
+        });
+    
+        Promise.all(fileDataPromises)
+            .then(cleanedFileData => {
+                this.fileData = cleanedFileData;
+            })
+            .catch(error => {
+                console.error('이미지 로드 중 오류 발생:', error.message);
+            });
     }
 
     handleMouseOver(event) {

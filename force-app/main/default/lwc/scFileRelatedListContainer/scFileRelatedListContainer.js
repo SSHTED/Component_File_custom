@@ -116,9 +116,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
             index: index + 1
         };
         fileDataArr.ImgSrc = this.getImgSrc(fileData);
-
-        this.calculateImageSize(fileDataArr);
-
+        
         return fileDataArr;
     }
 
@@ -133,18 +131,6 @@ export default class ScFileRelatedListContainer extends LightningElement {
             '&page=0';
     }
 
-    calculateImageSize(fileDataArr) {
-        let imgElement = new Image();
-        imgElement.src = fileDataArr.ImgSrc;
-        imgElement.onload = () => {
-            let aspectRatio = imgElement.width / imgElement.height;
-            let height = 230 / aspectRatio;
-            fileDataArr.imgCardClass = height > 250 ? 'imgMain card_x_large' :
-                height > 180 ? 'imgMain card_large' :
-                    height > 130 ? 'imgMain card_medium' :
-                        'imgMain card_small';
-        };
-    }
 
     handleCheckboxChange(event) {
         const { selectedId, isChecked } = event.detail;
