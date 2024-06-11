@@ -107,6 +107,7 @@ export default class ScFileRelatedListBody extends LightningElement {
             console.log('슬라이드 slideComponent', slideComponent);
     
             if (slideComponent) {
+                slideComponent.nextImage();
                 slideComponent.handleSlidePlay();
             }
         }, 0);

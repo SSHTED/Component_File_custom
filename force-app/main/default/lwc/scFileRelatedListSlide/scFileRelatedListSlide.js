@@ -69,7 +69,7 @@ export default class ScFileRelatedListSlide extends NavigationMixin(LightningEle
         }
     }
 
-    nextImage() {
+    @api nextImage() {
         const currentIndex = this.fileData.findIndex(file => file.ImgSrc === this.imgSrc);
         if (currentIndex < this.fileData.length - 1) {
             // 다음 이미지로 이동
