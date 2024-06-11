@@ -21,7 +21,7 @@ export default class ScFileRelatedListSlide extends NavigationMixin(LightningEle
         console.log('scFileRelatedListSlide slideDelayTime : ', this.slideDelayTime)
     }
 
-    renderedCallback(){
+    renderedCallback() {
     }
 
     previousImage() {
@@ -41,7 +41,7 @@ export default class ScFileRelatedListSlide extends NavigationMixin(LightningEle
             this.imgTitle = lastFile.Title;
         }
     }
-    
+
     @api handleSlidePlay() {
         console.log('handleSlidePlay');
         if (this.isPlaying) {
@@ -98,7 +98,8 @@ export default class ScFileRelatedListSlide extends NavigationMixin(LightningEle
     }
 
     handleTitleClick(event) {
-        console.log('slide handleThumbnailClick');
+        this.handleSlidePlayStop();
+        
         this.selectedFileId = event.target.dataset.id;
         console.log('slide handleThumbnailClick this.selectedFileId >>, ', this.selectedFileId);
 
@@ -112,12 +113,12 @@ export default class ScFileRelatedListSlide extends NavigationMixin(LightningEle
         this[NavigationMixin.Navigate]({
             type: 'standard__namedPage',
             attributes: {
-              pageName: 'filePreview'
+                pageName: 'filePreview'
             },
             state: {
-              recordIds: selectedFileDocId
+                recordIds: selectedFileDocId
             }
-          });
+        });
     }
 
     showImgInfo() {
