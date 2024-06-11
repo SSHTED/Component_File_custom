@@ -29,7 +29,8 @@ global with sharing class SC_FileRelatedListController {
                     ' FROM ContentVersion' +
                     ' WHERE ContentDocumentId IN :cdIdList' +
                     '   AND IsLatest = true';
-
+        
+        //이전 데이터와 최신 데이터 구분용, 추후 수정예정
         if (uploadedAfter != null) {
             DateTime uploadedAfterDateTime = DateTime.newInstance(uploadedAfter);
             DateTime thirtySecondsAgo = uploadedAfterDateTime.addSeconds(-30);
@@ -43,6 +44,9 @@ global with sharing class SC_FileRelatedListController {
             soql += ' AND Category__c = :category ';
         }
 
+        //오브젝트 가져오기
+        String objectApiName = getObjectApiName(Id.valueOf(recordId));
+
         try {
             List<ContentVersion> fileList = Database.query(soql);
             System.debug('fileList >>> ' + fileList);
@@ -51,6 +55,7 @@ global with sharing class SC_FileRelatedListController {
                 System.debug('file >>> ' + file);
             }
 
+            resultMap.put('ObjectApiName', objectApiName);
             resultMap.put('Result', fileList);
         } catch (QueryException e) {
             System.debug('QueryException Error >>> ' + e.getMessage());
@@ -58,6 +63,18 @@ global with sharing class SC_FileRelatedListController {
         }
 
         return resultMap;
+    }
+
+    private static String getObjectApiName(Id recordId){
+        String objectApiName = '';
+
+        if (recordId != null ){
+            String sObjName = recordId.getSObjectType().getDescribe().getName();
+            objectApiName = sObjName;
+            System.debug('getObjectApiName sObjName >>> ' + sObjName);
+        }
+
+        return objectApiName;
     }
 
     // 파일 데이터 저장

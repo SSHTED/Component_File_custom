@@ -41,6 +41,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
     sortOptions = {};
     customClass = '';
     activeTabValue;
+    objectApiName;
 
     connectedCallback() {
         this.initSetting();
@@ -57,6 +58,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
             getFileData(params)
                 .then(result => {
                     console.log('getFileData result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', result);
+                    this.objectApiName = result.ObjectApiName;
                     const processedData = result.Result.map((fileData, index) => this.processFileData(fileData, index));
                     resolve(processedData);
                 })
@@ -140,13 +142,12 @@ export default class ScFileRelatedListContainer extends LightningElement {
         imgElement.onload = () => {
             let aspectRatio = imgElement.width / imgElement.height;
             let height = 230 / aspectRatio;
-            fileDataArr.imgCardClass = height > 250 ? 'card card_x_large' :
-                                        height > 180 ? 'card card_large' :
-                                        height > 130 ? 'card card_medium' :
-                                                         'card card_small';
+            fileDataArr.imgCardClass = height > 250 ? 'imgMain card_x_large' :
+                                        height > 180 ? 'imgMain card_large' :
+                                        height > 130 ? 'imgMain card_medium' :
+                                        'imgMain card_small';
         };
     }
-
 
     handleCheckboxChange(event) {
         const { selectedId, isChecked } = event.detail;

@@ -1,14 +1,19 @@
 // scFileRelatedListFooter.js
-import { LightningElement } from 'lwc';
+import { LightningElement, api } from 'lwc';
 
 export default class ScFileRelatedListFooter extends LightningElement {
+    @api recordId;
+    @api objectApiName;
+
     get allRecordsUrl() {
-        return this.getUrl('ContentDocument');
+        return this.getUrl(this.objectApiName, this.recordId);
     }
 
-    getUrl(objectApiName) {
+    getUrl(objectApiName, recordId) {
         let baseUrl = window.location.origin;
-        return `${baseUrl}/lightning/o/${objectApiName}/home`;
+        // return `${baseUrl}/lightning/o/${objectApiName}/home`;
+        return `${baseUrl}/lightning/r/${objectApiName}/${recordId}/related/CombinedAttachments/view`;
+
     }
 
     handleViewAllClick(event) {
