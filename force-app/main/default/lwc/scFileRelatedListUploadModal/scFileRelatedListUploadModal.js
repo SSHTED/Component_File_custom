@@ -7,6 +7,7 @@ export default class ScFileRelatedModal extends LightningElement {
     @api fileData;
 
     acceptedFormats = '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.gif,.bmp,.txt,.zip,.rar';
+    showCategorySelection = true;
 
     connectedCallback() {
         console.log('modal:', this.fileData)
@@ -26,4 +27,11 @@ export default class ScFileRelatedModal extends LightningElement {
         this.dispatchEvent(new CustomEvent('close'));
     }
 
+    handleCategorySelected() {
+        this.showCategorySelection = false;
+    }
+
+    get modalTitle(){
+        return this.showCategorySelection ? 'Category 선택' : '파일 업로드';
+    }
 }
