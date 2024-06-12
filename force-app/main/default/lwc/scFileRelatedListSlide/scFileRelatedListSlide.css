@@ -1,0 +1,116 @@
+/* 슬라이드 이미지 스타일 */
+.main_slide {
+    width: 100%;
+    height:400px;
+    height: calc(100vh - 300px);
+    outline: 2px solid #c9c9c9;
+    overflow: auto;
+}
+
+.main_slide .main_left {
+    float: left;
+    padding: 10px;
+    width: 10rem;
+    height: 100%;
+    overflow: auto;
+    outline: 1px solid #c9c9c9;
+}
+
+.main_left .main_left_thumbImg {
+    position: relative;
+    display: block;
+    margin-bottom: 10px;
+    width: 100%;
+    height: 90px;
+    background-color: black;
+}
+
+.main_left_thumbImg img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100%;
+}
+
+.main_slide .main_right {
+    float: left;
+    width: calc( 100% - 10rem );
+    height: 100%;
+}
+
+.inner_main_slide {
+    width: 100%;
+    height: 100%;
+}
+
+.imgArea {
+    position: relative;
+    width: 100%;
+    height: calc(100% - 3rem);
+    background-color: black;
+}
+
+.imgArea .slideImgInfo {
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    padding: 10px 20px;
+    height: 50px;
+    opacity: 0.9;
+    z-index: 1;
+    background-color: whitesmoke;
+    display: none;
+}
+
+.slideImgInfo p {
+    cursor: pointer;
+    font-size: 20px;
+    color: darkslategray;
+}
+
+.imgArea .slideImgBox {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.slideImgBox img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100%;
+}
+
+.functionArea {
+    position: relative;
+    width: 100%;
+    height: 3rem;
+}
+
+.prevBtn {
+    position: absolute;
+    top: calc(1.5rem - 12px);
+    left: 1.5rem;
+    cursor: pointer; 
+}
+
+.playBtn {
+    position: absolute;
+    top: calc(1.5rem - 12px);
+    left: calc(50% - 12px);
+    cursor: pointer;
+}
+
+.nextBtn {
+    position: absolute;
+    top: calc(1.5rem - 12px);
+    right: 1.5rem;
+    cursor: pointer;
+}

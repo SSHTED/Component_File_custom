@@ -1,0 +1,56 @@
+/* 테마 배경색 지정 */
+/* white*/
+.themeColor_white {
+    position: relative;
+    border-radius: 5px;
+    border: 1px solid rgb(201, 201, 201);
+    background-color: #F3F3F3;
+}
+
+/* red */
+.themeColor_red {
+    position: relative;
+    border-radius: 5px;
+    border: 1px solid rgb(201, 201, 201);
+    background-color: rgba(250,219,216);
+}
+
+ /* orange */
+.themeColor_orange {
+    position: relative;
+    border-radius: 5px;
+    border: 1px solid rgb(201, 201, 201);
+    background-color: rgba(253,235,208);
+}
+
+/* yellow */
+.themeColor_yellow {
+    position: relative;
+    border-radius: 5px;
+    border: 1px solid rgb(201, 201, 201);
+    background-color: rgba(252,243,207);
+}
+
+/* green */
+.themeColor_green {
+    position: relative;
+    border-radius: 5px;
+    border: 1px solid rgb(201, 201, 201);
+    background-color: rgba(212,239,223);
+}
+
+/* blue */
+.themeColor_blue {
+    position: relative;
+    border-radius: 5px;
+    border: 1px solid rgb(201, 201, 201);
+    background-color: rgba(214,234,248);
+}
+
+/* purple */
+.themeColor_purple {
+    position: relative;
+    border-radius: 5px;
+    border: 1px solid rgb(201, 201, 201);
+    background-color: rgba(235,222,240);
+}

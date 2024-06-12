@@ -1,0 +1,36 @@
+/* viewType : Table */
+.viewType_Table {
+    max-height: 400px;
+    overflow: auto;
+}
+
+.dataTable th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.dataTable .th1 {
+    width: 50px;
+}
+
+.dataTable .th2 {
+    padding-left: 24px !important;
+    width: 50px;
+}
+
+.dataTable .th3 {
+    max-width: calc( 100% - 300px);
+}
+
+.dataTable .th4 {
+    width: 80px;
+}
+
+.dataTable .th5 {
+    width: 100px;
+}
+
+.dataTable .td_checkBox {
+    padding-left: 24px;
+}

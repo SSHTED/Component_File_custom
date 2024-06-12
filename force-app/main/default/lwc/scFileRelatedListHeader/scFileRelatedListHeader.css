@@ -1,0 +1,76 @@
+.slds-card__header {
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.slds-media {
+    margin-top: 13px;
+    padding-left: 15px;
+}
+
+.titleIcon {
+    float: left;
+}
+
+.inner_btnGroup {
+    float: left;
+}
+
+.inner_btnMenu {
+    margin-left: 10px;
+}
+
+.toggleIcon {
+    margin-top: 3px;
+    margin-left: 10px;
+}
+
+.headerTitle_large {
+    float: left;
+    margin-left: 10px;
+    width: 700px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.headerTitle_small {
+    float: left;
+    margin-left: 10px;
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.headerTitle_large a {
+    font-size: 16px;
+    font-weight: bold;
+    color: #191919;
+    text-decoration: none;
+} 
+  
+.headerTitle_small a {
+    font-size: 16px;
+    font-weight: bold;
+    color: #191919;
+    text-decoration: none;
+}
+  
+.headerTitle_Info {
+    font-size: 12px;
+    color: #191919;
+}
+
+.headerTitle_Info p {
+    display: inline-block;
+    margin-right: 5px;
+    margin-top: 10px;
+}
+
+.btnGroup {
+    position: absolute;
+    top: 35px;
+    right: 11px;
+}

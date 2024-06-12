@@ -1,0 +1,7 @@
+/* 푸터 스타일 */
+.slds-card__footer {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: 1px solid #c9c9c9;
+    background-color:#F3F3F3;
+}
