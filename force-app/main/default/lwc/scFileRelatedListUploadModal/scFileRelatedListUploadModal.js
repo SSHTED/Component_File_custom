@@ -1,5 +1,5 @@
 /**
- * @file ScFileRelatedModal.js
+ * @file scFileRelatedListUploadModal.js
  * @description 파일 관련 모달 컴포넌트
  * @version 1.0.0
  * @date 2024-06-12

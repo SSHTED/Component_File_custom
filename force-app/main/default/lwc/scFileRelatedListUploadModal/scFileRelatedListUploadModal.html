@@ -1,4 +1,4 @@
-<!-- ScFileRelatedModal.html -->
+<!-- scFileRelatedListUploadModal.html -->
 <template>
     <div class="slds-modal slds-fade-in-open">
         <div class="slds-modal__container">
@@ -16,20 +16,21 @@
             <div class="slds-modal__content slds-p-around_medium modal-content">
                 <!-- 카테고리 선택 화면 -->
                 <template if:true={showCategorySelection}>
-                    <div class="slds-form-element">
-                        <!-- <label class="slds-form-element__label" for="category-input">카테고리</label> -->
-                        <div class="slds-form-element__control">
+                    <div class="categoryBox">
+                        <div class="inputCategory">
+                            <!-- <label class="slds-form-element__label" for="category-input">카테고리</label> -->
                             <input type="text" id="category-input" class="slds-input" placeholder="카테고리를 입력하세요" onchange={handleCategoryChange} />
                         </div>
-                    </div>
-                    <div class="slds-m-top_medium">
-                        <button class="slds-button slds-button_brand" onclick={handleCategorySelected}>다음</button>
+                        <div class="categoryBtn">
+                            <button class="slds-button slds-button_brand" onclick={handleCategorySelected}>다음</button>
+                        </div>
                     </div>
                 </template>
 
                 <!-- 파일 업로드 화면 -->
                 <template if:false={showCategorySelection}>
                     <lightning-file-upload 
+                        class="fileUpload"
                         label="" 
                         name="fileUploader" 
                         accept={acceptedFormats} 
