@@ -184,14 +184,15 @@ export default class ScFileRelatedListContainer extends LightningElement {
                     }));
 
                     this.fileData = this.fileData.concat(updatedNewData);
+
                     this.fileCount = this.fileData.length;
                     console.log('Updated fileData: ', JSON.stringify(this.fileData, null, 2));
                 })
                 .catch((error) => {
-                    console.error('Error in fetchAfterUploadData: ', error);
+                    console.error('Error in fetchAfterUploadData: ', error.message);
                 });
         } catch (error) {
-            console.error('Error in handleAfterUploadFile: ', error);
+            console.error('Error in handleAfterUploadFile: ', error.message);
         }
     }
 

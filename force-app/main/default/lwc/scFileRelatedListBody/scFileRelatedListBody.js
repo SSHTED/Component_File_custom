@@ -99,6 +99,7 @@ export default class ScFileRelatedListBody extends LightningElement {
         console.log('이미지 형태의 탭.');
     }
 
+
     handleSlideTabActivated() {
         console.log('슬라이드 형태의 탭.');
 

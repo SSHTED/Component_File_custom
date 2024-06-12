@@ -26,12 +26,17 @@ export default class ScFileRelatedListCard extends LightningElement {
                     let height = 230 / aspectRatio;
                     const cleanedFile = {
                         ...file,
-                        imgCardClass: height > 250 ? 'imgMain card_x_large' :
-                                    height > 180 ? 'imgMain card_large' :
-                                    height > 130 ? 'imgMain card_medium' :
-                                                    'imgMain card_small'
+                        imgCardClass: height > 400 ? 'imgMain card_x_large' :
+                                    height > 300 ? 'imgMain card_large' :
+                                    height > 240 ? 'imgMain card_medium' :
+                                    height > 180 ? 'imgMain card_small' :
+                                                    'imgMain card_x_small'
                     };
     
+                    if(this.imgCardShowInfo) {
+                        cleanedFile.imgCardClass += '_has_Info';
+                    }
+
                     console.log('정제된 파일 imgCardClass:', JSON.stringify(cleanedFile.imgCardClass, null, 2));
                     resolve(cleanedFile);
                 };
@@ -69,6 +74,9 @@ export default class ScFileRelatedListCard extends LightningElement {
 
     handleActionClicked(event) {
         const actionValue = event.currentTarget.dataset.value;
+
+        console.log('📌📌 뭐 눌렸냐? >>> ', actionValue);
+
         const cardElement = event.currentTarget.closest('[data-id]');
         const fileId = cardElement.dataset.id;
 
