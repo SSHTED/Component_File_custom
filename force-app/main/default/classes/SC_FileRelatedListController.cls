@@ -1,13 +1,5 @@
 global with sharing class SC_FileRelatedListController {
 
-    // init
-    // @AuraEnabled(cacheable=true)
-    // global static Map<String, Object> getInit(){
-    //     Map<String, Object> resultMap = new Map<String, Object>();
-    //     resultMap.put('Result', true);
-    //     return resultMap;
-    // }
-
     // 레코드의 파일 데이터 가져오기
     // ContentVersion 오브젝트의 서브쿼리로 ContentDocumentLink를 사용할 수 없다.
     // 그래서 두 번의 쿼리 수행이 필요.
@@ -84,88 +76,83 @@ global with sharing class SC_FileRelatedListController {
     // ex. 버전 관리, 공유, 검색 등 관리 기능들 사용 가능
     // 추후 파라미터가 더 필요하면 추가
     // @AuraEnabled
-    // global static void saveData(String fileObj){
-    //     Map<String, Object> fileMap = (Map<String, Object>)JSON.deserializeUntyped(fileObj);
-
+    // public static void saveFileWithCategory(Id recordId, String fileName, String base64Data, String category) {
     //     try {
-    //         // ContentVersion 레코드 생성
-    //         ContentVersion contentVersion = new ContentVersion(
-    //             Title = objectToString(fileMap.get('fileName'))
-    //             , VersionData = (Blob)fileMap.get('fileBody')
-    //             , PathOnClient = objectToString(fileMap.get('fileName'))
-    //             , Category__c = objectToString(fileMap.get('category'))
-    //         );
-    
-    //         // ContentVersion 레코드 삽입
-    //         insert contentVersion;
+    //         // base64Data를 Blob으로 변환
+    //         Blob fileBlob = EncodingUtil.base64Decode(base64Data);
             
-    //         // ContentDocumentLink 레코드 생성
-    //         ContentDocumentLink contentLink = new ContentDocumentLink(
-    //             ContentDocumentId = [SELECT Id, ContentDocumentId FROM ContentVersion WHERE Id = :contentVersion.Id].ContentDocumentId,
-    //             LinkedEntityId = objectToString(fileMap.get('recordId')),
-    //             ShareType = 'V' // 모든 사용자에게 공유
-    //         );
-    
+    //         // ContentVersion 레코드 생성
+    //         ContentVersion cv = new ContentVersion();
+    //         cv.Title = fileName;
+    //         cv.VersionData = fileBlob;
+    //         cv.PathOnClient = fileName;
+    //         cv.IsMajorVersion = true;
+    //         cv.Category__c = category; // 카테고리 필드에 값 할당
+            
+    //         // ContentVersion 레코드 삽입
+    //         insert cv;
+    //         System.debug('ContentVersion record created with ID: ' + cv.Id);
+
+    //         // 생성된 ContentVersion의 ID 가져오기
+    //         Id contentVersionId = cv.Id;
+            
+    //         // ContentDocumentLink 레코드 생성하여 관련 레코드와 연결
+    //         ContentDocumentLink cdl = new ContentDocumentLink();
+    //         cdl.ContentDocumentId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :contentVersionId].ContentDocumentId;
+    //         cdl.LinkedEntityId = recordId; // 관련 레코드의 ID
+    //         cdl.ShareType = 'V';
+            
     //         // ContentDocumentLink 레코드 삽입
-    //         insert contentLink;
-    //     } catch (DmlException e) {
-    //         System.debug('Insert에 실패하였습니다. Error >>> ' + e);
+    //         insert cdl;
+    //         System.debug('ContentDocumentLink record created with ID: ' + cdl.Id);
+
+    //     } catch (Exception e) {
+    //         System.debug('Error in saveFileWithCategory: ' + e.getMessage());
+    //         throw new AuraHandledException('Error saving file with category: ' + e.getMessage());
     //     }
     // }
 
     @AuraEnabled
-    public static void saveFileWithCategory(Id recordId, String fileName, String base64Data, String category) {
+    public static void updateContentDocumentCategories(List<Id> contentDocumentIds, String category) {
+        System.debug('카테고리 :' + category);
         try {
-            // base64Data를 Blob으로 변환
-            Blob fileBlob = EncodingUtil.base64Decode(base64Data);
+            // ContentDocument ID 목록으로 ContentVersion 레코드 조회
+            List<ContentVersion> contentVersions = [
+                SELECT Id, ContentDocumentId, Category__c 
+                FROM ContentVersion 
+                WHERE ContentDocumentId IN :contentDocumentIds
+                AND IsLatest = true
+            ];
             
-            // ContentVersion 레코드 생성
-            ContentVersion cv = new ContentVersion();
-            cv.Title = fileName;
-            cv.VersionData = fileBlob;
-            cv.PathOnClient = fileName;
-            cv.IsMajorVersion = true;
-            cv.Category__c = category; // 카테고리 필드에 값 할당
+            System.debug('contentVersions: ' + contentVersions);
             
-            // ContentVersion 레코드 삽입
-            insert cv;
-            System.debug('ContentVersion record created with ID: ' + cv.Id);
-
-            // 생성된 ContentVersion의 ID 가져오기
-            Id contentVersionId = cv.Id;
-            
-            // ContentDocumentLink 레코드 생성하여 관련 레코드와 연결
-            ContentDocumentLink cdl = new ContentDocumentLink();
-            cdl.ContentDocumentId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :contentVersionId].ContentDocumentId;
-            cdl.LinkedEntityId = recordId; // 관련 레코드의 ID
-            cdl.ShareType = 'V';
-            
-            // ContentDocumentLink 레코드 삽입
-            insert cdl;
-            System.debug('ContentDocumentLink record created with ID: ' + cdl.Id);
-
-        } catch (Exception e) {
-            System.debug('Error in saveFileWithCategory: ' + e.getMessage());
-            throw new AuraHandledException('Error saving file with category: ' + e.getMessage());
-        }
-    }
-
-    @AuraEnabled
-    public static void updateContentDocumentCategory(Id contentDocumentId, String category) {
-        try {
-            // ContentDocument ID로 ContentVersion 레코드 조회
-            ContentVersion cv = [SELECT Id, Category__c FROM ContentVersion WHERE ContentDocumentId = :contentDocumentId ORDER BY CreatedDate DESC LIMIT 1];
+            // 업데이트가 필요한 ContentVersion 레코드를 저장할 리스트
+            List<ContentVersion> contentVersionsToUpdate = new List<ContentVersion>();
             
             // 카테고리 필드 업데이트
-            cv.Category__c = category;
-            
+            for (ContentVersion cv : contentVersions) {
+                // 기존 레코드의 Category__c 값과 비교하여 변경된 경우에만 업데이트 대상에 추가
+                if (cv.Category__c != category) {
+                    cv.Category__c = category;
+                    contentVersionsToUpdate.add(cv);
+                }
+            }
+
+            System.debug('contentVersionsToUpdate: ' + contentVersionsToUpdate);
+
             // ContentVersion 레코드 업데이트
-            update cv;
-            System.debug('ContentVersion record updated with ID: ' + cv.Id);
+            if (!contentVersionsToUpdate.isEmpty()) {
+                update contentVersionsToUpdate;
+
+
+                System.debug('Updated ' + contentVersionsToUpdate.size() + ' ContentVersion records.');
+            } else {
+                System.debug('No ContentVersion records to update.');
+            }
             
         } catch (Exception e) {
-            System.debug('Error in updateFileCategory: ' + e.getMessage());
-            throw new AuraHandledException('Error updating file category: ' + e.getMessage());
+            System.debug('Error in updateContentDocumentCategories: ' + e.getMessage());
+            throw new AuraHandledException('Error updating file categories: ' + e.getMessage());
         }
     }
 
@@ -209,8 +196,6 @@ global with sharing class SC_FileRelatedListController {
                 delete deleteContentDocuments;
 
                 Database.setSavepoint();
-
-
 
                 resultMap.put('Result', true);
                 resultMap.put('Count', deleteContentDocuments.size());

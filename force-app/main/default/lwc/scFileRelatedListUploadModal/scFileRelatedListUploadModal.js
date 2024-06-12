@@ -1,108 +1,71 @@
-import { LightningElement, api } from 'lwc';
-import saveFileWithCategory from '@salesforce/apex/SC_FileRelatedListController.saveFileWithCategory';
-import updateContentDocumentCategory from '@salesforce/apex/SC_FileRelatedListController.updateContentDocumentCategory';
+/**
+ * @file ScFileRelatedModal.js
+ * @description 파일 관련 모달 컴포넌트
+ * @version 1.0.0
+ * @date 2024-06-12
+ * @author JS 담당자: 신승현
+ * @css CSS 담당자: 최복규
+ * 
+ * @updates
+ *  - @updatedBy {이름} @updateVersion {수정 버전} @updateDate {수정 날짜}
+ */
 
-export default class ScFileRelatedModal extends LightningElement {
-    // property
-    @api recordId;
-    // data
-    @api fileData;
+import { LightningElement, api } from 'lwc';
+import updateContentDocumentCategories from '@salesforce/apex/SC_FileRelatedListController.updateContentDocumentCategories';
+
+export default class scFileRelatedListUploadModal extends LightningElement {
+    @api recordId; 
+    @api fileData; 
 
     acceptedFormats = '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.gif,.bmp,.txt,.zip,.rar';
     showCategorySelection = true;
     selectedCategory = '';
 
     connectedCallback() {
-        console.log('modal:', this.fileData)
     }
-
-    handleCloseModal() {
-        this.dispatchEvent(new CustomEvent('close'));
-    }
-
-    // handleUploadFinished(event) {
-    //     const uploadedFiles = event.detail.files;
-    //     console.log('업로드 파일: ', uploadedFiles)
-
-    //     const updatedFiles = uploadedFiles.map(file => ({
-    //         ...file,
-    //         Category__c: this.selectedCategory
-    //     }));
-    //     console.log('업로드 파일 + 카테고리 : ', JSON.stringify(updatedFiles,null,2));
-
-    //     this.dispatchEvent(new CustomEvent('afteruploadfile', {
-    //         detail: { files: updatedFiles },
-    //         bubbles: true,
-    //         composed: true
-    //     }));
-
-    //     this.dispatchEvent(new CustomEvent('close'));
-    // }
 
     handleUploadFinished(event) {
-        const uploadedFiles = event.detail.files;
-        const uniqueFileIds = new Set();
-        console.log('uploadedFiles: ', uploadedFiles);
+        const uploadedFiles = event.detail.files; 
+        const contentDocumentIds = uploadedFiles.map(file => file.documentId); // 파일의 documentId 리스트
+        console.log('uploadedFiles: ', JSON.stringify(uploadedFiles, null, 2)); 
 
-        uploadedFiles.forEach(file => {
-            console.log('file: ', JSON.stringify(file, null, 2));
+        // 파일 카테고리 업데이트 로직 수행
+        this.updateFileCategories(contentDocumentIds);
 
-            if (!uniqueFileIds.has(file.documentId)) {
-                uniqueFileIds.add(file.documentId);
-                
-                // 파일 처리 로직 수행
-                // this.saveFile(file);
-                this.updateFileCategory(file);
-
-            }
-        });
-
-        // 업로드 완료 후 수행할 작업
+        // afteruploadfile 이벤트 발생
         this.dispatchEvent(new CustomEvent('afteruploadfile', {
-            // detail: { files: uniqueFileIds },
-            bubbles: true,
-            composed: true
+            bubbles: true, // 이벤트 버블링 허용
+            composed: true // 컴포넌트 경계를 넘어 이벤트 전파 허용
         }));
 
         this.dispatchEvent(new CustomEvent('close'));
     }
 
-    async updateFileCategory(file) {
-        console.log('업데이트 파일 카테고리: ', file);
+    async updateFileCategories(contentDocumentIds) {
         try {
-            await updateContentDocumentCategory({
-                contentDocumentId: file.documentId,
+            // Apex 메소드 호출하여 파일 카테고리 업데이트
+            await updateContentDocumentCategories({
+                contentDocumentIds: contentDocumentIds,
                 category: this.selectedCategory
             });
         } catch (error) {
-            console.error('Error updating file category:', error);
+            console.error('Error updateFileCategories:', error.message); 
         }
     }
 
-    // async saveFile(file) {
-    //     console.log('세이브 파일: '. file)
-    //     try {
-    //         await saveFileWithCategory({
-    //             recordId: this.recordId,
-    //             fileName: file.name,
-    //             base64Data: file.contentVersionId,
-    //             category: this.selectedCategory
-    //         });
-    //     } catch (error) {
-    //         console.error('Error saving file with category:', error);
-    //     }
-    // }
-
-
     handleCategorySelected() {
-        this.showCategorySelection = false;
+        this.showCategorySelection = false; 
     }
 
     handleCategoryChange(event) {
         this.selectedCategory = event.target.value;
     }
 
+    handleCloseModal() {
+        this.dispatchEvent(new CustomEvent('close')); 
+    }
+
     get modalTitle() {
-        return this.showCategorySelection ? 'Category 선택' : '파일 업로드';
+        return this.showCategorySelection ? 'Category 선택' : '파일 업로드'; 
     }
 }
