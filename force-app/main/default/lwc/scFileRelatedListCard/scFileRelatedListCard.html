@@ -12,13 +12,13 @@
                     <div class="shadowBox"></div>
 
                     <div class="btn_area">
-                        <div class="action_btn" data-value="expand" onclick={handleActionClicked} style="background-color:rgb(58,73,98)">
+                        <div class="action_btn" data-value="expand" data-id={fileData.Id} onclick={handleActionClicked} style="background-color:rgb(58,73,98)">
                             <lightning-icon class="btnIcon" icon-name="utility:expand" size="x-small"></lightning-icon>
                         </div>
-                        <div class="action_btn" data-value="download" onclick={handleActionClicked} style="background-color:rgb(29,204,191)">
+                        <div class="action_btn" data-value="download" data-id={fileData.Id} onclick={handleActionClicked} style="background-color:rgb(29,204,191)">
                             <lightning-icon class="btnIcon" icon-name="utility:download" size="x-small"></lightning-icon>
                         </div>
-                        <div class="action_btn" data-value="delete" onclick={handleActionClicked} style="background-color:rgb(255,165,0)">
+                        <div class="action_btn" data-value="delete" data-id={fileData.Id} onclick={handleActionClicked} style="background-color:rgb(255,165,0)">
                             <lightning-icon class="btnIcon" icon-name="utility:delete" size="x-small"></lightning-icon>
                         </div>
                     </div>

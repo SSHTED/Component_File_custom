@@ -26,6 +26,7 @@
         <!-- body -->
         <template if:true={actSectionOpen}>
             <c-sc-file-related-list-body
+                record-id={recordId}
                 default-view-type={defaultViewType}
                 view-type_table={viewType_table}
                 view-type_thumbnail={viewType_thumbnail}
@@ -43,6 +44,7 @@
                 selected-row-ids={selectedRowIds}
                 is-component-size-small={isComponentSizeSmall}
                 
+                onafterdeletefile={handleAfterDeleteFile}
                 oncheckboxchange={handleCheckboxChange}
                 oncheckboxchangeall={handleCheckboxChangeAll}
                 onclearrowids={handleClearRowIds}

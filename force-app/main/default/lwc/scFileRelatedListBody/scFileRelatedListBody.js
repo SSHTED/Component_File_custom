@@ -3,6 +3,7 @@ import { LightningElement, api } from 'lwc';
 
 export default class ScFileRelatedListBody extends LightningElement {
     //property
+    @api recordId;
     @api actNo;
     @api defaultViewType;
     @api viewType_table;

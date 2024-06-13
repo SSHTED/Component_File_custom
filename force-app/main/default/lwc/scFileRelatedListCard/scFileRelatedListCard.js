@@ -1,8 +1,11 @@
 // scFileRelatedListCard.js
 import { LightningElement, api } from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
+import deleteFilesByRecordId from '@salesforce/apex/SC_FileRelatedListController.deleteFilesByRecordId';
 
-export default class ScFileRelatedListCard extends LightningElement {
+export default class ScFileRelatedListCard extends NavigationMixin(LightningElement) {
     // property
+    @api recordId;
     @api imgCardShowInfo;
     @api imgCardInfoTitleColor;
     @api imgCardInfoDateColor;
@@ -74,11 +77,92 @@ export default class ScFileRelatedListCard extends LightningElement {
 
     handleActionClicked(event) {
         const actionValue = event.currentTarget.dataset.value;
+        const selectedFileId = event.currentTarget.dataset.id;
 
-        console.log('📌📌 뭐 눌렸냐? >>> ', actionValue);
+        console.log('Action Value:', actionValue);
+        console.log('Selected File ID:', selectedFileId);
 
-        const cardElement = event.currentTarget.closest('[data-id]');
-        const fileId = cardElement.dataset.id;
+        // 선택된 파일 객체 찾기
+        const selectedFile = this.fileData.find(file => file.Id === selectedFileId);
+        const selectedFileDocId = selectedFile.ContentDocumentId;
+        console.error('이미지 selectedFile:', JSON.stringify(selectedFile, null, 2));
+
+
+        switch (actionValue) {
+            case 'expand':
+                this[NavigationMixin.Navigate]({
+                    type: 'standard__namedPage',
+                    attributes: {
+                        pageName: 'filePreview'
+                    },
+                    state: {
+                        recordIds: selectedFileDocId
+                    }
+                });
+                break;
+            
+            case 'download':
+                if (confirm('다운로드 하시겠습니까?')) {
+                    const selectedFiles = this.fileData.filter(file => selectedFileId.includes(file.Id));
+                    this.totalFilesToDownload = selectedFiles.length;
+                    this.isShowDownloadModal = true;
+                    this.isDownloadCancelled = false;
+                    this.isDownloadEnd = false;
+                    this.downloadProgress = 0;
+                    let index = 0;
+        
+                    const downloadNextFile = () => {
+                        if (index >= selectedFiles.length || this.isDownloadCancelled) {
+                            this.downloadProgress = this.totalFilesToDownload;
+                            this.isDownloadEnd = true;
+                            return;
+                        }
+        
+                        const file = selectedFiles[index];
+                        const downloadLink = document.createElement('a');
+                        downloadLink.href = file.VersionDataUrl;
+                        downloadLink.download = file.Title;
+                        document.body.appendChild(downloadLink);
+                        downloadLink.click();
+                        document.body.removeChild(downloadLink);
+        
+                        index++;
+                        this.downloadProgress = index;
+                        setTimeout(downloadNextFile, 500);
+                    };
+                    downloadNextFile();
+                }
+                break;
+            
+            case 'delete':
+                if (confirm('선택한 항목을 삭제하시겠습니까?')) {
+                    deleteFilesByRecordId({ recordId: this.recordId, deleteIdList: selectedFileId })
+                        .then(result => {
+                            console.log('삭제 결과:', result);
+                            if (result.Result) {
+                                console.log('삭제된 항목 수:', result.Count);
+                                this.fileData = this.fileData.filter(item => !selectedFileId.includes(item.Id));
+                                console.log('삭제후 file Data: ', JSON.stringify(this.fileData, null, 2));
+                                this.selectedRowIds = [];
+                                this.dispatchEvent(new CustomEvent('afterdeletefile', {
+                                    detail: this.fileData,
+                                    bubbles: true, // 이벤트 버블링 허용
+                                    composed: true // 컴포넌트 경계를 넘어 이벤트 전파 허용
+                                }));
+                                
+                            } else {
+                                console.error('삭제 실패');
+                                alert('항목 삭제에 실패했습니다.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('삭제 요청 실패:', error.message);
+                            alert('항목 삭제 요청에 실패했습니다.');
+                        });
+                }
+                break;
+            default:
+        }
 
         this.dispatchEvent(new CustomEvent('imgcardactionclicked', { detail: { id: fileId, action: actionValue } }));
     }

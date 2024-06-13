@@ -28,6 +28,7 @@
             <!-- 이미지 카드 형태 -->
             <template if:true={tab.isCard}>
               <c-sc-file-related-list-card
+                record-id={recordId}
                 selected-row-ids={selectedRowIds}
                 file-data={fileData}
                 img-card-show-info={imgCardShowInfo}>
