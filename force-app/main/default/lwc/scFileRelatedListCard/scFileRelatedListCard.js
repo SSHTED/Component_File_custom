@@ -55,6 +55,9 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
             });
     }
 
+    renderedCallback(){
+    }
+
     handleMouseOver(event) {
         const cardElement = event.currentTarget;
         const btnArea = cardElement.querySelector('.btn_area');

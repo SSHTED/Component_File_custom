@@ -1,7 +1,17 @@
-// scFileRelatedListHeader.js
 import { LightningElement, api } from 'lwc';
 import deleteFilesByRecordId from '@salesforce/apex/SC_FileRelatedListController.deleteFilesByRecordId';
 
+/**
+ * @file scFileRelatedListHeader.js
+ * @description 파일 관련 슬라이드 컴포넌트
+ * @version 1.0.0
+ * @date 2024-06-12
+ * @js 담당자: 신승현
+ * @css 담당자: 최복규
+
+ * @updates
+ *  - @updatedBy {이름} @updateVersion {수정 버전} @updateDate {수정 날짜}
+ */
 export default class ScFileRelatedListHeader extends LightningElement {
     // property
     @api recordId;
@@ -38,45 +48,40 @@ export default class ScFileRelatedListHeader extends LightningElement {
     }
 
     renderedCallback(){
-        this.handleInitialLogic();
+        this.updateComponentSize();
     }
 
-    handleInitialLogic() {
-        if (!this.hasInitialLogicExecuted) {
-            let mainDataElement = this.template.querySelector('.slds-card__header');
-            console.log('로그 찍음대지 1', mainDataElement)
-
-            if (mainDataElement) {
-                let mainDataWidth = mainDataElement.offsetWidth;
-                console.log('로그 찍음대지 2', mainDataWidth);
-
-                if (mainDataWidth <= 930) {
-                    this.isComponentSizeSmall = true;
-                } else {
-                    this.isComponentSizeSmall = false;
-                }
-            }else {
-                console.log('mainDataElement is null');
-            }
-
-            this.hasInitialLogicExecuted = true;
-            console.log('로그 찍음대지 3', this.isComponentSizeSmall)
-            this.dispatchEvent(new CustomEvent('iscomponentsizesmall', {
-                detail: {
-                    isComponentSizeSmall: this.isComponentSizeSmall 
-                }
-            }));
+    updateComponentSize() {
+        if (this.hasInitialLogicExecuted) {
+            return;
         }
+    
+        const mainDataElement = this.template.querySelector('.slds-card__header');
+        
+        if (!mainDataElement) {
+            console.log('updateComponentSize mainDataElement >>>>> null');
+            return;
+        }
+    
+        const mainDataWidth = mainDataElement.offsetWidth;
+        this.isComponentSizeSmall = mainDataWidth <= 930;
+    
+        this.hasInitialLogicExecuted = true;
+        console.log('this.isComponentSizeSmall: ', this.isComponentSizeSmall);
+    
+        this.dispatchEvent(new CustomEvent('iscomponentsizesmall', {
+            detail: { isComponentSizeSmall: this.isComponentSizeSmall }
+        }));
     }
 
     handleFileUploadBtnClick() {
         this.isShowUploadModal = !this.isShowUploadModal;
     }
 
-    handleDownloadBtnClick() {
+    async handleDownloadBtnClick() {
         console.log('헤더. 다운 selectedRowIds: ', JSON.stringify(this.selectedRowIds, null, 2));
         console.log('선택된 탭: ', this.activeTabValue);
-
+    
         const isSelectionRequired = this.isSelectionExemptTab(this.activeTabValue);
         const hasSelectedRows = this.selectedRowIds.length > 0;
     
@@ -84,43 +89,46 @@ export default class ScFileRelatedListHeader extends LightningElement {
             alert('다운로드할 항목을 선택해주세요.');
             return;
         }
-        
+    
         if (isSelectionRequired) {
-            // isSelectionRequired가 true인 경우 fileData의 모든 항목을 selectedRowIds에 추가
             this.selectedRowIds = this.fileData.map(file => file.Id);
         }
-
-        if (confirm('다운로드 하시겠습니까?')) {
-            const selectedFiles = this.fileData.filter(file => this.selectedRowIds.includes(file.Id));
-            this.totalFilesToDownload = selectedFiles.length;
-            this.isShowDownloadModal = true;
-            this.isDownloadCancelled = false;
-            this.isDownloadEnd = false;
-            this.downloadProgress = 0;
-            let index = 0;
-
-            const downloadNextFile = () => {
-                if (index >= selectedFiles.length || this.isDownloadCancelled) {
-                    this.downloadProgress = this.totalFilesToDownload;
-                    this.isDownloadEnd = true;
-                    return;
-                }
-
-                const file = selectedFiles[index];
-                const downloadLink = document.createElement('a');
-                downloadLink.href = file.VersionDataUrl;
-                downloadLink.download = file.Title;
-                document.body.appendChild(downloadLink);
-                downloadLink.click();
-                document.body.removeChild(downloadLink);
-
-                index++;
-                this.downloadProgress = index;
-                setTimeout(downloadNextFile, 500);
-            };
-
-            downloadNextFile();
+    
+        if (!confirm('다운로드 하시겠습니까?')) {
+            return;
         }
+    
+        const selectedFiles = this.fileData.filter(file => this.selectedRowIds.includes(file.Id));
+        this.totalFilesToDownload = selectedFiles.length;
+        this.isShowDownloadModal = true;
+        this.isDownloadCancelled = false;
+        this.isDownloadEnd = false;
+        this.downloadProgress = 0;
+    
+        for (let index = 0; index < selectedFiles.length; index++) {
+            if (this.isDownloadCancelled) {
+                break;
+            }
+    
+            const file = selectedFiles[index];
+            await this.downloadFile(file);
+            this.downloadProgress = index + 1;
+        }
+    
+        this.isDownloadEnd = true;
+    }
+    
+    downloadFile(file) {
+        return new Promise((resolve) => {
+            const downloadLink = document.createElement('a');
+            downloadLink.href = file.VersionDataUrl;
+            downloadLink.download = file.Title;
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+    
+            setTimeout(resolve, 500);
+        });
     }
 
     isSelectionExemptTab(activeTabValue) {
@@ -128,34 +136,49 @@ export default class ScFileRelatedListHeader extends LightningElement {
         return SELECTION_EXEMPT_TABS.includes(activeTabValue);
     }
 
-    handleDeleteBtnClick() {
+    async handleDeleteBtnClick() {
         console.log('헤더. 삭제 selectedRowIds: ', JSON.stringify(this.selectedRowIds, null, 2));
+        
         if (this.selectedRowIds.length === 0) {
             alert('삭제할 항목을 선택해주세요.');
             return;
         }
-
-        if (confirm('선택한 항목을 삭제하시겠습니까?')) {
-            deleteFilesByRecordId({ recordId: this.recordId, deleteIdList: JSON.stringify(this.selectedRowIds) })
-                .then(result => {
-                    console.log('삭제 결과:', result);
-                    if (result.Result) {
-                        console.log('삭제된 항목 수:', result.Count);
-                        this.fileData = this.fileData.filter(item => !this.selectedRowIds.includes(item.Id));
-                        console.log('삭제후 file Data: ', JSON.stringify(this.fileData, null, 2))
-                        this.selectedRowIds = [];
-                        this.dispatchEvent(new CustomEvent('afterdeletefile', { detail: this.fileData }));
-
-                    } else {
-                        console.error('삭제 실패');
-                        alert('항목 삭제에 실패했습니다.');
-                    }
-                })
-                .catch(error => {
-                    console.error('삭제 요청 실패:', error.message);
-                    alert('항목 삭제 요청에 실패했습니다.');
-                });
+    
+        const confirmDelete = confirm('선택한 항목을 삭제하시겠습니까?');
+        if (!confirmDelete) {
+            return;
         }
+    
+        try {
+            const result = await deleteFilesByRecordId({
+                recordId: this.recordId,
+                deleteIdList: JSON.stringify(this.selectedRowIds)
+            });
+    
+            console.log('삭제 결과:', result);
+            
+            if (result.Result) {
+                console.log('삭제된 항목 수:', result.Count);
+                this.updateFileDataAfterDelete();
+                this.dispatchAfterDeleteEvent();
+            } else {
+                console.error('삭제 실패');
+                alert('항목 삭제에 실패했습니다.');
+            }
+        } catch (error) {
+            console.error('삭제 요청 실패:', error.message);
+            alert('항목 삭제 요청에 실패했습니다.');
+        }
+    }
+    
+    updateFileDataAfterDelete() {
+        this.fileData = this.fileData.filter(item => !this.selectedRowIds.includes(item.Id));
+        console.log('삭제후 file Data: ', JSON.stringify(this.fileData, null, 2));
+        this.selectedRowIds = [];
+    }
+    
+    dispatchAfterDeleteEvent() {
+        this.dispatchEvent(new CustomEvent('afterdeletefile', { detail: this.fileData }));
     }
 
     handleSortBtnClick(event) {

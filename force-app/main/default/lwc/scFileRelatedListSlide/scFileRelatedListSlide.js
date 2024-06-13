@@ -1,18 +1,27 @@
-// scFileRelatedListSlide.js
 import { LightningElement, api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 
+/**
+ * @file scFileRelatedListSlide.js
+ * @description 파일 관련 슬라이드 컴포넌트
+ * @version 1.0.0
+ * @date 2024-06-12
+ * @js 담당자: 신승현
+ * @css 담당자: 최복규
+
+ * @updates
+ *  - @updatedBy {이름} @updateVersion {수정 버전} @updateDate {수정 날짜}
+ */
 export default class ScFileRelatedListSlide extends NavigationMixin(LightningElement) {
     @api fileData;
-    @api componentSizeisBig;
-    @api selectedRowIds;
-    @api isComponentSizeSmall;
-    @api slideDelayTime;
+    @api selectedRowIds;  // string[]
+    @api isComponentSizeSmall;  // boolean
+    @api slideDelayTime;  
 
     imgId;
-    imgSrc;
+    imgSrc; // string (URL)
     imgTitle;
-    slideInterval;
+    slideInterval;     // 슬라이드 간격을 제어하기 위한 인터벌 변수
     isPlaying = false;
     togglePlayIcon = 'utility:play';
 

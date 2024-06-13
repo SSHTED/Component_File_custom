@@ -1,6 +1,16 @@
-// scFileRelatedListTable.js
 import { LightningElement, api } from 'lwc';
 
+/**
+ * @file scFileRelatedListTable.js
+ * @description 파일 관련 테이블 컴포넌트
+ * @version 1.0.0
+ * @date 2024-06-12
+ * @js 담당자: 신승현
+ * @css 담당자: 최복규
+ * 
+ * @updates
+ *  - @updatedBy {이름} @updateVersion {수정 버전} @updateDate {수정 날짜}
+ */
 export default class ScFileRelatedListTable extends LightningElement {
     // property
     @api actNo;
@@ -26,7 +36,12 @@ export default class ScFileRelatedListTable extends LightningElement {
         { label: '확장자', fieldName: 'FileExtension', sortable: true, type: 'data', customClass: 'th4' },
         { label: '크기', fieldName: 'ContentSize', sortable: true, type: 'data', customClass: 'th5' }
     ];
-
+    
+    /**
+     * 확장된 테이블 헤더 구성을 반환합니다.
+     * actNo가 제공되지 않은 경우 'index' 열을 필터링합니다.
+     * @returns {Array} 확장된 테이블 헤더 구성
+     */
     get extendedTableThead() {
         let result = this.tableThead;
 
