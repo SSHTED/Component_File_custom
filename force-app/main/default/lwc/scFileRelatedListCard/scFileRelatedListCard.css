@@ -18,45 +18,81 @@
     border-radius: var(--card_border_radius, 5px);
 }
 
-.card_x_small {
-    grid-row-end: span var(--card_x_small, 10);
+
+.card_xxx_small {
+    grid-row-end: span var(--card_xxx_small, 4);
 }
 
-.card_x_small_has_Info {
-    grid-row-end: span var(--card_x_small, 13);
+.card_xx_small {
+    grid-row-end: span var(--card_xx_small, 6);
+}
+
+.card_x_small {
+    grid-row-end: span var(--card_x_small, 8);
 }
 
 .card_small {
-    grid-row-end: span var(--card_small, 13);
-}
-
-.card_small_has_Info {
-    grid-row-end: span var(--card_small, 16);
+    grid-row-end: span var(--card_small, 10);
 }
 
 .card_medium {
-    grid-row-end: span var(--card_medium, 16);
-}
-
-.card_medium_has_Info {
-    grid-row-end: span var(--card_medium, 19);
+    grid-row-end: span var(--card_medium, 12);
 }
 
 .card_large {
-    grid-row-end: span var(--card_large, 20);
-}
-
-.card_large_has_Info {
-    grid-row-end: span var(--card_large, 23);
+    grid-row-end: span var(--card_large, 14);
 }
 
 .card_x_large {
-    grid-row-end: span var(--card_x_large, 25);
+    grid-row-end: span var(--card_x_large, 16);
+}
+
+.card_xx_large {
+    grid-row-end: span var(--card_xx_large, 18);
+}
+
+.card_xxx_large {
+    grid-row-end: span var(--card_xxx_large, 22);
+}
+
+
+.card_xxx_small_has_Info {
+    grid-row-end: span var(--card_xxx_small, 7);
+}
+
+.card_xx_small_has_Info {
+    grid-row-end: span var(--card_xx_small, 9);
+}
+
+.card_x_small_has_Info {
+    grid-row-end: span var(--card_x_small, 11);
+}
+
+.card_small_has_Info {
+    grid-row-end: span var(--card_small, 13);
+}
+
+.card_medium_has_Info {
+    grid-row-end: span var(--card_medium, 15);
+}
+
+.card_large_has_Info {
+    grid-row-end: span var(--card_large, 17);
 }
 
 .card_x_large_has_Info {
-    grid-row-end: span var(--card_x_large, 28);
+    grid-row-end: span var(--card_x_large, 19);
 }
+
+.card_xx_large_has_Info {
+    grid-row-end: span var(--card_xx_large, 21);
+}
+
+.card_xxx_large_has_Info {
+    grid-row-end: span var(--card_xxx_large, 25);
+}
+
+
 
 .imgWrapper {
     position: relative;
@@ -118,8 +154,8 @@
 
 .btn_area {
     position: absolute;
-    bottom: 15px;
-    right: 10px;
+    bottom: 5px;
+    right: 5px;
     z-index: 2;
     display: none;
 }
@@ -128,10 +164,10 @@
     cursor: pointer;
     float: left;
     margin-right: 5px;
-    padding: 9px 12px;
-    width: 40px;
-    height: 40px;
-    border-radius: 20px;
+    padding: 3px 7px;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
 }
 
 .action_btn .btnIcon {

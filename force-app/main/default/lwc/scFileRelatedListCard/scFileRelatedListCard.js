@@ -12,7 +12,7 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
     // data
     @api fileData;
     @api selectedRowIds;
-
+    
     connectedCallback() {
         this.calculateImageSize();
     }
@@ -29,11 +29,15 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
                     let height = 230 / aspectRatio;
                     const cleanedFile = {
                         ...file,
-                        imgCardClass: height > 400 ? 'imgMain card_x_large' :
-                                    height > 300 ? 'imgMain card_large' :
-                                    height > 240 ? 'imgMain card_medium' :
-                                    height > 180 ? 'imgMain card_small' :
-                                                    'imgMain card_x_small'
+                        imgCardClass: height > 400 ? 'imgMain card_xxx_large' :
+                                    height > 350 ? 'imgMain card_xx_large' :
+                                    height > 300 ? 'imgMain card_x_large' :
+                                    height > 250 ? 'imgMain card_large' :
+                                    height > 200 ? 'imgMain card_medium' :
+                                    height > 150 ? 'imgMain card_small' :
+                                    height > 100 ? 'imgMain card_x_small' :
+                                    height > 50 ? 'imgMain card_xx_small' :
+                                                    'imgMain card_xxx_small'
                     };
     
                     if(this.imgCardShowInfo) {
@@ -56,6 +60,19 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
     }
 
     renderedCallback(){
+
+        // 글자색 변경
+        const titleElements = this.template.querySelectorAll('.imgCardInfoTitle');
+        const dateElements = this.template.querySelectorAll('.imgCardInfoDate');
+
+        // 각 요소에 대해 글자색을 변경
+        titleElements.forEach(titleElement => {
+            titleElement.style.color = this.imgCardInfoTitleColor;
+        });
+
+        dateElements.forEach(dateElement => {
+            dateElement.style.color = this.imgCardInfoDateColor;
+        });
     }
 
     handleMouseOver(event) {
