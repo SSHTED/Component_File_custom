@@ -31,13 +31,16 @@
                 record-id={recordId}
                 selected-row-ids={selectedRowIds}
                 file-data={fileData}
-                img-card-show-info={imgCardShowInfo}>
+                img-card-show-info={imgCardShowInfo}
+                img-card-info-title-color={imgCardInfoTitleColor}
+                img-card-info-date-color={imgCardInfoDateColor}>
               </c-sc-file-related-list-card>
             </template>
 
             <!-- 슬라이드 형태 -->
             <template if:true={tab.isSlide}>
               <c-sc-file-related-list-slide
+                record-id={recordId}
                 file-data={fileData}
                 selected-row-ids={selectedRowIds}
                 is-component-size-small={isComponentSizeSmall}

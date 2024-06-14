@@ -64,9 +64,28 @@
 }
 
 .slideImgInfo p {
-    cursor: pointer;
+    float: left;
+    width: 300px;
     font-size: 20px;
     color: darkslategray;
+}
+
+.btn_area {
+    float: right;
+}
+
+.action_btn { 
+    cursor: pointer;
+    float: left;
+    margin-right: 5px;
+    padding: 3px 7px;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+}
+
+.action_btn .btnIcon {
+    --slds-c-icon-color-foreground-default: white;
 }
 
 .imgArea .slideImgBox {

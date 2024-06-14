@@ -43,14 +43,15 @@ export default class ScFileRelatedListHeader extends LightningElement {
     sortDirection = {};
 
     connectedCallback() {
+        // 드롭다운의 표시 여부 결정
         this.isDropdownVisible  = this.actUploadBtn || this.actDownloadBtn || this.actDeleteBtn;
-
     }
 
     renderedCallback(){
         this.updateComponentSize();
     }
 
+    // 컴포넌트가 렌더링된 후 초기 사이즈 결정 로직 실행
     updateComponentSize() {
         if (this.hasInitialLogicExecuted) {
             return;
@@ -81,7 +82,8 @@ export default class ScFileRelatedListHeader extends LightningElement {
     async handleDownloadBtnClick() {
         console.log('헤더. 다운 selectedRowIds: ', JSON.stringify(this.selectedRowIds, null, 2));
         console.log('선택된 탭: ', this.activeTabValue);
-    
+
+        // 선택이 필요한지 여부 확인
         const isSelectionRequired = this.isSelectionExemptTab(this.activeTabValue);
         const hasSelectedRows = this.selectedRowIds.length > 0;
     
@@ -131,6 +133,7 @@ export default class ScFileRelatedListHeader extends LightningElement {
         });
     }
 
+    // 선택 예외 탭인지 확인
     isSelectionExemptTab(activeTabValue) {
         const SELECTION_EXEMPT_TABS = ['viewType_card', 'viewType_slide'];
         return SELECTION_EXEMPT_TABS.includes(activeTabValue);
@@ -170,7 +173,8 @@ export default class ScFileRelatedListHeader extends LightningElement {
             alert('항목 삭제 요청에 실패했습니다.');
         }
     }
-    
+
+    // 삭제 후 파일 데이터 업데이트
     updateFileDataAfterDelete() {
         this.fileData = this.fileData.filter(item => !this.selectedRowIds.includes(item.Id));
         console.log('삭제후 file Data: ', JSON.stringify(this.fileData, null, 2));
@@ -181,6 +185,7 @@ export default class ScFileRelatedListHeader extends LightningElement {
         this.dispatchEvent(new CustomEvent('afterdeletefile', { detail: this.fileData }));
     }
 
+    // 정렬 버튼 클릭 핸들러
     handleSortBtnClick(event) {
         const sortBy = event.detail.value;
         this.isSortBtnClick = true;
@@ -232,6 +237,7 @@ export default class ScFileRelatedListHeader extends LightningElement {
         });
     }
 
+    // 섹션 토글 처리
     handleExpandToggle() {
         this.actSectionOpen = !this.actSectionOpen;
         this.dispatchEvent(new CustomEvent('expandtoggleclicked', { detail: { actSectionOpen: this.actSectionOpen } }));
