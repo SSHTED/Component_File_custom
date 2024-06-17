@@ -5,7 +5,7 @@
       <template if:false={isComponentSizeSmall}>
         <div class="main_left">
           <template for:each={fileData} for:item="fileData" for:index="index">
-            <div class="main_left_thumbImg" key={fileData.Id} data-img-title={fileData.Title} data-img-url={fileData.ImgSrc} onclick={handleThumbnailClick} data-index={index}>
+            <div class="main_left_thumbImg" key={fileData.Id} data-img-title={fileData.Title} data-img-url={fileData.ImgSrc} onclick={handleSlideNaviClick} data-index={index}>
               <img src={fileData.ImgSrc} alt="썸네일 이미지"/>
             </div>
           </template>
