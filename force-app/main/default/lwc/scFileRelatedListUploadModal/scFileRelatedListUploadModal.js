@@ -17,8 +17,6 @@ export default class scFileRelatedListUploadModal extends LightningElement {
     @api fileData; 
 
     acceptedFormats = '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.gif,.bmp,.txt,.zip,.rar';
-    showCategorySelection = true;
-    selectedCategory = '';
 
     connectedCallback() {
     }
@@ -54,14 +52,6 @@ export default class scFileRelatedListUploadModal extends LightningElement {
         }
     }
 
-    handleCategorySelected() {
-        this.showCategorySelection = false; 
-    }
-
-    handleCategoryChange(event) {
-        this.selectedCategory = event.target.value;
-    }
-
     handleCloseModal() {
         this.dispatchEvent(new CustomEvent('close')); 
     }
@@ -71,6 +61,6 @@ export default class scFileRelatedListUploadModal extends LightningElement {
      * @returns {String} 모달 제목
      */
     get modalTitle() {
-        return this.showCategorySelection ? 'Category 선택' : '파일 업로드'; 
+        return 'Category 선택'; 
     }
 }
