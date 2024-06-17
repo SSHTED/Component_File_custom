@@ -40,6 +40,7 @@ export default class ScFileRelatedListHeader extends LightningElement {
     isComponentSizeSmall = false;
     hasInitialLogicExecuted = false;
     isSortAscending = false;
+    isFilter = false;
     
     sortDirection = {};
 
@@ -264,5 +265,9 @@ export default class ScFileRelatedListHeader extends LightningElement {
     }
     get sortDirectionIcon() {
         return this.isSortAscending ? 'utility:arrowdown' : 'utility:arrowup';
+    }
+
+    handleFilterbtn() {
+        this.isFilter = !this.isFilter;
     }
 }

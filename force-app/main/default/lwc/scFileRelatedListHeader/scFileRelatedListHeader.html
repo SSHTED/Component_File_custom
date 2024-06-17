@@ -20,6 +20,12 @@
                 </template>
               </div>
             </div>
+            <!-- 좁은 영역일 때 검색 영역 -->
+            <template if:true={isFilter}>
+              <div class="filterArea">
+                  <lightning-input name="search" placeholder="검색어를 입력해주세요." type="search" value={inputSearchValue} onchange={handleSearchValue}></lightning-input>
+              </div>
+            </template>
           </template>
 
           <template if:false={isComponentSizeSmall}>
@@ -36,7 +42,6 @@
               </div>
             </div>
            </template>
-
         </div>
       </div>
 
@@ -79,8 +84,8 @@
 
       <template if:true={isComponentSizeSmall}>
         <div class="btnGroup">
-          <!-- 검색 -->
-          <lightning-input class="searchBox" type="search"></lightning-input>
+          <!-- 검색영역 확장 버튼 -->
+          <lightning-button-icon class="searchIcon" icon-name="utility:search" variant="border-filled" onclick={handleFilterbtn} alternative-text="확장" title="확장"></lightning-button-icon>
 
           <template if:true={isDropdownVisible}>
             <lightning-button-menu class="inner_btnMenu" menu-alignment="auto" variant="border-filled">
