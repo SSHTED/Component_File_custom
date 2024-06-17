@@ -87,8 +87,15 @@ export default class ScFileRelatedListContainer extends LightningElement {
         return getFileData(params)
             .then((result) => {
                 console.log('getFileData result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', result);
+                const processedFileData = result.Result
+                    .slice(0, this.countRecord)
+                    .map((fileData, index) => {
+                        return this.processFileData(fileData, index);
+                    });
+
                 this.objectApiName = result.ObjectApiName;
-                return result.Result.map((fileData, index) => this.processFileData(fileData, index));
+                
+                return processedFileData;
             })
             .catch((error) => {
                 console.log('getFileData error >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', error.message);

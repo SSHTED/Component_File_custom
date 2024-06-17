@@ -7,7 +7,7 @@
     </targets>
     <targetConfigs>
         <targetConfig targets="lightning__RecordPage">
-            <property name="category" type="String" label="Category" default="" description="파일 구분 기준." required="true"/>
+            <property name="category" type="String" label="Category" default="" description="파일 구분 기준."/>
             <property name="title" type="String" label="Title" default="Insert Title"/>
             <property name="icon" type="String" label="Icon" default="standard:file"/>
             <property name="themeColor" type="String" label="테마 색상 변경" datasource="white, red, orange, yellow, green, blue, purple" default="white"/>

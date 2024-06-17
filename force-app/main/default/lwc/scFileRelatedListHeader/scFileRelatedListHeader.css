@@ -13,19 +13,6 @@
     float: left;
 }
 
-.inner_btnGroup {
-    float: left;
-}
-
-.inner_btnMenu {
-    margin-left: 10px;
-}
-
-.toggleIcon {
-    margin-top: 3px;
-    margin-left: 10px;
-}
-
 .headerTitle_large {
     float: left;
     margin-left: 10px;
@@ -71,6 +58,26 @@
 
 .btnGroup {
     position: absolute;
-    top: 35px;
+    top: 40px;
     right: 11px;
+}
+
+.searchBox {
+    float: left;
+    margin-top: -19px;
+    margin-right: 10px;
+}
+
+.inner_btnGroup {
+    float: left;
+    margin-right: 10px;
+}
+
+.inner_btnMenu {
+    float: left;
+    margin-right: 10px;
+}
+
+.toggleIcon {
+    margin-top: 7px;
 }

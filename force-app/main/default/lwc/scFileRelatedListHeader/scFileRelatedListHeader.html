@@ -43,6 +43,9 @@
       <template if:false={isComponentSizeSmall}>
         <!-- 버튼 영역 -->
         <div class="btnGroup">
+          <!-- 검색 -->
+          <lightning-input class="searchBox" type="search"></lightning-input>
+          
           <lightning-button-group class="inner_btnGroup">
             <!-- 파일 업로드 버튼 -->
             <template if:true={actUploadBtn}>
@@ -76,6 +79,9 @@
 
       <template if:true={isComponentSizeSmall}>
         <div class="btnGroup">
+          <!-- 검색 -->
+          <lightning-input class="searchBox" type="search"></lightning-input>
+
           <template if:true={isDropdownVisible}>
             <lightning-button-menu class="inner_btnMenu" menu-alignment="auto" variant="border-filled">
               <template if:true={actUploadBtn}>
