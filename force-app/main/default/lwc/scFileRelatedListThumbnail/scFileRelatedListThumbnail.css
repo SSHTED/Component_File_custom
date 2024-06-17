@@ -12,7 +12,7 @@
     z-index: 1;
 }
 
-.thumbnailTable .th1 {
+/* .thumbnailTable .th1 {
     width: 50px;
 }
 
@@ -34,6 +34,30 @@
 }
 
 .thumbnailTable .th6 {
+    width: 100px;
+} */
+.thumbnailTable .th_index {
+    width: 50px;
+}
+
+.thumbnailTable .th_checkbox {
+    padding-left: 24px !important;
+    width: 50px;
+}
+
+.thumbnailTable .th_thumbnail {
+    width: 150px;
+}
+
+.thumbnailTable .th_title {
+    max-width: calc(100% - 400px);
+}
+
+.thumbnailTable .th_extension {
+    width: 80px;
+}
+
+.thumbnailTable .th_size {
     width: 100px;
 }
 

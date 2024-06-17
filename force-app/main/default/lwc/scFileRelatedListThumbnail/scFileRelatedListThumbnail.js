@@ -18,12 +18,15 @@ export default class ScFileRelatedListThumbnail extends NavigationMixin(Lightnin
     // data
     @api fileData;
     @api selectedRowIds;
+
+    //ScFileRelatedListBody 에서 호출하기 위해 @api 추가
     @api resetCheckboxAll() {
         const checkboxes = this.template.querySelectorAll('.checkbox-item');
         checkboxes.forEach(checkbox => {
             checkbox.checked = false;
         });
 
+        //to scFileRelatedListContainer
         this.dispatchEvent(new CustomEvent('clearrowids', {
             bubbles: true,
             composed: true
@@ -32,12 +35,12 @@ export default class ScFileRelatedListThumbnail extends NavigationMixin(Lightnin
     selectedFileId;
 
     thumbnailThead = [
-        { label: 'No', fieldName: 'index', sortable: false, type: 'index', customClass: 'th1' },
-        { label: '', fieldName: 'checkbox', sortable: false, type: 'checkbox', customClass: 'th2' },
-        { label: '썸네일', fieldName: 'thumbnail', sortable: false, type: 'thumbnail', customClass: 'th3' },
-        { label: '파일명', fieldName: 'Title', sortable: true, type: 'data', customClass: 'th4' },
-        { label: '확장자', fieldName: 'FileExtension', sortable: true, type: 'data', customClass: 'th5' },
-        { label: '크기', fieldName: 'ContentSize', sortable: true, type: 'data', customClass: 'th6' }
+        { label: 'No', fieldName: 'index', sortable: false, type: 'index', customClass: 'slds-col_padded th_index' },
+        { label: '', fieldName: 'checkbox', sortable: false, type: 'checkbox', customClass: 'slds-col_padded th_checkbox' },
+        { label: '썸네일', fieldName: 'thumbnail', sortable: false, type: 'thumbnail', customClass: 'slds-col_padded th_thumbnail' },
+        { label: '파일명', fieldName: 'Title', sortable: true, type: 'data', customClass: 'slds-col_padded th_title' },
+        { label: '확장자', fieldName: 'FileExtension', sortable: true, type: 'data', customClass: 'slds-col_padded th_extension' },
+        { label: '크기', fieldName: 'ContentSize', sortable: true, type: 'data', customClass: 'slds-col_padded th_size' }
     ];
 
     connectedCallback() {
@@ -45,32 +48,24 @@ export default class ScFileRelatedListThumbnail extends NavigationMixin(Lightnin
     }
 
     handleCheckbox(event) {
-        console.log('table handleCheckbox');
-
         const selectedId = event.target.dataset.id;
         const isChecked = event.target.checked;
         const rowCheckboxes = this.template.querySelectorAll('.thumbnailTable tbody lightning-input');
-        const allChecked = Array.from(rowCheckboxes).every(checkbox => checkbox.checked);
-
         const headerCheckbox = this.template.querySelector('.thumbnailTable thead lightning-input');
+        const allChecked = Array.from(rowCheckboxes).every(checkbox => checkbox.checked);
 
         if (headerCheckbox) {
             headerCheckbox.checked = allChecked;
         }
 
-        console.log('child selectedId: ', selectedId);
-        console.log('child isChecked: ', isChecked);
-        console.log('child allChecked: ', allChecked);
-
         this.dispatchEvent(new CustomEvent('checkboxchange', {
             detail: { selectedId, isChecked },
-            bubbles: true,
-            composed: true
+            bubbles: true,  // 이벤트 버블링 허용
+            composed: true  // 컴포넌트 경계를 넘어 이벤트 전파 허용
         }));
     }
 
     handleCheckboxAll(event) {
-        console.log('table handleCheckboxAll');
         const selectedIds = [];
         const isChecked = event.target.checked;
         const rowCheckboxes = this.template.querySelectorAll('.thumbnailTable tbody lightning-input');
@@ -89,14 +84,9 @@ export default class ScFileRelatedListThumbnail extends NavigationMixin(Lightnin
     }
 
     handleThumbnailClick(event) {
-        console.log('table handleThumbnailClick');
         this.selectedFileId = event.target.dataset.id;
-        console.log('table handleThumbnailClick this.selectedFileId >>, ', this.selectedFileId);
-
         // 선택된 파일 객체 찾기
         const selectedFile = this.fileData.find(file => file.Id === this.selectedFileId);
-        console.log('table handleThumbnailClick selectedFile >>, ', JSON.stringify(selectedFile));
-
         const selectedFileDocId = selectedFile.ContentDocumentId;
         console.log('table handleThumbnailClick selectedFileDocId >>, ', JSON.stringify(selectedFileDocId));
 
