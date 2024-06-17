@@ -14,11 +14,14 @@ import updateContentDocumentCategories from '@salesforce/apex/SC_FileRelatedList
  */
 export default class scFileRelatedListUploadModal extends LightningElement {
     @api recordId; 
+    @api category;
+
     @api fileData; 
 
     acceptedFormats = '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.gif,.bmp,.txt,.zip,.rar';
 
     connectedCallback() {
+        
     }
 
     handleUploadFinished(event) {
@@ -45,7 +48,7 @@ export default class scFileRelatedListUploadModal extends LightningElement {
             // Apex 메소드 호출하여 파일 카테고리 업데이트
             await updateContentDocumentCategories({
                 contentDocumentIds: contentDocumentIds,
-                category: this.selectedCategory
+                category: this.category
             });
         } catch (error) {
             console.error('Error updateFileCategories:', error.message); 

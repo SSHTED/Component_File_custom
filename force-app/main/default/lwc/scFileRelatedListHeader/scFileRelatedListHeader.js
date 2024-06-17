@@ -23,6 +23,7 @@ export default class ScFileRelatedListHeader extends LightningElement {
     @api tableToggleIcon;
     @api actSectionOpen;
     @api sortOptions;
+    @api category;
     // 데이터
     @api fileData;
     @api selectedRowIds;
