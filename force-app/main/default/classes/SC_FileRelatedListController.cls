@@ -5,7 +5,10 @@ global with sharing class SC_FileRelatedListController {
     // 그래서 두 번의 쿼리 수행이 필요.
     // ContentDocumentLink 쿼리 결과 -> ContentVersion의 IsLatest = true, 동일한 ContentDocumentId 값 비교
     @AuraEnabled(cacheable=true)
-    global static Map<String, Object> getFileData(String recordId, String category, Long uploadedAfter) {
+    global static Map<String, Object> getFileData(String recordId, String category, Long uploadedTime) {
+        System.debug('recordId >>> ' + recordId);
+        System.debug('category >>> ' + category);
+        System.debug('uploadedTime >>> ' + uploadedTime);
         Map<String, Object> resultMap = new Map<String, Object>();
         Set<Id> cdIdList = new Set<Id>();
 
@@ -17,24 +20,23 @@ global with sharing class SC_FileRelatedListController {
         String soql = ' SELECT ' +
                     '    Id, ContentDocumentId, Title, Description, ReasonForChange, SharingOption' +
                     '    , SharingPrivacy, PathOnClient, ContentBodyId, FileType, PublishStatus, ContentSize' +
-                    '    , FileExtension, TextPreview, Category__c, VersionDataUrl, CreatedDate' +
+                    '    , FileExtension, TextPreview, Category__c, VersionDataUrl, CreatedDate, SystemModstamp' +
                     ' FROM ContentVersion' +
                     ' WHERE ContentDocumentId IN :cdIdList' +
                     '   AND IsLatest = true';
         
-        //이전 데이터와 최신 데이터 구분용, 추후 수정예정
-        if (uploadedAfter != null) {
-            DateTime uploadedAfterDateTime = DateTime.newInstance(uploadedAfter);
-            DateTime thirtySecondsAgo = uploadedAfterDateTime.addSeconds(-60);
-            System.debug('uploadedAfterDateTime >>> ' + uploadedAfterDateTime);
-            System.debug('thirtySecondsAgo >>> ' + thirtySecondsAgo);
-
-            soql += '   AND CreatedDate > :thirtySecondsAgo';
+        //이전 데이터와 최신 데이터 구분
+        if (uploadedTime != null) {
+            DateTime uploadedTimeDateTime = DateTime.newInstance(uploadedTime);
+            String formattedDateTime = uploadedTimeDateTime.format('yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'', 'Greenwich Mean Time');
+            // System.debug('formattedDateTime >>> ' + formattedDateTime);
+            soql += '   AND (CreatedDate >= ' + formattedDateTime + ' OR SystemModstamp >= ' + formattedDateTime + ')';       
         }
 
         if(String.isNotBlank(category)){
-            soql += ' AND Category__c = :category ';
+            soql += ' AND Category__c = :category';
         }
+
         System.debug('soql >>> ' + soql);
 
         //오브젝트 가져오기
@@ -43,15 +45,12 @@ global with sharing class SC_FileRelatedListController {
         try {
             List<ContentVersion> fileList = Database.query(soql);
             System.debug('fileList >>> ' + fileList);
-            //디버그용 추후 주석
-            for (ContentVersion file : fileList) {
-                System.debug('file >>> ' + file);
-            }
-
+            
             resultMap.put('ObjectApiName', objectApiName);
             resultMap.put('Result', fileList);
         } catch (QueryException e) {
             System.debug('QueryException Error >>> ' + e.getMessage());
+
             resultMap.put('Result', false);
         }
 

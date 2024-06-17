@@ -57,7 +57,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
         const params = {
             recordId: this.recordId,
             category: this.category,
-            uploadedAfter: this.uploadedAfter
+            uploadedTime: this.uploadedTime
         };
 
         return this.fetchFileDataFromServer(params)
@@ -77,7 +77,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
         const params = {
             recordId: this.recordId,
             category: this.category,
-            uploadedAfter: this.uploadedAfter
+            uploadedTime: this.uploadedTime
         };
 
         return this.fetchFileDataFromServer(params);
@@ -179,8 +179,9 @@ export default class ScFileRelatedListContainer extends LightningElement {
     handleAfterUploadFile() {
         console.log('업로드 끝');
         console.log('handleAfterUploadFile: ', JSON.stringify(this.fileData, null, 2));
-        this.uploadedAfter = Date.now();
-        console.log('시간: ', this.uploadedAfter);
+        this.uploadedTime = Date.now();
+        console.log('시간: ', this.uploadedTime);
+        console.log('category: ', this.category);
 
         try {
             this.fetchAfterUploadData()
