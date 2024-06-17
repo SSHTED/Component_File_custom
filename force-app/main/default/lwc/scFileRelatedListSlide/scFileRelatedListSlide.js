@@ -106,9 +106,9 @@ export default class ScFileRelatedListSlide extends NavigationMixin(LightningEle
         const selectedFile = this.fileData.find(file => file.Id === selectedFileId);
         const selectedFileDocId = selectedFile.ContentDocumentId;
 
-        // console.log('Action Value:', actionValue);
-        // console.log('Selected File ID:', selectedFileId);
-        // console.console('이미지 selectedFile:', JSON.stringify(selectedFile, null, 2));
+        console.log('Action Value:', actionValue);
+        console.log('Selected File ID:', selectedFileId);
+        console.log('이미지 selectedFile:', JSON.stringify(selectedFile, null, 2));
 
         switch (actionValue) {
             case 'expand':
@@ -125,8 +125,6 @@ export default class ScFileRelatedListSlide extends NavigationMixin(LightningEle
 
             default:
         }
-
-        this.dispatchEvent(new CustomEvent('imgcardactionclicked', { detail: { id: fileId, action: actionValue } }));
     }
     // expand
     handleExpand(selectedFileDocId) {
@@ -207,10 +205,24 @@ export default class ScFileRelatedListSlide extends NavigationMixin(LightningEle
     handleDeleteSuccess(result, selectedFileId) {
         console.log('삭제 결과:', result);
         if (result.Result) {
+            let currentIndex = this.fileData.findIndex(file => file.ImgSrc === this.imgSrc);
+
             this.fileData = this.fileData.filter(item => !selectedFileId.includes(item.Id));
-            
+
             console.log('삭제된 항목 수:', result.Count);
             console.log('삭제후 file Data: ', JSON.stringify(this.fileData, null, 2));
+
+            if (this.fileData.length > 0) {
+                // 삭제 후에도 이미지가 남아있는 경우
+                if (currentIndex >= this.fileData.length) {
+                    // 현재 인덱스가 배열의 크기를 벗어난 경우, 마지막 인덱스로 조정
+                    currentIndex = this.fileData.length - 1;
+                }
+                this.imgSrc = this.fileData[currentIndex].ImgSrc;
+            } else {
+                // 모든 이미지가 삭제된 경우
+                this.imgSrc = null; // 또는 기본 이미지 URL로 설정
+            }
 
             this.selectedRowIds = [];
 

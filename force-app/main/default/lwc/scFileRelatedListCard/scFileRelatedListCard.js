@@ -183,7 +183,5 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
                 break;
             default:
         }
-
-        this.dispatchEvent(new CustomEvent('imgcardactionclicked', { detail: { id: fileId, action: actionValue } }));
     }
 }
