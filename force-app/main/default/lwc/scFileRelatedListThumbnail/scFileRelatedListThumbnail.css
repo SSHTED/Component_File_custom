@@ -4,38 +4,12 @@
     overflow: auto;
 }
 
-
-
 .thumbnailTable th {
     position: sticky;
     top: 0;
     z-index: 1;
 }
 
-/* .thumbnailTable .th1 {
-    width: 50px;
-}
-
-.thumbnailTable .th2 {
-    padding-left: 24px !important;
-    width: 50px;
-}
-
-.thumbnailTable .th3 {
-    width: 150px;
-}
-
-.thumbnailTable .th4 {
-    max-width: calc( 100% - 400px);
-}
-
-.thumbnailTable .th5 {
-    width: 80px;
-}
-
-.thumbnailTable .th6 {
-    width: 100px;
-} */
 .thumbnailTable .th_index {
     width: 50px;
 }
