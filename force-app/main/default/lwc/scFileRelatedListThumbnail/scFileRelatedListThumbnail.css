@@ -1,54 +1,49 @@
 /* viewType : Thumbnail */
 .viewType_Thumbnail {
-    max-height: 400px;
+    max-height: 250px;
     overflow: auto;
 }
 
+/* th 상단고정 */
 .thumbnailTable th {
     position: sticky;
     top: 0;
     z-index: 1;
 }
 
+/* 테이블 컬럼 크기 조정 */
 .thumbnailTable .th_index {
     width: 50px;
 }
-
 .thumbnailTable .th_checkbox {
     padding-left: 24px !important;
     width: 50px;
 }
-
 .thumbnailTable .th_thumbnail {
-    width: 150px;
+    width: 80px;
 }
-
 .thumbnailTable .th_title {
-    max-width: calc(100% - 400px);
+    max-width: calc(100% - 470px);
 }
-
 .thumbnailTable .th_extension {
     width: 80px;
 }
-
 .thumbnailTable .th_size {
     width: 100px;
 }
-
 .thumbnailTable .td_checkBox {
     padding-left: 24px;
 }
-
 .thumbnailTable .td_thumbNail {
     padding-left: 10px;
 }
 
+/* 썸네일 이미지 크기 조정 */
 .td_thumbNail .thumbImage {
-    width: 80px;
+    width: 100%;
     height: 90px;
 }
-
 .thumbImage img {
     width: 100%;
-    height: 100%;
+    height: 70px;
 }

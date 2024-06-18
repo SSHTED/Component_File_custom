@@ -6,7 +6,7 @@
         <template for:each={viewTypeTabs} for:item="tab">
           
           <lightning-tab label={tab.label} key={tab.value} value={tab.value} onactive={handleTabActive} style="padding:0; margin-bottom:-13px;">
-
+            
             <!-- 테이블 형태 -->
             <template if:true={tab.isTable}>
               <c-sc-file-related-list-table
@@ -47,8 +47,8 @@
                 slide-delay-time={slideDelayTime}>
               </c-sc-file-related-list-slide>
             </template>
-            
           </lightning-tab>
+
         </template>
       </lightning-tabset>
     </div>

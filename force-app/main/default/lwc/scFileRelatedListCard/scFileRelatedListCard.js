@@ -188,5 +188,6 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
                 break;
             default:
         }
+
     }
 }

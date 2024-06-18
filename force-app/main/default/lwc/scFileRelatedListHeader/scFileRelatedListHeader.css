@@ -1,18 +1,22 @@
+/* 헤더 */
+
+/* 영역 스타일 적용 */
 .slds-card__header {
     padding-top: 0;
     padding-left: 0;
     padding-right: 0;
 }
-
 .slds-media {
     margin-top: 13px;
     padding-left: 15px;
 }
 
+/* 헤더 아이콘 */
 .titleIcon {
     float: left;
 }
 
+/* 헤더 타이틀 영역 및 폰트 설정 */
 .headerTitle_large {
     float: left;
     margin-left: 10px;
@@ -21,7 +25,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
 .headerTitle_small {
     float: left;
     margin-left: 10px;
@@ -30,59 +33,58 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
 .headerTitle_large a {
     font-size: 16px;
     font-weight: bold;
     color: #191919;
     text-decoration: none;
-} 
-  
+}
 .headerTitle_small a {
     font-size: 16px;
     font-weight: bold;
     color: #191919;
     text-decoration: none;
 }
-  
+
+/* 항목 및 정렬 표시 */
 .headerTitle_Info {
     font-size: 12px;
     color: #191919;
 }
-
 .headerTitle_Info p {
     display: inline-block;
     margin-right: 5px;
     margin-top: 10px;
 }
 
+/* 버튼 영역 */
 .btnGroup {
     position: absolute;
     top: 40px;
     right: 11px;
 }
-
+/* 검색기능 확장버튼 */
+.searchIcon {
+    float: left;
+    margin-right: 10px;
+}
+/* 검색영역 */
 .searchBox {
     float: left;
     margin-top: -19px;
     margin-right: 10px;
 }
-
-.searchIcon {
-    float: left;
-    margin-right: 10px;
-}
-
+/* 버튼 그룹 */
 .inner_btnGroup {
     float: left;
     margin-right: 10px;
 }
-
+/* 드롭다운 메뉴 */
 .inner_btnMenu {
     float: left;
     margin-right: 10px;
 }
-
+/* 확장 버튼 */
 .toggleIcon {
     margin-top: 7px;
 }

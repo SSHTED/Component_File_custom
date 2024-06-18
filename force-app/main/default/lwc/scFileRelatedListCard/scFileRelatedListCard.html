@@ -5,29 +5,36 @@
         <template for:each={fileData} for:item="fileData">
             <div class={fileData.imgCardClass} data-id={fileData.Id} key={fileData.Id} onmouseover={handleMouseOver} onmouseout={handleMouseOut}>
                 
-                
+                <!-- 이미지 카드 -->
                 <div class={innerCardClass}>
-                    <img class="CardImg" src={fileData.ImgSrc} alt={fileData.Title}/>
+                    <!-- 이미지 -->
+                    <img class="cardImg" src={fileData.ImgSrc} alt={fileData.Title}/>
                     
                     <!-- 마우스 호버 시 이미지 어둡게 표시(이벤트 버튼 그룹 강조) -->
                     <div class="shadowBox"></div>
-
+                    <!-- 기능 버튼(확장, 다운로드, 삭제) -->
                     <div class="btn_area">
+                        <!-- 확장 버튼 -->
                         <div class="action_btn" data-value="expand" data-id={fileData.Id} onclick={handleActionClicked} style="background-color:rgb(58,73,98)">
                             <lightning-icon class="btnIcon" icon-name="utility:expand" size="x-small"></lightning-icon>
                         </div>
+                        <!-- 다운로드 버튼 -->
                         <div class="action_btn" data-value="download" data-id={fileData.Id} onclick={handleActionClicked} style="background-color:rgb(29,204,191)">
                             <lightning-icon class="btnIcon" icon-name="utility:download" size="x-small"></lightning-icon>
                         </div>
+                        <!-- 삭제 버튼 -->
                         <div class="action_btn" data-value="delete" data-id={fileData.Id} onclick={handleActionClicked} style="background-color:rgb(255,165,0)">
                             <lightning-icon class="btnIcon" icon-name="utility:delete" size="x-small"></lightning-icon>
                         </div>
                     </div>
                 </div>
 
+                <!-- 이미지 카드 정보 -->
                 <template if:true={imgCardShowInfo}>
                     <div class="imgCardInfo">
+                        <!-- 타이틀 -->
                         <p class="imgCardInfoTitle" title={fileData.Title}>{fileData.Title}</p>
+                        <!-- 업로드 일자 -->
                         <p class="imgCardInfoDate">
                             <lightning-formatted-date-time value={fileData.CreatedDate} year="numeric" month="numeric"
                                 day="numeric" hour="2-digit" minute="2-digit" time-zone="Asia/Seoul"

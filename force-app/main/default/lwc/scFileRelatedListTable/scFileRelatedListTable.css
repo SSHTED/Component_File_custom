@@ -1,19 +1,20 @@
 /* viewType : Table */
 .viewType_Table {
-    max-height: 400px;
+    max-height: 150px;
     overflow: auto;
 }
 
+/* th 상단고정 */
 .dataTable th {
     position: sticky;
     top: 0;
     z-index: 1;
 }
 
+/* 테이블 컬럼 크기 조정 */
 .dataTable .th_index {
     width: 50px;
 }
-
 .dataTable .th_checkbox {
     padding-left: 24px !important;
     width: 50px;
@@ -22,15 +23,14 @@
 .dataTable .th_title {
     max-width: calc(100% - 300px);
 }
-
 .dataTable .th_extension {
     width: 80px;
 }
-
 .dataTable .th_size {
     width: 100px;
 }
 
+/* td 체크박스 패딩 설정 */
 .dataTable .td_checkBox {
     padding-left: 24px;
 }
