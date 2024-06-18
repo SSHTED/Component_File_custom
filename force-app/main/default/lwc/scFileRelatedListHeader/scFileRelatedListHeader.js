@@ -31,7 +31,7 @@ export default class ScFileRelatedListHeader extends LightningElement {
 
     downloadProgress = 0;
     totalFilesToDownload = 0;
-    isDropdownVisible ;
+    isDropdownVisible;
     isDownloading = false;
     isDownloadEnd = false;
     isShowUploadModal = false;
@@ -41,15 +41,15 @@ export default class ScFileRelatedListHeader extends LightningElement {
     hasInitialLogicExecuted = false;
     isSortAscending = false;
     isFilter = false;
-    
+
     sortDirection = {};
 
     connectedCallback() {
         // 드롭다운의 표시 여부 결정
-        this.isDropdownVisible  = this.actUploadBtn || this.actDownloadBtn || this.actDeleteBtn;
+        this.isDropdownVisible = this.actUploadBtn || this.actDownloadBtn || this.actDeleteBtn;
     }
 
-    renderedCallback(){
+    renderedCallback() {
         this.updateComponentSize();
     }
 
@@ -58,23 +58,33 @@ export default class ScFileRelatedListHeader extends LightningElement {
         if (this.hasInitialLogicExecuted) {
             return;
         }
-    
+
         const mainDataElement = this.template.querySelector('.slds-card__header');
-        
+
         if (!mainDataElement) {
             console.log('updateComponentSize mainDataElement >>>>> null');
             return;
         }
-    
+
         const mainDataWidth = mainDataElement.offsetWidth;
         this.isComponentSizeSmall = mainDataWidth <= 930;
-    
+
         this.hasInitialLogicExecuted = true;
         console.log('this.isComponentSizeSmall: ', this.isComponentSizeSmall);
-    
+
         this.dispatchEvent(new CustomEvent('iscomponentsizesmall', {
             detail: { isComponentSizeSmall: this.isComponentSizeSmall }
         }));
+    }
+
+    handleSearch(event) {
+        const searchKey = event.target.value;
+        console.log('검색어 =========> ', searchKey);
+        
+        //to scFileRelatedListContainer
+        this.dispatchEvent(new CustomEvent('search', {
+            detail: searchKey
+        }))
     }
 
     handleFileUploadBtnClick() {
@@ -88,40 +98,40 @@ export default class ScFileRelatedListHeader extends LightningElement {
         // 선택이 필요한지 여부 확인
         const isSelectionRequired = this.isSelectionExemptTab(this.activeTabValue);
         const hasSelectedRows = this.selectedRowIds.length > 0;
-    
+
         if (!isSelectionRequired && !hasSelectedRows) {
             alert('다운로드할 항목을 선택해주세요.');
             return;
         }
-    
+
         if (isSelectionRequired) {
             this.selectedRowIds = this.fileData.map(file => file.Id);
         }
-    
+
         if (!confirm('다운로드 하시겠습니까?')) {
             return;
         }
-    
+
         const selectedFiles = this.fileData.filter(file => this.selectedRowIds.includes(file.Id));
         this.totalFilesToDownload = selectedFiles.length;
         this.isShowDownloadModal = true;
         this.isDownloadCancelled = false;
         this.isDownloadEnd = false;
         this.downloadProgress = 0;
-    
+
         for (let index = 0; index < selectedFiles.length; index++) {
             if (this.isDownloadCancelled) {
                 break;
             }
-    
+
             const file = selectedFiles[index];
             await this.downloadFile(file);
             this.downloadProgress = index + 1;
         }
-    
+
         this.isDownloadEnd = true;
     }
-    
+
     downloadFile(file) {
         return new Promise((resolve) => {
             const downloadLink = document.createElement('a');
@@ -130,7 +140,7 @@ export default class ScFileRelatedListHeader extends LightningElement {
             document.body.appendChild(downloadLink);
             downloadLink.click();
             document.body.removeChild(downloadLink);
-    
+
             setTimeout(resolve, 500);
         });
     }
@@ -143,25 +153,25 @@ export default class ScFileRelatedListHeader extends LightningElement {
 
     async handleDeleteBtnClick() {
         console.log('헤더. 삭제 selectedRowIds: ', JSON.stringify(this.selectedRowIds, null, 2));
-        
+
         if (this.selectedRowIds.length === 0) {
             alert('삭제할 항목을 선택해주세요.');
             return;
         }
-    
+
         const confirmDelete = confirm('선택한 항목을 삭제하시겠습니까?');
         if (!confirmDelete) {
             return;
         }
-    
+
         try {
             const result = await deleteFilesByRecordId({
                 recordId: this.recordId,
                 deleteIdList: JSON.stringify(this.selectedRowIds)
             });
-    
+
             console.log('삭제 결과:', result);
-            
+
             if (result.Result) {
                 console.log('삭제된 항목 수:', result.Count);
                 this.updateFileDataAfterDelete();
@@ -179,10 +189,11 @@ export default class ScFileRelatedListHeader extends LightningElement {
     // 삭제 후 파일 데이터 업데이트
     updateFileDataAfterDelete() {
         this.fileData = this.fileData.filter(item => !this.selectedRowIds.includes(item.Id));
-        console.log('삭제후 file Data: ', JSON.stringify(this.fileData, null, 2));
+        // console.log('삭제후 file Data: ', JSON.stringify(this.fileData, null, 2));
+        console.log('삭제 후 레코드 총 갯수: ', this.fileData.length);
         this.selectedRowIds = [];
     }
-    
+
     dispatchAfterDeleteEvent() {
         this.dispatchEvent(new CustomEvent('afterdeletefile', { detail: this.fileData }));
     }
@@ -249,7 +260,7 @@ export default class ScFileRelatedListHeader extends LightningElement {
         this.resetModalStates();
     }
 
-    handleDownloadCancel(event){
+    handleDownloadCancel(event) {
         this.resetModalStates();
         this.isDownloadCancelled = event.detail.isDownloadCancelled;
     }

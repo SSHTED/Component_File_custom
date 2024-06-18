@@ -35,7 +35,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
     @api imgCardInfoTitleColor;
     @api imgCardInfoDateColor;
 
-    @api fileData = [];
+    @api fileData = []; originalFileData = [];
     selectedRowIds = [];
     imgSrc;
     sortOptions = {};
@@ -64,6 +64,8 @@ export default class ScFileRelatedListContainer extends LightningElement {
             .then((processedData) => {
                 this.fileCount = processedData.length;
                 this.fileData = processedData;
+                this.originalFileData = processedData;
+
                 console.log('this.fileData: ', JSON.stringify(this.fileData, null, 2));
                 return processedData;
             })
@@ -209,6 +211,28 @@ export default class ScFileRelatedListContainer extends LightningElement {
         console.log('handleClearRowIds aaaaaaaa: ', JSON.stringify(this.selectedRowIds, null, 2));
         this.selectedRowIds = [];
         console.log('handleClearRowIds bbbbbbbb: ', JSON.stringify(this.selectedRowIds, null, 2));
+    }
+
+    handleSearchFile(event){
+        console.log(' fileter before 데 이 터 ;' , JSON.stringify(this.fileData, null, 2));
+        console.log('event ================> ', event.detail);
+        const searchKey = event.detail;
+        const searchKeyLowerCase = searchKey.toLowerCase();
+        let filteredData = [...this.fileData];
+
+        if (searchKeyLowerCase === '') {
+            // 검색어가 비어있는 경우 원본 데이터로 돌아감
+            filteredData = [...this.originalFileData];
+        } else {
+            // 검색어가 있는 경우 원본 데이터에서 필터링 수행
+            filteredData = this.originalFileData.filter((fileData) => {
+                return fileData.Title.toLowerCase().includes(searchKeyLowerCase);
+            });
+        }
+
+        this.fileData = filteredData;
+
+        console.log(' filter after 데 이 터 ;' , JSON.stringify(this.fileData, null, 2));
     }
 
     // 정렬 기준 처리
