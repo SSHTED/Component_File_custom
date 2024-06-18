@@ -13,8 +13,16 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
     @api fileData;
     @api selectedRowIds;
     
+    innerCardClass = '';
+
     connectedCallback() {
         this.calculateImageSize();
+
+        if(this.imgCardShowInfo) {
+            this.innerCardClass = 'imgWrapper_has_Info';
+        } else {
+            this.innerCardClass = 'imgWrapper';
+        }
     }
     
     calculateImageSize() {
@@ -29,15 +37,12 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
                     let height = 230 / aspectRatio;
                     const cleanedFile = {
                         ...file,
-                        imgCardClass: height > 400 ? 'imgMain card_xxx_large' :
-                                    height > 350 ? 'imgMain card_xx_large' :
-                                    height > 300 ? 'imgMain card_x_large' :
-                                    height > 250 ? 'imgMain card_large' :
-                                    height > 200 ? 'imgMain card_medium' :
-                                    height > 150 ? 'imgMain card_small' :
+                        imgCardClass: height > 500 ? 'imgMain card_x_large' :
+                                    height > 400 ? 'imgMain card_large' :
+                                    height > 300 ? 'imgMain card_medium' :
+                                    height > 200 ? 'imgMain card_small' :
                                     height > 100 ? 'imgMain card_x_small' :
-                                    height > 50 ? 'imgMain card_xx_small' :
-                                                    'imgMain card_xxx_small'
+                                                    'imgMain card_xx_small'
                     };
     
                     if(this.imgCardShowInfo) {
