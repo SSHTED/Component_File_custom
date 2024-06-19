@@ -262,10 +262,18 @@ export default class ScFileRelatedListContainer extends LightningElement {
             sortBy: event.detail.sortBy,
             sortDirection: event.detail.sortDirection,
             isSortBtnClick: event.detail.isSortBtnClick
+        };
+
+        try {
+            if (this.scFileRelatedListCard) {
+                // 이미지 크기 계산
+                this.scFileRelatedListCard.calculateImageSize(this.fileData);
+            }
+        } catch (error) {
+            console.error('calculateImageSize 호출 중 오류 발생:', error.message);
         }
-        // 이미지 크기 계산
-        this.scFileRelatedListCard.calculateImageSize(this.fileData);
     }
+
 
     handleExpandToggle(event) {
         console.log('부모 토글오픈 섹션', this.actSectionOpen)
