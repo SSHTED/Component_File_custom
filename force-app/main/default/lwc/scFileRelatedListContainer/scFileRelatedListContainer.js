@@ -45,7 +45,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
 
     connectedCallback() {
         this.initSetting();
-        this.fetchFileData();
+        this.getFileData();
     }
 
     initSetting() {
@@ -53,56 +53,53 @@ export default class ScFileRelatedListContainer extends LightningElement {
         this.slideDelayTime = this.slideDelayTime * 1000;
     }
 
-    fetchFileData() {
+    async getFileData() {
+        try {
+            const params = {
+                recordId: this.recordId,
+                category: this.category,
+                uploadedTime: this.uploadedTime
+            };
+        
+            const processedData = await this.getFileDataFromServer(params);
+            this.fileCount = processedData.length;
+            this.fileData = processedData;
+            this.originalFileData = processedData;
+        
+            console.log('this.fileData: ', JSON.stringify(this.fileData, null, 2));
+            
+            return processedData;
+        } catch (error) {
+            console.error('getFileData error >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', error.message);
+
+            this.fileData = [];
+            this.originalFileData = [];
+        }
+    }
+    
+    async getAfterUploadData() {
         const params = {
             recordId: this.recordId,
             category: this.category,
             uploadedTime: this.uploadedTime
         };
-
-        return this.fetchFileDataFromServer(params)
-            .then((processedData) => {
-                this.fileCount = processedData.length;
-                this.fileData = processedData;
-                this.originalFileData = processedData;
-
-                console.log('this.fileData: ', JSON.stringify(this.fileData, null, 2));
-                return processedData;
-            })
-            .catch((error) => {
-                console.log('getFileData error >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', error.message);
-                throw error;
-            });
+    
+        return this.getFileDataFromServer(params);
     }
-
-    fetchAfterUploadData() {
-        const params = {
-            recordId: this.recordId,
-            category: this.category,
-            uploadedTime: this.uploadedTime
-        };
-
-        return this.fetchFileDataFromServer(params);
-    }
-
-    fetchFileDataFromServer(params) {
-        return getFileData(params)
-            .then((result) => {
-                console.log('getFileData result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', result);
-                const processedFileData = result.Result
-                    .slice(0, this.countRecord)
-                    .map((fileData, index) => {
-                        return this.processFileData(fileData, index);
-                    });
-
-                this.objectApiName = result.ObjectApiName;
-                
-                return processedFileData;
-            })
-            .catch((error) => {
-                console.log('getFileData error >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', error.message);
-                throw error;
-            });
+    
+    async getFileDataFromServer(params) {
+        try {
+            const result = await getFileData(params);
+            const processedFileData = result.Result
+                .slice(0, this.countRecord)
+                .map((fileData, index) => this.processFileData(fileData, index));
+    
+            this.objectApiName = result.ObjectApiName;
+            
+            return processedFileData;
+        } catch (error) {
+            throw error;
+        }
     }
 
     processFileData(fileData, index) {
@@ -186,7 +183,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
         console.log('category: ', this.category);
 
         try {
-            this.fetchAfterUploadData()
+            this.getAfterUploadData()
                 .then((newData) => {
                     const startIndex = this.fileData.length;
                     const updatedNewData = newData.map((fileData, index) => ({
@@ -200,7 +197,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
                     console.log('Updated fileData: ', JSON.stringify(this.fileData, null, 2));
                 })
                 .catch((error) => {
-                    console.error('Error in fetchAfterUploadData: ', error.message);
+                    console.error('Error in getAfterUploadData: ', error.message);
                 });
         } catch (error) {
             console.error('Error in handleAfterUploadFile: ', error.message);
