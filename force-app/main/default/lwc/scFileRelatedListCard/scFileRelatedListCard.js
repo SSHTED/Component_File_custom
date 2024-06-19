@@ -17,6 +17,7 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
 
     connectedCallback() {
         this.initSet();
+        this.calculateImageSize(this.fileData);
     }
 
     initSet() {
@@ -27,17 +28,13 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
 
     }
 
-    //body 컴포넌트에서 호출
-    @api calculateImageSize() {
-        console.log('calculateImageSize >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-
-        const fileDataPromises = this.fileData.map(file => {
-
+    @api calculateImageSize(fileData) {
+        console.log('calculateImageSize');
+        const fileDataPromises = fileData.map(file => {
             return new Promise((resolve) => {
                 let imgElement = new Image();
                 imgElement.src = file.ImgSrc;
                 imgElement.onload = () => {
-
                     let aspectRatio = imgElement.width / imgElement.height;
                     let height = 230 / aspectRatio;
                     const cleanedFile = {
@@ -49,20 +46,24 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
                                         height > 100 ? 'imgMain card_x_small' :
                                             'imgMain card_xx_small'
                     };
-
+    
                     if (this.imgCardShowInfo) {
                         cleanedFile.imgCardClass += '_has_Info';
                     }
-
+    
                     console.log('정제된 파일 imgCardClass:', JSON.stringify(cleanedFile.imgCardClass, null, 2));
                     resolve(cleanedFile);
                 };
             });
         });
-
+    
         Promise.all(fileDataPromises)
             .then(cleanedFileData => {
-                this.fileData = cleanedFileData;
+                // 새로운 데이터에 대한 이미지 크기 계산 후 this.fileData에 반영
+                this.fileData = this.fileData.map(file => {
+                    const updatedFile = cleanedFileData.find(f => f.Id === file.Id);
+                    return updatedFile ? updatedFile : file;
+                });
             })
             .catch(error => {
                 console.error('이미지 로드 중 오류 발생:', error.message);
@@ -70,7 +71,6 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
     }
 
     renderedCallback() {
-
         // 글자색 변경
         const titleElements = this.template.querySelectorAll('.imgCardInfoTitle');
         const dateElements = this.template.querySelectorAll('.imgCardInfoDate');

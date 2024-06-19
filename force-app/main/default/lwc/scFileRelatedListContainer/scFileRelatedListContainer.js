@@ -47,10 +47,10 @@ export default class ScFileRelatedListContainer extends LightningElement {
 
     connectedCallback() {
         this.initSetting();
-        this.getFileData();
+        this.getInitFileData()
     }
 
-    renderedCallback(){
+    renderedCallback() {
         this.setChildComponent();
     }
 
@@ -59,7 +59,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
         this.slideDelayTime = this.slideDelayTime * 1000;
     }
 
-    setChildComponent(){
+    setChildComponent() {
         this.scFileRelatedListHeader = this.template.querySelector('c-sc-file-related-list-header');
         this.scFileRelatedListBody = this.template.querySelector('c-sc-file-related-list-body');
         this.scFileRelatedListCard = this.template.querySelector('c-sc-file-related-list-body').scFileRelatedListCard;
@@ -68,7 +68,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
         // console.log('in ScFileRelatedListContainer c-sc-file-related-list-card:', this.scFileRelatedListCard);
     }
 
-    async getFileData() {
+    async getInitFileData() {
         try {
             const params = {
                 recordId: this.recordId,
@@ -78,8 +78,6 @@ export default class ScFileRelatedListContainer extends LightningElement {
             const processedData = await this.getFileDataFromServer(params);
             this.updateFileData(processedData);
 
-            // console.log('this.fileData: ', JSON.stringify(this.fileData, null, 2));
-
             return processedData;
         } catch (error) {
             console.error('getFileData error >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', error.message);
@@ -87,46 +85,9 @@ export default class ScFileRelatedListContainer extends LightningElement {
         }
     }
 
-    updateFileData(processedData) {
-        this.fileCount = processedData.length;
-        this.fileData = processedData;
-        this.originalFileData = processedData;
-    
-        this.updateLatestCreatedDate(this.fileData);
-
-        // for (const fileData of this.fileData) {
-        //     if (!this.latestCreatedDate || fileData.CreatedDate > this.latestCreatedDate) {
-        //         this.latestCreatedDate = fileData.CreatedDate;
-        //     }
-        // }
-    }
-
-    clearFileData() {
-        this.fileData = [];
-        this.originalFileData = [];
-    }
-
-    async getAfterUploadData() {
-        console.log('before upload time: ', this.latestCreatedDate);
-
-        try {
-            const params = {
-                recordId: this.recordId,
-                category: this.category,
-                latestCreatedDate: this.latestCreatedDate
-            };
-            console.log('after upload  params', JSON.stringify(params));
-
-            return this.getFileDataFromServer(params);
-        } catch (error) {
-            console.error('getAfterUploadData error >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', error.message);
-            this.clearFileData();
-        }
-    }
-
     async getFileDataFromServer(params) {
         try {
-            const result = await getFileData(params);
+            const result = await getFileData(params); //from apex
             const processedFileData = result.Result
                 .slice(0, this.countRecord)
                 .map((fileData, index) => this.processFileData(fileData, index));
@@ -136,6 +97,46 @@ export default class ScFileRelatedListContainer extends LightningElement {
             return processedFileData;
         } catch (error) {
             throw error;
+        }
+    }
+
+    async handleAfterUploadFile() {
+        try {
+            const newData = await this.getAfterUploadData();
+            const startIndex = this.fileData.length;
+            const updatedNewData = newData.map((fileData, index) => ({
+                ...fileData,
+                index: startIndex + index + 1,
+            }));
+
+            this.fileData = this.fileData.concat(updatedNewData);
+
+            this.fileCount = this.fileData.length;
+            this.updateLatestCreatedDate(this.fileData);
+
+            //카트 컴포넌트 이미지 크기 계산
+            this.scFileRelatedListCard.calculateImageSize(this.fileData);
+
+        } catch (error) {
+            console.error('Error in handleAfterUploadFile: ', error.message);
+        }
+    }
+
+    async getAfterUploadData() {
+        try {
+            const params = {
+                recordId: this.recordId,
+                category: this.category,
+                latestCreatedDate: this.latestCreatedDate
+            };
+
+            console.log('after upload  params', JSON.stringify(params));
+
+            return this.getFileDataFromServer(params);
+
+        } catch (error) {
+            console.error('getAfterUploadData error >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', error.message);
+            this.clearFileData();
         }
     }
 
@@ -175,26 +176,12 @@ export default class ScFileRelatedListContainer extends LightningElement {
             '&page=0';
     }
 
-    async handleAfterUploadFile() {
-        console.log('Before handleAfterUploadFile count: ', this.fileData.length)
+    updateFileData(processedData) {
+        this.fileCount = processedData.length;
+        this.fileData = processedData;
+        this.originalFileData = processedData;
 
-        try {
-            const newData = await this.getAfterUploadData();
-            const startIndex = this.fileData.length;
-            const updatedNewData = newData.map((fileData, index) => ({
-                ...fileData,
-                index: startIndex + index + 1,
-            }));
-
-            this.fileData = this.fileData.concat(updatedNewData);
-            this.fileCount = this.fileData.length;
-            this.updateLatestCreatedDate(updatedNewData);
-
-            // console.log('Updated fileData: ', JSON.stringify(this.fileData, null, 2));
-            console.log('After handleAfterUploadFile count: ', this.fileData.length)
-        } catch (error) {
-            console.error('Error in handleAfterUploadFile: ', error.message);
-        }
+        this.updateLatestCreatedDate(this.fileData);
     }
 
     updateLatestCreatedDate(data) {
@@ -203,19 +190,20 @@ export default class ScFileRelatedListContainer extends LightningElement {
                 this.latestCreatedDate = fileData.CreatedDate;
             }
         }
+    }
 
-        console.log('this.latestCreatedDate', this.latestCreatedDate);
+    clearFileData() {
+        this.fileData = [];
+        this.originalFileData = [];
     }
 
     handleAfterDeleteFile(event) {
-        console.log('Before handleAfterDeleteFile count: ', this.fileData.length)
         this.fileData = event.detail.map((item, index) => {
             return {
                 ...item,
                 index: index + 1
             };
         });
-        // console.log('handleAfterDeleteFile: ', JSON.stringify(this.fileData, null, 2))
         console.log('After handleAfterDeleteFile count: ', this.fileData.length)
     }
 

@@ -17,8 +17,7 @@ export default class scFileRelatedListUploadModal extends LightningElement {
     @api category;
 
     @api fileData;
-    @api scFileRelatedListCard
-
+    
     acceptedFormats = '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.gif,.bmp,.txt,.zip,.rar';
 
     connectedCallback() {
@@ -36,13 +35,6 @@ export default class scFileRelatedListUploadModal extends LightningElement {
             bubbles: true, // 이벤트 버블링 허용
             composed: true // 컴포넌트 경계를 넘어 이벤트 전파 허용
         }));
-
-        if (this.scFileRelatedListCard) {
-            console.log('scFileRelatedListUploadModal scFileRelatedListCard: ', this.scFileRelatedListCard);
-            setTimeout(() => {
-                this.scFileRelatedListCard.calculateImageSize();
-            }, 0);
-        }
 
         this.dispatchEvent(new CustomEvent('close'));
     }

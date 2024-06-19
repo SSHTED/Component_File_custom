@@ -28,9 +28,6 @@ export default class ScFileRelatedListHeader extends LightningElement {
     @api fileData;
     @api selectedRowIds;
     @api activeTabValue;
-    //컴포넌트
-    @api scFileRelatedListCard
-
 
     downloadProgress = 0;
     totalFilesToDownload = 0;

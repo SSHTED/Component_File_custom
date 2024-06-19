@@ -100,18 +100,19 @@ export default class ScFileRelatedListBody extends LightningElement {
         console.log('썸네일 형태의 탭.');
     }
 
+    @api
     handleImageCardTabActivated(){
         console.log('이미지 형태의 탭.');
 
         // 탭 클릭 시 각 이미지 크기 계산 
-        setTimeout(() => {
-            const cardComponent = this.template.querySelector('c-sc-file-related-list-card');
-            console.log('이미지 cardComponent', cardComponent);
+        // setTimeout(() => {
+        //     const cardComponent = this.template.querySelector('c-sc-file-related-list-card');
+        //     console.log('이미지 cardComponent', cardComponent);
     
-            if (cardComponent) {
-                cardComponent.calculateImageSize();
-            }
-        }, 0);
+        //     if (cardComponent) {
+        //         cardComponent.calculateImageSize();
+        //     }
+        // }, 0);
     }
 
     handleSlideTabActivated() {

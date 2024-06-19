@@ -42,7 +42,6 @@
 .td_thumbNail .thumbImage {
     width: 100%;
     height: 100%;
-    position: relative;
 }
 .thumbImage img {
     width: 100%;
