@@ -108,12 +108,12 @@ export default class ScFileRelatedListContainer extends LightningElement {
             ContentDocumentId: fileData.ContentDocumentId,
             Title: fileData.Title,
             category: fileData.Category__c,
-            SharingOption: fileData.SharingOption,  //레코드 공유 옵션 (A: 누구나 액세스 가능, R: 역할 기반 액세스, U: 사용자 액세스 제어 목록 기반 액세스, N: 공유되지 않음)
+            SharingOption: fileData.SharingOption,      //레코드 공유 옵션 (A: 누구나 액세스 가능, R: 역할 기반 액세스, U: 사용자 액세스 제어 목록 기반 액세스, N: 공유되지 않음)
             SharingPrivacy: fileData.SharingPrivacy,    //레코드의 공유 범위 (N: 네트워크 전용, P: 포탈 공유, O: 조직 전체 공유)
-            PathOnClient: fileData.PathOnClient, //파일 이름
+            PathOnClient: fileData.PathOnClient,        //파일 이름
             ContentBodyId: fileData.ContentBodyId,
             FileType: fileData.FileType,
-            PublishStatus: fileData.PublishStatus,  //컨텐츠의 게시 상태 (P: 게시됨, R: 작업용, A: 아카이브됨)
+            PublishStatus: fileData.PublishStatus,      //컨텐츠의 게시 상태 (P: 게시됨, R: 작업용, A: 아카이브됨)
             ContentSize: fileData.ContentSize < 1024 * 1024 ?
                         (fileData.ContentSize / 1024).toFixed(2) + " KB" :
                         (fileData.ContentSize / (1024 * 1024)).toFixed(2) + " MB",
@@ -138,81 +138,71 @@ export default class ScFileRelatedListContainer extends LightningElement {
             '&page=0';
     }
 
+    async handleAfterUploadFile() {
+        console.log('Before handleAfterUploadFile count: ', this.fileData.length)
+        this.uploadedTime = Date.now();
+    
+        try {
+            const newData = await this.getAfterUploadData();
+            const startIndex = this.fileData.length;
+            const updatedNewData = newData.map((fileData, index) => ({
+                ...fileData,
+                index: startIndex + index + 1,
+            }));
+    
+            this.fileData = this.fileData.concat(updatedNewData);
+            this.fileCount = this.fileData.length;
 
-    handleCheckboxChange(event) {
-        const { selectedId, isChecked } = event.detail;
-
-        if (isChecked) {
-            console.log('선택된 레코드 ID:', JSON.stringify(selectedId, null, 2));
-            this.selectedRowIds = [...this.selectedRowIds, selectedId];
-        } else {
-            console.log('선택 해제된 레코드 ID:', JSON.stringify(selectedId, null, 2));
-            this.selectedRowIds = this.selectedRowIds.filter(id => id !== selectedId);
-        }
-
-    }
-
-    handleCheckboxChangeAll(event) {
-        const { selectedIds, isChecked } = event.detail;
-
-        if (isChecked) {
-            console.log('선택된 레코드 ID:', JSON.stringify(selectedIds, null, 2));
-            this.selectedRowIds = selectedIds;
-
-        } else {
-            console.log('선택 해제된 레코드 ID:', JSON.stringify(selectedIds, null, 2));
-            this.selectedRowIds = [];
+            // console.log('Updated fileData: ', JSON.stringify(this.fileData, null, 2));
+            console.log('After handleAfterUploadFile count: ', this.fileData.length)
+        } catch (error) {
+            console.error('Error in handleAfterUploadFile: ', error.message);
         }
     }
 
     handleAfterDeleteFile(event) {
+        console.log('Before handleAfterDeleteFile count: ', this.fileData.length)
         this.fileData = event.detail.map((item, index) => {
             return {
                 ...item,
                 index: index + 1
             };
         });
-        console.log('삭제 후 부모 컴포넌트 받는 메소드: ', JSON.stringify(this.fileData, null, 2))
+        // console.log('handleAfterDeleteFile: ', JSON.stringify(this.fileData, null, 2))
+        console.log('After handleAfterDeleteFile count: ', this.fileData.length)
     }
 
-    handleAfterUploadFile() {
-        console.log('업로드 끝');
-        console.log('handleAfterUploadFile: ', JSON.stringify(this.fileData, null, 2));
-        this.uploadedTime = Date.now();
-        console.log('시간: ', this.uploadedTime);
-        console.log('category: ', this.category);
+    handleCheckboxChange(event) {
+        const { selectedId, isChecked } = event.detail;
 
-        try {
-            this.getAfterUploadData()
-                .then((newData) => {
-                    const startIndex = this.fileData.length;
-                    const updatedNewData = newData.map((fileData, index) => ({
-                        ...fileData,
-                        index: startIndex + index + 1,
-                    }));
-
-                    this.fileData = this.fileData.concat(updatedNewData);
-
-                    this.fileCount = this.fileData.length;
-                    console.log('Updated fileData: ', JSON.stringify(this.fileData, null, 2));
-                })
-                .catch((error) => {
-                    console.error('Error in getAfterUploadData: ', error.message);
-                });
-        } catch (error) {
-            console.error('Error in handleAfterUploadFile: ', error.message);
+        if (isChecked) {
+            this.selectedRowIds = [...this.selectedRowIds, selectedId];
+        } else {
+            this.selectedRowIds = this.selectedRowIds.filter(id => id !== selectedId);
         }
+
+        console.log('handleCheckboxChange ID:', JSON.stringify(selectedId, null, 2));
+    }
+
+    handleCheckboxChangeAll(event) {
+        const { selectedIds, isChecked } = event.detail;
+
+        if (isChecked) {
+            this.selectedRowIds = selectedIds;
+        } else {
+            this.selectedRowIds = [];
+        }
+
+        console.log('handleCheckboxChangeAll ID:', JSON.stringify(selectedIds, null, 2));
     }
 
     handleClearRowIds() {
-        console.log('handleClearRowIds aaaaaaaa: ', JSON.stringify(this.selectedRowIds, null, 2));
+        console.log('before handleClearRowIds: ', JSON.stringify(this.selectedRowIds, null, 2));
         this.selectedRowIds = [];
-        console.log('handleClearRowIds bbbbbbbb: ', JSON.stringify(this.selectedRowIds, null, 2));
+        console.log('after handleClearRowIds: ', JSON.stringify(this.selectedRowIds, null, 2));
     }
 
     handleSearchFile(event){
-        console.log(' fileter before 데 이 터 ;' , JSON.stringify(this.fileData, null, 2));
-        console.log('event ================> ', event.detail);
         const searchKey = event.detail;
         const searchKeyLowerCase = searchKey.toLowerCase();
         let filteredData = [...this.fileData];
@@ -228,8 +218,6 @@ export default class ScFileRelatedListContainer extends LightningElement {
         }
 
         this.fileData = filteredData;
-
-        console.log(' filter after 데 이 터 ;' , JSON.stringify(this.fileData, null, 2));
     }
 
     // 정렬 기준 처리
@@ -256,5 +244,4 @@ export default class ScFileRelatedListContainer extends LightningElement {
         this.activeTabValue = event.detail;
         console.log('Parent component received activeTabValue: ', this.activeTabValue);
     }
-
 }
