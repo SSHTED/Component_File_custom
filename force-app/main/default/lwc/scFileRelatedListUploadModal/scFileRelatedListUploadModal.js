@@ -39,7 +39,6 @@ export default class scFileRelatedListUploadModal extends LightningElement {
 
         if (this.scFileRelatedListCard) {
             console.log('scFileRelatedListUploadModal scFileRelatedListCard: ', this.scFileRelatedListCard);
-
             setTimeout(() => {
                 this.scFileRelatedListCard.calculateImageSize();
             }, 0);
