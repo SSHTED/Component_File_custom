@@ -13,21 +13,22 @@ import updateContentDocumentCategories from '@salesforce/apex/SC_FileRelatedList
  *  - @updatedBy {이름} @updateVersion {수정 버전} @updateDate {수정 날짜}
  */
 export default class scFileRelatedListUploadModal extends LightningElement {
-    @api recordId; 
+    @api recordId;
     @api category;
 
-    @api fileData; 
+    @api fileData;
+    @api scFileRelatedListCard
 
     acceptedFormats = '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.gif,.bmp,.txt,.zip,.rar';
 
     connectedCallback() {
-        
+
     }
 
     handleUploadFinished(event) {
-        const uploadedFiles = event.detail.files; 
+        const uploadedFiles = event.detail.files;
         const contentDocumentIds = uploadedFiles.map(file => file.documentId); // 파일의 documentId 리스트
-        console.log('uploadedFiles: ', JSON.stringify(uploadedFiles, null, 2)); 
+        console.log('uploadedFiles: ', JSON.stringify(uploadedFiles, null, 2));
 
         this.updateFileCategories(contentDocumentIds);
 
@@ -35,6 +36,14 @@ export default class scFileRelatedListUploadModal extends LightningElement {
             bubbles: true, // 이벤트 버블링 허용
             composed: true // 컴포넌트 경계를 넘어 이벤트 전파 허용
         }));
+
+        if (this.scFileRelatedListCard) {
+            console.log('scFileRelatedListUploadModal scFileRelatedListCard: ', this.scFileRelatedListCard);
+
+            setTimeout(() => {
+                this.scFileRelatedListCard.calculateImageSize();
+            }, 0);
+        }
 
         this.dispatchEvent(new CustomEvent('close'));
     }
@@ -51,12 +60,12 @@ export default class scFileRelatedListUploadModal extends LightningElement {
                 category: this.category
             });
         } catch (error) {
-            console.error('Error updateFileCategories:', error.message); 
+            console.error('Error updateFileCategories:', error.message);
         }
     }
 
     handleCloseModal() {
-        this.dispatchEvent(new CustomEvent('close')); 
+        this.dispatchEvent(new CustomEvent('close'));
     }
 
     /**
@@ -64,6 +73,6 @@ export default class scFileRelatedListUploadModal extends LightningElement {
      * @returns {String} 모달 제목
      */
     get modalTitle() {
-        return '파일 업로드'; 
+        return '파일 업로드';
     }
 }

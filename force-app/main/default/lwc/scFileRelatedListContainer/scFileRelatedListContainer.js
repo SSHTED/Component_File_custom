@@ -1,9 +1,5 @@
 // scFileRelatedListContainer.js
 import { LightningElement, api } from 'lwc';
-import ScFileRelatedListHeader from 'c/scFileRelatedListHeader';
-import ScFileRelatedListBody from 'c/scFileRelatedListBody';
-import ScFileRelatedListFooter from 'c/scFileRelatedListFooter';
-
 import getFileData from '@salesforce/apex/SC_FileRelatedListController.getFileData';
 
 export default class ScFileRelatedListContainer extends LightningElement {
@@ -35,7 +31,12 @@ export default class ScFileRelatedListContainer extends LightningElement {
     @api imgCardInfoTitleColor;
     @api imgCardInfoDateColor;
 
-    @api fileData = []; originalFileData = [];
+    //자식 컴포넌트
+    scFileRelatedListHeader
+    scFileRelatedListBody
+    scFileRelatedListCard
+
+    fileData = []; originalFileData = [];
     selectedRowIds = [];
     imgSrc;
     sortOptions = {};
@@ -49,9 +50,22 @@ export default class ScFileRelatedListContainer extends LightningElement {
         this.getFileData();
     }
 
+    renderedCallback(){
+        this.setChildComponent();
+    }
+
     initSetting() {
         this.customClass += 'themeColor_' + this.themeColor;
         this.slideDelayTime = this.slideDelayTime * 1000;
+    }
+
+    setChildComponent(){
+        this.scFileRelatedListHeader = this.template.querySelector('c-sc-file-related-list-header');
+        this.scFileRelatedListBody = this.template.querySelector('c-sc-file-related-list-body');
+        this.scFileRelatedListCard = this.template.querySelector('c-sc-file-related-list-body').scFileRelatedListCard;
+        console.log('in ScFileRelatedListContainer c-sc-file-related-list-header:', this.scFileRelatedListHeader);
+        console.log('in ScFileRelatedListContainer c-sc-file-related-list-body:', this.scFileRelatedListBody);
+        console.log('in ScFileRelatedListContainer c-sc-file-related-list-card:', this.scFileRelatedListCard);
     }
 
     async getFileData() {
@@ -172,6 +186,11 @@ export default class ScFileRelatedListContainer extends LightningElement {
 
             this.fileData = this.fileData.concat(updatedNewData);
             this.fileCount = this.fileData.length;
+
+
+
+
+
 
             // console.log('Updated fileData: ', JSON.stringify(this.fileData, null, 2));
             console.log('After handleAfterUploadFile count: ', this.fileData.length)

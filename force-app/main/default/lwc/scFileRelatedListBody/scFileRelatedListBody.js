@@ -20,6 +20,9 @@ export default class ScFileRelatedListBody extends LightningElement {
     @api selectedRowIds;
     @api isComponentSizeSmall;
 
+    //자식 컴포넌트
+    @api scFileRelatedListCard
+
     defaultViewTypeValue;
     checkboxReset = false;
     
@@ -47,6 +50,7 @@ export default class ScFileRelatedListBody extends LightningElement {
     }
 
     renderedCallback() {
+        this.scFileRelatedListCard = this.template.querySelector('c-sc-file-related-list-card');
     }
 
     initSetting() {
@@ -98,8 +102,17 @@ export default class ScFileRelatedListBody extends LightningElement {
 
     handleImageCardTabActivated(){
         console.log('이미지 형태의 탭.');
-    }
 
+        // 탭 클릭 시 각 이미지 크기 계산 
+        setTimeout(() => {
+            const cardComponent = this.template.querySelector('c-sc-file-related-list-card');
+            console.log('이미지 cardComponent', cardComponent);
+    
+            if (cardComponent) {
+                cardComponent.calculateImageSize();
+            }
+        }, 0);
+    }
 
     handleSlideTabActivated() {
         console.log('슬라이드 형태의 탭.');

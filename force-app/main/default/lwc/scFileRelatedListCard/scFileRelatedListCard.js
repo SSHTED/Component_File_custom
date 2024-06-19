@@ -12,40 +12,45 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
     // data
     @api fileData;
     @api selectedRowIds;
-    
+
     innerCardClass = '';
 
     connectedCallback() {
-        this.calculateImageSize();
-
-        if(this.imgCardShowInfo) {
-            this.innerCardClass = 'imgWrapper_has_Info';
-        } else {
-            this.innerCardClass = 'imgWrapper';
-        }
+        this.initSet();
     }
-    
-    calculateImageSize() {
+
+    initSet() {
+        this.innerCardClass = this.imgCardShowInfo ? 'imgWrapper_has_Info' : 'imgWrapper';
+    }
+
+    renderedCallback() {
+
+    }
+
+    //body 컴포넌트에서 호출
+    @api calculateImageSize() {
+        console.log('calculateImageSize >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+
         const fileDataPromises = this.fileData.map(file => {
-    
+
             return new Promise((resolve) => {
                 let imgElement = new Image();
                 imgElement.src = file.ImgSrc;
                 imgElement.onload = () => {
-    
+
                     let aspectRatio = imgElement.width / imgElement.height;
                     let height = 230 / aspectRatio;
                     const cleanedFile = {
                         ...file,
                         imgCardClass: height > 500 ? 'imgMain card_x_large' :
-                                    height > 400 ? 'imgMain card_large' :
-                                    height > 300 ? 'imgMain card_medium' :
+                            height > 400 ? 'imgMain card_large' :
+                                height > 300 ? 'imgMain card_medium' :
                                     height > 200 ? 'imgMain card_small' :
-                                    height > 100 ? 'imgMain card_x_small' :
-                                                    'imgMain card_xx_small'
+                                        height > 100 ? 'imgMain card_x_small' :
+                                            'imgMain card_xx_small'
                     };
-    
-                    if(this.imgCardShowInfo) {
+
+                    if (this.imgCardShowInfo) {
                         cleanedFile.imgCardClass += '_has_Info';
                     }
 
@@ -54,7 +59,7 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
                 };
             });
         });
-    
+
         Promise.all(fileDataPromises)
             .then(cleanedFileData => {
                 this.fileData = cleanedFileData;
@@ -64,7 +69,7 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
             });
     }
 
-    renderedCallback(){
+    renderedCallback() {
 
         // 글자색 변경
         const titleElements = this.template.querySelectorAll('.imgCardInfoTitle');
@@ -103,32 +108,32 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
     handleActionClicked(event) {
         const actionValue = event.currentTarget.dataset.value;
         const selectedFileId = event.currentTarget.dataset.id;
-    
+
         console.log('Action Value:', actionValue);
         console.log('Selected File ID:', selectedFileId);
-    
+
         // 선택된 파일 객체 찾기
         const selectedFile = this.fileData.find(file => file.Id === selectedFileId);
         const selectedFileDocId = selectedFile.ContentDocumentId;
         console.log('이미지 selectedFile:', JSON.stringify(selectedFile, null, 2));
-    
+
         switch (actionValue) {
             case 'expand':
                 this.handleExpand(selectedFileDocId);
                 break;
-            
+
             case 'download':
                 this.handleDownload(selectedFileId);
                 break;
-            
+
             case 'delete':
                 this.handleDelete(selectedFileId);
                 break;
-    
+
             default:
         }
     }
-    
+
     // 파일 확장
     handleExpand(selectedFileDocId) {
         this[NavigationMixin.Navigate]({
@@ -141,18 +146,18 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
             }
         });
     }
-    
+
     // 파일 다운로드
     handleDownload(selectedFileId) {
         if (!confirm('다운로드 하시겠습니까?')) {
             return;
         }
-    
+
         const selectedFiles = this.fileData.filter(file => selectedFileId.includes(file.Id));
         this.initializeDownload(selectedFiles.length);
         this.downloadFiles(selectedFiles);
     }
-    
+
     initializeDownload(totalFiles) {
         this.totalFilesToDownload = totalFiles;
         this.isShowDownloadModal = true;
@@ -160,7 +165,7 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
         this.isDownloadEnd = false;
         this.downloadProgress = 0;
     }
-    
+
     downloadFiles(selectedFiles) {
         let index = 0;
         const downloadNextFile = () => {
@@ -168,17 +173,17 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
                 this.finalizeDownload();
                 return;
             }
-    
+
             const file = selectedFiles[index];
             this.downloadFile(file);
-    
+
             index++;
             this.downloadProgress = index;
             setTimeout(downloadNextFile, 500);
         };
         downloadNextFile();
     }
-    
+
     downloadFile(file) {
         const downloadLink = document.createElement('a');
         downloadLink.href = file.VersionDataUrl;
@@ -187,23 +192,23 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
         downloadLink.click();
         document.body.removeChild(downloadLink);
     }
-    
+
     finalizeDownload() {
         this.downloadProgress = this.totalFilesToDownload;
         this.isDownloadEnd = true;
     }
-    
+
     // 파일 삭제
     handleDelete(selectedFileId) {
         if (!confirm('선택한 항목을 삭제하시겠습니까?')) {
             return;
         }
-    
+
         deleteFilesByRecordId({ recordId: this.recordId, deleteIdList: selectedFileId })
             .then(result => this.handleDeleteSuccess(result, selectedFileId))
             .catch(error => this.handleDeleteError(error));
     }
-    
+
     handleDeleteSuccess(result, selectedFileId) {
         console.log('삭제 결과:', result);
         if (result.Result) {
@@ -221,7 +226,7 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
             alert('항목 삭제에 실패했습니다.');
         }
     }
-    
+
     handleDeleteError(error) {
         console.error('삭제 요청 실패:', error.message);
         alert('항목 삭제 요청에 실패했습니다.');
