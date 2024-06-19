@@ -54,6 +54,13 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
                     console.log('정제된 파일 imgCardClass:', JSON.stringify(cleanedFile.imgCardClass, null, 2));
                     resolve(cleanedFile);
                 };
+                imgElement.onerror = () => {
+                    console.error('이미지 로드 실패:', file.ImgSrc);
+                    resolve({
+                        ...file,
+                        imgCardClass: 'imgMain card_xx_small'  // 기본 클래스 할당
+                    });
+                };
             });
         });
     
@@ -69,6 +76,7 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
                 console.error('이미지 로드 중 오류 발생:', error.message);
             });
     }
+    
 
     renderedCallback() {
         // 글자색 변경
