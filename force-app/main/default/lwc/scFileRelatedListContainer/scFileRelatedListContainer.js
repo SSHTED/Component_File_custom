@@ -42,6 +42,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
     customClass = '';
     activeTabValue;
     objectApiName;
+    latestCreatedDate = null;
 
     connectedCallback() {
         this.initSetting();
@@ -58,44 +59,64 @@ export default class ScFileRelatedListContainer extends LightningElement {
             const params = {
                 recordId: this.recordId,
                 category: this.category,
-                uploadedTime: this.uploadedTime
             };
-        
+
             const processedData = await this.getFileDataFromServer(params);
-            this.fileCount = processedData.length;
-            this.fileData = processedData;
-            this.originalFileData = processedData;
-        
+            this.updateFileData(processedData);
+
             console.log('this.fileData: ', JSON.stringify(this.fileData, null, 2));
-            
+
             return processedData;
         } catch (error) {
             console.error('getFileData error >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', error.message);
-
-            this.fileData = [];
-            this.originalFileData = [];
+            this.clearFileData();
         }
     }
+
+    updateFileData(processedData) {
+        this.fileCount = processedData.length;
+        this.fileData = processedData;
+        this.originalFileData = processedData;
     
-    async getAfterUploadData() {
-        const params = {
-            recordId: this.recordId,
-            category: this.category,
-            uploadedTime: this.uploadedTime
-        };
-    
-        return this.getFileDataFromServer(params);
+        for (const fileData of this.fileData) {
+            if (!this.latestCreatedDate || fileData.CreatedDate > this.latestCreatedDate) {
+                this.latestCreatedDate = fileData.CreatedDate;
+            }
+        }
     }
-    
+
+    clearFileData() {
+        this.fileData = [];
+        this.originalFileData = [];
+    }
+
+    async getAfterUploadData() {
+        console.log('latestCreatedDate: ', this.latestCreatedDate);
+
+        try {
+            const params = {
+                recordId: this.recordId,
+                category: this.category,
+                latestCreatedDate: this.latestCreatedDate
+            };
+            console.log('after upload  params', JSON.stringify(params));
+
+            return this.getFileDataFromServer(params);
+        } catch (error) {
+            console.error('getAfterUploadData error >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: ', error.message);
+            this.clearFileData();
+        }
+    }
+
     async getFileDataFromServer(params) {
         try {
             const result = await getFileData(params);
             const processedFileData = result.Result
                 .slice(0, this.countRecord)
                 .map((fileData, index) => this.processFileData(fileData, index));
-    
+
             this.objectApiName = result.ObjectApiName;
-            
+
             return processedFileData;
         } catch (error) {
             throw error;
@@ -115,15 +136,15 @@ export default class ScFileRelatedListContainer extends LightningElement {
             FileType: fileData.FileType,
             PublishStatus: fileData.PublishStatus,      //컨텐츠의 게시 상태 (P: 게시됨, R: 작업용, A: 아카이브됨)
             ContentSize: fileData.ContentSize < 1024 * 1024 ?
-                        (fileData.ContentSize / 1024).toFixed(2) + " KB" :
-                        (fileData.ContentSize / (1024 * 1024)).toFixed(2) + " MB",
+                (fileData.ContentSize / 1024).toFixed(2) + " KB" :
+                (fileData.ContentSize / (1024 * 1024)).toFixed(2) + " MB",
             FileExtension: "." + fileData.FileExtension,
             VersionDataUrl: fileData.VersionDataUrl,
             CreatedDate: fileData.CreatedDate,
             index: index + 1
         };
         fileDataArr.ImgSrc = this.getImgSrc(fileData);
-        
+
         return fileDataArr;
     }
 
@@ -140,8 +161,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
 
     async handleAfterUploadFile() {
         console.log('Before handleAfterUploadFile count: ', this.fileData.length)
-        this.uploadedTime = Date.now();
-    
+
         try {
             const newData = await this.getAfterUploadData();
             const startIndex = this.fileData.length;
@@ -149,7 +169,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
                 ...fileData,
                 index: startIndex + index + 1,
             }));
-    
+
             this.fileData = this.fileData.concat(updatedNewData);
             this.fileCount = this.fileData.length;
 
@@ -202,7 +222,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
         console.log('after handleClearRowIds: ', JSON.stringify(this.selectedRowIds, null, 2));
     }
 
-    handleSearchFile(event){
+    handleSearchFile(event) {
         const searchKey = event.detail;
         const searchKeyLowerCase = searchKey.toLowerCase();
         let filteredData = [...this.fileData];

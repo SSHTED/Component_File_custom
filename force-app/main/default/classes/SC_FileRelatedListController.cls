@@ -5,10 +5,10 @@ global with sharing class SC_FileRelatedListController {
     // 그래서 두 번의 쿼리 수행이 필요.
     // ContentDocumentLink 쿼리 결과 -> ContentVersion의 IsLatest = true, 동일한 ContentDocumentId 값 비교
     @AuraEnabled(cacheable=true)
-    global static Map<String, Object> getFileData(String recordId, String category, Long uploadedTime) {
+    global static Map<String, Object> getFileData(String recordId, String category, DateTime latestCreatedDate) {
         System.debug('recordId >>> ' + recordId);
         System.debug('category >>> ' + category);
-        System.debug('uploadedTime >>> ' + uploadedTime);
+        System.debug('latestCreatedDate >>> ' + latestCreatedDate);
         Map<String, Object> resultMap = new Map<String, Object>();
         Set<Id> cdIdList = new Set<Id>();
 
@@ -25,16 +25,12 @@ global with sharing class SC_FileRelatedListController {
                     ' WHERE ContentDocumentId IN :cdIdList' +
                     '   AND IsLatest = true';
         
-        //이전 데이터와 최신 데이터 구분
-        if (uploadedTime != null) {
-            DateTime uploadedTimeDateTime = DateTime.newInstance(uploadedTime);
-            String formattedDateTime = uploadedTimeDateTime.format('yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'', 'Greenwich Mean Time');
-            // System.debug('formattedDateTime >>> ' + formattedDateTime);
-            soql += '   AND (CreatedDate >= ' + formattedDateTime + ' OR SystemModstamp >= ' + formattedDateTime + ')';       
-        }
-
-        if(String.isNotBlank(category)){
+        if (String.isNotBlank(category)) { // 카테고리가 비어있지 않은지 확인
             soql += ' AND Category__c = :category';
+        } 
+
+        if (latestCreatedDate != null) {
+            soql += '   AND CreatedDate > :latestCreatedDate';
         }
 
         System.debug('soql >>> ' + soql);
@@ -68,48 +64,6 @@ global with sharing class SC_FileRelatedListController {
 
         return objectApiName;
     }
-
-    // 파일 데이터 저장
-    // ContentVersion 오브젝트에 insert만 해도 데이터를 사용할 수 있지만 
-    // ContentDocumentLink 오브젝트에도 insert를 해야 세일즈포스의 스탠다드 기능들을 사용할 수 있다.
-    // ex. 버전 관리, 공유, 검색 등 관리 기능들 사용 가능
-    // 추후 파라미터가 더 필요하면 추가
-    // @AuraEnabled
-    // public static void saveFileWithCategory(Id recordId, String fileName, String base64Data, String category) {
-    //     try {
-    //         // base64Data를 Blob으로 변환
-    //         Blob fileBlob = EncodingUtil.base64Decode(base64Data);
-            
-    //         // ContentVersion 레코드 생성
-    //         ContentVersion cv = new ContentVersion();
-    //         cv.Title = fileName;
-    //         cv.VersionData = fileBlob;
-    //         cv.PathOnClient = fileName;
-    //         cv.IsMajorVersion = true;
-    //         cv.Category__c = category; // 카테고리 필드에 값 할당
-            
-    //         // ContentVersion 레코드 삽입
-    //         insert cv;
-    //         System.debug('ContentVersion record created with ID: ' + cv.Id);
-
-    //         // 생성된 ContentVersion의 ID 가져오기
-    //         Id contentVersionId = cv.Id;
-            
-    //         // ContentDocumentLink 레코드 생성하여 관련 레코드와 연결
-    //         ContentDocumentLink cdl = new ContentDocumentLink();
-    //         cdl.ContentDocumentId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :contentVersionId].ContentDocumentId;
-    //         cdl.LinkedEntityId = recordId; // 관련 레코드의 ID
-    //         cdl.ShareType = 'V';
-            
-    //         // ContentDocumentLink 레코드 삽입
-    //         insert cdl;
-    //         System.debug('ContentDocumentLink record created with ID: ' + cdl.Id);
-
-    //     } catch (Exception e) {
-    //         System.debug('Error in saveFileWithCategory: ' + e.getMessage());
-    //         throw new AuraHandledException('Error saving file with category: ' + e.getMessage());
-    //     }
-    // }
 
     @AuraEnabled
     public static void updateContentDocumentCategories(List<Id> contentDocumentIds, String category) {

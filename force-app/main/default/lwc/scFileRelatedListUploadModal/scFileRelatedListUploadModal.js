@@ -64,6 +64,6 @@ export default class scFileRelatedListUploadModal extends LightningElement {
      * @returns {String} 모달 제목
      */
     get modalTitle() {
-        return 'Category 선택'; 
+        return '파일 업로드'; 
     }
 }
