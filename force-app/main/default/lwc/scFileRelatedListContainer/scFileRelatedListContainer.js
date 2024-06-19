@@ -263,6 +263,8 @@ export default class ScFileRelatedListContainer extends LightningElement {
             sortDirection: event.detail.sortDirection,
             isSortBtnClick: event.detail.isSortBtnClick
         }
+        // 이미지 크기 계산
+        this.scFileRelatedListCard.calculateImageSize(this.fileData);
     }
 
     handleExpandToggle(event) {
