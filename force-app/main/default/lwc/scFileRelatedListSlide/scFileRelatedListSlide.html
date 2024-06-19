@@ -51,7 +51,19 @@
           <div class="imgArea" onmouseover={showImgInfo} onmouseout={hideImgInfo}>
             <!-- 마우스 호버시 나타나는 이미지 정보 및 기능버튼 -->
             <div class="slideImgInfo">
-              <p onclick={handleTitleClick} data-id={imgId} data-title={imgTitle}>{imgTitle}</p>
+              <p class="smallTitle">{imgTitle}</p>
+
+              <div class="btn_area">
+                <div class="action_btn" data-value="expand" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(58,73,98)">
+                    <lightning-icon class="btnIcon" icon-name="utility:expand" size="x-small"></lightning-icon>
+                </div>
+                <div class="action_btn" data-value="download" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(29,204,191)">
+                    <lightning-icon class="btnIcon" icon-name="utility:download" size="x-small"></lightning-icon>
+                </div>
+                <div class="action_btn" data-value="delete" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(255,165,0)">
+                    <lightning-icon class="btnIcon" icon-name="utility:delete" size="x-small"></lightning-icon>
+                </div>
+              </div>
             </div>
             <!-- 슬라이드 이미지 -->
             <div class="slideImgBox">

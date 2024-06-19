@@ -2,7 +2,6 @@
 .main_slide {
     width: 100%;
     height:400px;
-    height: calc(100vh - 300px);
     outline: 2px solid #c9c9c9;
     overflow: auto;
 }
@@ -86,6 +85,15 @@
     float: left;
     width: 300px;
     font-size: 20px;
+    color: darkslategray;
+}
+.slideImgInfo .smallTitle {
+    float: left;
+    width: 200px;
+    font-size: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     color: darkslategray;
 }
 .btn_area {

@@ -41,9 +41,10 @@
 /* 썸네일 이미지 크기 조정 */
 .td_thumbNail .thumbImage {
     width: 100%;
-    height: 90px;
+    height: 100%;
+    position: relative;
 }
 .thumbImage img {
     width: 100%;
-    height: 70px;
+    height: auto;
 }
