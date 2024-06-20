@@ -70,7 +70,6 @@ export default class ScFileRelatedListHeader extends LightningElement {
         this.isComponentSizeSmall = mainDataWidth <= 930;
 
         this.hasInitialLogicExecuted = true;
-        console.log('this.isComponentSizeSmall: ', this.isComponentSizeSmall);
 
         this.dispatchEvent(new CustomEvent('iscomponentsizesmall', {
             detail: { isComponentSizeSmall: this.isComponentSizeSmall }
@@ -79,9 +78,7 @@ export default class ScFileRelatedListHeader extends LightningElement {
 
     handleSearch(event) {
         const searchKey = event.target.value;
-        console.log('검색어 =========> ', searchKey);
         
-        //to scFileRelatedListContainer
         this.dispatchEvent(new CustomEvent('search', {
             detail: searchKey
         }))
@@ -92,19 +89,13 @@ export default class ScFileRelatedListHeader extends LightningElement {
     }
 
     async handleDownloadBtnClick() {
-        console.log('헤더. 다운 selectedRowIds: ', JSON.stringify(this.selectedRowIds, null, 2));
-        console.log('선택된 탭: ', this.activeTabValue);
-
-        // 선택이 필요한지 여부 확인
         const isSelectionRequired = this.isSelectionExemptTab(this.activeTabValue);
         const hasSelectedRows = this.selectedRowIds.length > 0;
 
         if (!isSelectionRequired && !hasSelectedRows) {
             alert('다운로드할 항목을 선택해주세요.');
             return;
-        }
-
-        if (isSelectionRequired) {
+        }else{
             this.selectedRowIds = this.fileData.map(file => file.Id);
         }
 
@@ -250,7 +241,6 @@ export default class ScFileRelatedListHeader extends LightningElement {
         });
     }
 
-    // 섹션 토글 처리
     handleExpandToggle() {
         this.actSectionOpen = !this.actSectionOpen;
         this.dispatchEvent(new CustomEvent('expandtoggleclicked', { detail: { actSectionOpen: this.actSectionOpen } }));

@@ -1,6 +1,17 @@
 // scFileRelatedListBody.js
 import { LightningElement, api } from 'lwc';
 
+/**
+ * @file ScFileRelatedListBody.js
+ * @description 파일 다운로드 테이블, 썸네일, 이미지, 슬라이드 탭의 부모 컴포넌트 (차상위)
+ * @version 1.0.0
+ * @date 2024-06-12
+ * @js 담당자: 신승현
+ * @css 담당자: 최복규
+ * 
+ * @updates
+ *  - @updatedBy {이름} @updateVersion {수정 버전} @updateDate {수정 날짜}
+ */
 export default class ScFileRelatedListBody extends LightningElement {
     //property
     @api recordId;

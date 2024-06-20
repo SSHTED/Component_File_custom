@@ -2,6 +2,17 @@
 import { LightningElement, api } from 'lwc';
 import getFileData from '@salesforce/apex/SC_FileRelatedListController.getFileData';
 
+/**
+ * @file ScFileRelatedListContainer.js
+ * @description 파일 다운로드 부모 컴포넌트 (최상위)
+ * @version 1.0.0
+ * @date 2024-06-12
+ * @js 담당자: 신승현
+ * @css 담당자: 최복규
+ * 
+ * @updates
+ *  - @updatedBy {이름} @updateVersion {수정 버전} @updateDate {수정 날짜}
+ */
 export default class ScFileRelatedListContainer extends LightningElement {
     // 기능 활성화/비활성화
     @api actUploadBtn;
@@ -209,11 +220,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
                 index: index + 1
             };
         });
-        console.log('After handleAfterDeleteFile count: ', this.fileData.length)
-
-        // this.scFileRelatedListTable.resetCheckbox();
-        // this.scFileRelatedListThumbnail.resetCheckbox();
-
+        
         this.scFileRelatedListBody.resetCheckboxInComp();
     }
 
@@ -231,20 +238,15 @@ export default class ScFileRelatedListContainer extends LightningElement {
 
     handleCheckboxChangeAll(event) {
         const { selectedIds, isChecked } = event.detail;
-
-        if (isChecked) {
-            this.selectedRowIds = selectedIds;
-        } else {
-            this.selectedRowIds = [];
-        }
+        this.selectedRowIds = isChecked ? selectedIds : [];
 
         console.log('handleCheckboxChangeAll ID:', JSON.stringify(selectedIds, null, 2));
     }
 
     handleClearRowIds() {
-        console.log('before handleClearRowIds: ', JSON.stringify(this.selectedRowIds, null, 2));
+        // console.log('before handleClearRowIds: ', JSON.stringify(this.selectedRowIds, null, 2));
         this.selectedRowIds = [];
-        console.log('after handleClearRowIds: ', JSON.stringify(this.selectedRowIds, null, 2));
+        // console.log('after handleClearRowIds: ', JSON.stringify(this.selectedRowIds, null, 2));
     }
 
     handleSearchFile(event) {
@@ -283,7 +285,6 @@ export default class ScFileRelatedListContainer extends LightningElement {
             console.error('calculateImageSize 호출 중 오류 발생:', error.message);
         }
     }
-
 
     handleExpandToggle(event) {
         console.log('부모 토글오픈 섹션', this.actSectionOpen)

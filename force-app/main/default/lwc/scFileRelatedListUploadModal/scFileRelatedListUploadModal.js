@@ -6,7 +6,7 @@ import updateContentDocumentCategories from '@salesforce/apex/SC_FileRelatedList
  * @description 파일 관련 모달 컴포넌트
  * @version 1.0.0
  * @date 2024-06-12
- * @author JS 담당자: 신승현
+ * @JS 담당자: 신승현
  * @css CSS 담당자: 최복규
  * 
  * @updates

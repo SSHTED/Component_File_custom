@@ -3,6 +3,17 @@ import { LightningElement, api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import deleteFilesByRecordId from '@salesforce/apex/SC_FileRelatedListController.deleteFilesByRecordId';
 
+/**
+ * @file ScFileRelatedListCard.js
+ * @description 파일 다운로드 이미지 카드 컴포넌트
+ * @version 1.0.0
+ * @date 2024-06-12
+ * @js 담당자: 신승현
+ * @css 담당자: 최복규
+ * 
+ * @updates
+ *  - @updatedBy {이름} @updateVersion {수정 버전} @updateDate {수정 날짜}
+ */
 export default class ScFileRelatedListCard extends NavigationMixin(LightningElement) {
     // property
     @api recordId;
@@ -28,6 +39,7 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
 
     }
 
+    // 그리드 계산 용 메소드
     @api calculateImageSize(fileData) {
         console.log('calculateImageSize');
         const fileDataPromises = fileData.map(file => {
@@ -46,11 +58,11 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
                                         height > 100 ? 'imgMain card_x_small' :
                                             'imgMain card_xx_small'
                     };
-    
+
                     if (this.imgCardShowInfo) {
                         cleanedFile.imgCardClass += '_has_Info';
                     }
-    
+
                     console.log('정제된 파일 imgCardClass:', JSON.stringify(cleanedFile.imgCardClass, null, 2));
                     resolve(cleanedFile);
                 };
@@ -63,7 +75,7 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
                 };
             });
         });
-    
+
         Promise.all(fileDataPromises)
             .then(cleanedFileData => {
                 // 새로운 데이터에 대한 이미지 크기 계산 후 this.fileData에 반영
@@ -76,7 +88,7 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
                 console.error('이미지 로드 중 오류 발생:', error.message);
             });
     }
-    
+
 
     renderedCallback() {
         // 글자색 변경
@@ -117,13 +129,9 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
         const actionValue = event.currentTarget.dataset.value;
         const selectedFileId = event.currentTarget.dataset.id;
 
-        console.log('Action Value:', actionValue);
-        console.log('Selected File ID:', selectedFileId);
-
         // 선택된 파일 객체 찾기
         const selectedFile = this.fileData.find(file => file.Id === selectedFileId);
         const selectedFileDocId = selectedFile.ContentDocumentId;
-        console.log('이미지 selectedFile:', JSON.stringify(selectedFile, null, 2));
 
         switch (actionValue) {
             case 'expand':
