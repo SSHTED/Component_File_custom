@@ -45,8 +45,8 @@ export default class ScFileRelatedListContainer extends LightningElement {
     //자식 컴포넌트
     scFileRelatedListHeader
     scFileRelatedListBody
-    scFileRelatedListTable
-    scFileRelatedListThumbnail
+    // scFileRelatedListTable
+    // scFileRelatedListThumbnail
     scFileRelatedListCard
 
     fileData = []; originalFileData = [];
@@ -73,14 +73,18 @@ export default class ScFileRelatedListContainer extends LightningElement {
     }
 
     setChildComponent() {
-        this.scFileRelatedListHeader = this.template.querySelector('c-sc-file-related-list-header');
-        this.scFileRelatedListBody = this.template.querySelector('c-sc-file-related-list-body');
-        this.scFileRelatedListTable = this.template.querySelector('c-sc-file-related-list-body').scFileRelatedListTable;
-        this.scFileRelatedListThumbnail = this.template.querySelector('c-sc-file-related-list-body').scFileRelatedListThumbnail;
-        this.scFileRelatedListCard = this.template.querySelector('c-sc-file-related-list-body').scFileRelatedListCard;
+        if (this.actSectionOpen) {
 
-        if (this.defaultViewType === '이미지 카드') {
-            this.scFileRelatedListCard.calculateImageSize(this.fileData);
+            this.scFileRelatedListHeader = this.template.querySelector('c-sc-file-related-list-header');
+            this.scFileRelatedListBody = this.template.querySelector('c-sc-file-related-list-body');
+            // this.scFileRelatedListTable = this.template.querySelector('c-sc-file-related-list-body').scFileRelatedListTable;
+            // this.scFileRelatedListThumbnail = this.template.querySelector('c-sc-file-related-list-body').scFileRelatedListThumbnail;
+            this.scFileRelatedListCard = this.template.querySelector('c-sc-file-related-list-body').scFileRelatedListCard;
+
+            console.log('chrck', this.scFileRelatedListTable);
+            if (this.defaultViewType === '이미지 카드') {
+                this.scFileRelatedListCard.calculateImageSize(this.fileData);
+            }
         }
     }
 
@@ -220,7 +224,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
                 index: index + 1
             };
         });
-        
+
         this.scFileRelatedListBody.resetCheckboxInComp();
     }
 
