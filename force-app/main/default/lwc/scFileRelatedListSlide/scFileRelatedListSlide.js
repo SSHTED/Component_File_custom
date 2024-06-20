@@ -34,6 +34,16 @@ export default class ScFileRelatedListSlide extends NavigationMixin(LightningEle
     renderedCallback() {
     }
 
+    @api
+    showFirstImage() {
+        if (this.fileData.length > 0) {
+            const firstFile = this.fileData[0];
+            this.imgId = firstFile.Id;
+            this.imgSrc = firstFile.ImgSrc;
+            this.imgTitle = firstFile.Title;
+        }
+    }
+
     imageController(direction) {
         const currentIndex = this.fileData.findIndex(file => file.ImgSrc === this.imgSrc);
         const totalFiles = this.fileData.length;
@@ -55,11 +65,13 @@ export default class ScFileRelatedListSlide extends NavigationMixin(LightningEle
         this.imageController('previous');
     }
 
-    @api nextImage() {
+    @api 
+    nextImage() {
         this.imageController('next');
     }
 
-    @api handleSlidePlay() {
+    @api 
+    handleSlidePlay() {
         if (this.isPlaying) {
             clearInterval(this.slideInterval);
 
@@ -75,7 +87,8 @@ export default class ScFileRelatedListSlide extends NavigationMixin(LightningEle
         }
     }
 
-    @api handleSlidePlayStop() {
+    @api 
+    handleSlidePlayStop() {
         console.log('handleSlidePlayStop');
 
         if (this.isPlaying) {

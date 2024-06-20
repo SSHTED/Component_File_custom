@@ -31,6 +31,8 @@ export default class ScFileRelatedListContainer extends LightningElement {
     @api isActiveNo;
     @api isActiveDel;
     @api slideDelayTime;
+    @api tableComponentHeight;
+    @api thumbnailComponentHeight;
     // 뷰 타입
     @api defaultViewType;
     @api viewType_table;
@@ -48,6 +50,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
     // scFileRelatedListTable
     // scFileRelatedListThumbnail
     scFileRelatedListCard
+    scFileRelatedListSlide
 
     fileData = []; originalFileData = [];
     selectedRowIds = [];
@@ -80,12 +83,31 @@ export default class ScFileRelatedListContainer extends LightningElement {
             // this.scFileRelatedListTable = this.template.querySelector('c-sc-file-related-list-body').scFileRelatedListTable;
             // this.scFileRelatedListThumbnail = this.template.querySelector('c-sc-file-related-list-body').scFileRelatedListThumbnail;
             this.scFileRelatedListCard = this.template.querySelector('c-sc-file-related-list-body').scFileRelatedListCard;
+            this.scFileRelatedListSlide = this.template.querySelector('c-sc-file-related-list-body').scFileRelatedListSlide;
 
-            console.log('chrck', this.scFileRelatedListTable);
-            if (this.defaultViewType === '이미지 카드') {
-                this.scFileRelatedListCard.calculateImageSize(this.fileData);
-            }
+            this.handleDefaultViewType();
         }
+    }
+
+    handleDefaultViewType() {
+        switch (this.defaultViewType) {
+            case '이미지 카드':
+                this.scFileRelatedListCard.calculateImageSize(this.fileData);
+                break;
+            case '슬라이드':
+                this.handleSlide();
+                break;
+            default:
+                break;
+        }
+    }
+
+    handleSlide() {
+        setTimeout(() => {
+            // this.scFileRelatedListSlide.nextImage();
+            this.scFileRelatedListSlide.showFirstImage();
+            this.scFileRelatedListSlide.handleSlidePlay();
+        }, 0);
     }
 
     async getInitFileData() {

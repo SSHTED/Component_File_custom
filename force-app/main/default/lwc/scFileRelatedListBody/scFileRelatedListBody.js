@@ -32,9 +32,10 @@ export default class ScFileRelatedListBody extends LightningElement {
     @api isComponentSizeSmall;
 
     //자식 컴포넌트
-    @api scFileRelatedListTable
-    @api scFileRelatedListThumbnail
-    @api scFileRelatedListCard
+    @api scFileRelatedListTable;
+    @api scFileRelatedListThumbnail;
+    @api scFileRelatedListCard;
+    @api scFileRelatedListSlide;
 
     defaultViewTypeValue;
     checkboxReset = false;
@@ -66,6 +67,7 @@ export default class ScFileRelatedListBody extends LightningElement {
         this.scFileRelatedListTable = this.template.querySelector('c-sc-file-related-list-table');
         this.scFileRelatedListThumbnail = this.template.querySelector('c-sc-file-related-list-thumbnail');
         this.scFileRelatedListCard = this.template.querySelector('c-sc-file-related-list-card');
+        this.scFileRelatedListSlide = this.template.querySelector('c-sc-file-related-list-slide');
     }
 
     initSetting() {
@@ -128,7 +130,8 @@ export default class ScFileRelatedListBody extends LightningElement {
             console.log('슬라이드 slideComponent', slideComponent);
     
             if (slideComponent) {
-                slideComponent.nextImage();
+                // slideComponent.nextImage();
+                slideComponent.showFirstImage();
                 slideComponent.handleSlidePlay();
             }
         }, 0);

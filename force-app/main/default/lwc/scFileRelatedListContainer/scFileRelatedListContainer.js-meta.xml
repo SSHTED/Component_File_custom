@@ -30,6 +30,8 @@
             
             <property name="slideDelayTime" type="Integer" label="슬라이드 이미지 재생 속도" default="2" description="초 단위로 입력하세요."/>
             <property name="countRecord" type="String" label="페이지당 레코드 수" datasource="10, 30, 50, 100" default="10"/>
+            <property name="tableComponentHeight" type="String" label="테이블 탭 높이" default=""/>
+            <property name="thumbnailComponentHeight" type="String" label="썸네일 탭 높이" default=""/>
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>
