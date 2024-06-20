@@ -34,6 +34,8 @@ export default class ScFileRelatedListContainer extends LightningElement {
     //자식 컴포넌트
     scFileRelatedListHeader
     scFileRelatedListBody
+    scFileRelatedListTable
+    scFileRelatedListThumbnail
     scFileRelatedListCard
 
     fileData = []; originalFileData = [];
@@ -62,10 +64,13 @@ export default class ScFileRelatedListContainer extends LightningElement {
     setChildComponent() {
         this.scFileRelatedListHeader = this.template.querySelector('c-sc-file-related-list-header');
         this.scFileRelatedListBody = this.template.querySelector('c-sc-file-related-list-body');
+        this.scFileRelatedListTable = this.template.querySelector('c-sc-file-related-list-body').scFileRelatedListTable;
+        this.scFileRelatedListThumbnail = this.template.querySelector('c-sc-file-related-list-body').scFileRelatedListThumbnail;
         this.scFileRelatedListCard = this.template.querySelector('c-sc-file-related-list-body').scFileRelatedListCard;
-        // console.log('in ScFileRelatedListContainer c-sc-file-related-list-header:', this.scFileRelatedListHeader);
-        // console.log('in ScFileRelatedListContainer c-sc-file-related-list-body:', this.scFileRelatedListBody);
-        // console.log('in ScFileRelatedListContainer c-sc-file-related-list-card:', this.scFileRelatedListCard);
+
+        if (this.defaultViewType === '이미지 카드') {
+            this.scFileRelatedListCard.calculateImageSize(this.fileData);
+        }
     }
 
     async getInitFileData() {
@@ -205,6 +210,11 @@ export default class ScFileRelatedListContainer extends LightningElement {
             };
         });
         console.log('After handleAfterDeleteFile count: ', this.fileData.length)
+
+        // this.scFileRelatedListTable.resetCheckbox();
+        // this.scFileRelatedListThumbnail.resetCheckbox();
+
+        this.scFileRelatedListBody.resetCheckboxInComp();
     }
 
     handleCheckboxChange(event) {
