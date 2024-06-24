@@ -8,7 +8,15 @@
         <div class="main_left">
           <template for:each={fileData} for:item="fileData" for:index="index">
             <div class="main_left_thumbImg" key={fileData.Id} data-img-title={fileData.Title} data-img-url={fileData.ImgSrc} onclick={handleSlideNaviClick} data-index={index}>
-              <img src={fileData.ImgSrc} alt="썸네일 이미지"/>
+              <!-- <img src={fileData.ImgSrc} alt="썸네일 이미지"/> -->
+
+              <!-- 이미지 또는 아이콘 -->
+              <template if:true={fileData.isImage}>
+                <img class="cardImg" src={fileData.ImgSrc} alt={fileData.Title}/>
+              </template>
+              <template if:false={fileData.isImage}>
+                <lightning-icon icon-name={fileData.iconName} size="large"></lightning-icon>
+              </template>
             </div>
           </template>
         </div>
@@ -37,7 +45,7 @@
             </div>
           </div>
           <!-- 슬라이드 하단 이미지 재생/이동 버튼 -->
-          <div class="functionArea">
+          <div class="functionArea" onmouseover={showImgInfo} onmouseout={hideImgInfo}>
             <lightning-icon class="prevBtn" icon-name="utility:chevronleft" size="small" onclick={previousImage}></lightning-icon>
             <lightning-icon class="playBtn" icon-name={togglePlayIcon} size="small" onclick={handleSlidePlay}></lightning-icon>
             <lightning-icon class="nextBtn" icon-name="utility:chevronright" size="small" onclick={nextImage}></lightning-icon>
@@ -48,7 +56,7 @@
       <!-- 작은 영역일때 -->
       <template if:true={isComponentSizeSmall}>
         <div class="inner_main_slide">
-          <div class="imgArea" onmouseover={showImgInfo} onmouseout={hideImgInfo}>
+          <div class="imgArea" >
             <!-- 마우스 호버시 나타나는 이미지 정보 및 기능버튼 -->
             <div class="slideImgInfo">
               <p class="smallTitle">{imgTitle}</p>
@@ -71,7 +79,7 @@
             </div>
           </div>
           <!-- 슬라이드 하단 이미지 재생/이동 버튼 -->
-          <div class="functionArea">
+          <div class="functionArea" >
             <lightning-icon class="prevBtn" icon-name="utility:chevronleft" size="small" onclick={previousImage}></lightning-icon>
             <lightning-icon class="playBtn" icon-name={togglePlayIcon} size="small" onclick={handleSlidePlay}></lightning-icon>
             <lightning-icon class="nextBtn" icon-name="utility:chevronright" size="small" onclick={nextImage}></lightning-icon>

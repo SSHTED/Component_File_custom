@@ -8,8 +8,17 @@
                 <!-- 이미지 카드 -->
                 <div class={innerCardClass}>
                     <!-- 이미지 -->
-                    <img class="cardImg" src={fileData.ImgSrc} alt={fileData.Title}/>
+                    <!-- <img class="cardImg" src={fileData.ImgSrc} alt={fileData.Title}/> -->
                     
+                    <!-- 이미지 또는 아이콘 -->
+                    <template if:true={fileData.isImage}>
+                        <img class="cardImg" src={fileData.ImgSrc} alt={fileData.Title}/>
+                    </template>
+                    <template if:false={fileData.isImage}>
+                        <lightning-icon icon-name={fileData.iconName} size="large"></lightning-icon>
+                    </template>
+
+
                     <!-- 마우스 호버 시 이미지 어둡게 표시(이벤트 버튼 그룹 강조) -->
                     <div class="shadowBox"></div>
                     <!-- 기능 버튼(확장, 다운로드, 삭제) -->

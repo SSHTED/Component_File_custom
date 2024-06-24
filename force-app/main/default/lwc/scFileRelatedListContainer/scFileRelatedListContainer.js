@@ -130,9 +130,13 @@ export default class ScFileRelatedListContainer extends LightningElement {
     async getFileDataFromServer(params) {
         try {
             const result = await getFileData(params); //from apex
+            console.log(' result : ', JSON.stringify(result, null, 2));
+
             const processedFileData = result.Result
                 .slice(0, this.countRecord)
                 .map((fileData, index) => this.processFileData(fileData, index));
+
+            console.log(' processedFileData : ', JSON.stringify(processedFileData, null, 2));
 
             this.objectApiName = result.ObjectApiName;
 
@@ -204,18 +208,59 @@ export default class ScFileRelatedListContainer extends LightningElement {
         };
         fileDataArr.ImgSrc = this.getImgSrc(fileData);
 
-        return fileDataArr;
+        const isImage = this.isImageFile(fileData.FileExtension);
+        const iconName = isImage ? null : this.getFileExtensionIconName(fileData.FileExtension);
+
+        return {
+            ...fileDataArr,
+            isImage,
+            iconName,
+        };
     }
 
     getImgSrc(fileData) {
         const origin = window.location.origin;
+        const ImageExtensions = ['png', 'jpg', 'jpeg', 'gif'];
+        const DocumentExtensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt'];
+
+        let renditionValue = 'ORIGINAL_';
+
+        if (ImageExtensions.includes(fileData.FileExtension)) {
+            renditionValue += fileData.FileExtension;
+        } else if (DocumentExtensions.includes(fileData.FileExtension)) {
+            renditionValue = 'SVGZ';
+        } else {
+            //
+        }
 
         return origin +
-            '/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_' +
-            fileData.FileExtension +
+            '/sfc/servlet.shepherd/version/renditionDownload?rendition=' + renditionValue +
             '&versionId=' + fileData.Id +
             '&operationContext=CHATTER&contentId=' + fileData.ContentBodyId +
             '&page=0';
+    }
+
+    isImageFile(fileExtension) {
+        if(fileExtension == null){return}
+        const ImageExtensions = ['png', 'jpg', 'jpeg', 'gif'];
+        return ImageExtensions.includes(fileExtension.toLowerCase());
+    }
+
+    getFileExtensionIconName(fileExtension) {
+        const fileExtensionIconMap = {
+            'pdf': 'doctype:pdf',
+            'doc': 'doctype:word',
+            'docx': 'doctype:word',
+            'xls': 'doctype:excel',
+            'xlsx': 'doctype:excel',
+            'ppt': 'doctype:ppt',
+            'pptx': 'doctype:ppt',
+            'txt': 'doctype:txt'
+            // 다른 확장자에 대한 아이콘 매핑 추가
+        };
+
+        return fileExtensionIconMap[fileExtension.toLowerCase()] || 'doctype:unknown';
+
     }
 
     updateFileData(processedData) {
@@ -291,6 +336,16 @@ export default class ScFileRelatedListContainer extends LightningElement {
         }
 
         this.fileData = filteredData;
+
+        try {
+            if (this.scFileRelatedListCard) {
+                // 이미지 크기 계산
+                this.scFileRelatedListCard.calculateImageSize(this.fileData);
+            }
+        } catch (error) {
+            console.error('calculateImageSize 호출 중 오류 발생:', error.message);
+        }
+
     }
 
     // 정렬 기준 처리
