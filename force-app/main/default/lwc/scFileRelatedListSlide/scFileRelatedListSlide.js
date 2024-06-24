@@ -256,9 +256,11 @@ export default class ScFileRelatedListSlide extends NavigationMixin(LightningEle
 
     showImgInfo() {
         this.template.querySelector('.slideImgInfo').style.display = 'block';
+        // this.template.querySelector('.functionArea').style.display = 'block';
     }
-
+    
     hideImgInfo() {
         this.template.querySelector('.slideImgInfo').style.display = 'none';
+        // this.template.querySelector('.functionArea').style.display = 'none';
     }
 }

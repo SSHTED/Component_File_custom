@@ -36,7 +36,18 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
     }
 
     renderedCallback() {
+        // 글자색 변경
+        const titleElements = this.template.querySelectorAll('.imgCardInfoTitle');
+        const dateElements = this.template.querySelectorAll('.imgCardInfoDate');
 
+        // 각 요소에 대해 글자색을 변경
+        titleElements.forEach(titleElement => {
+            titleElement.style.color = this.imgCardInfoTitleColor;
+        });
+
+        dateElements.forEach(dateElement => {
+            dateElement.style.color = this.imgCardInfoDateColor;
+        });
     }
 
     // 그리드 계산 용 메소드
@@ -51,12 +62,17 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
                     let height = 230 / aspectRatio;
                     const cleanedFile = {
                         ...file,
-                        imgCardClass: height > 500 ? 'imgMain card_x_large' :
-                            height > 400 ? 'imgMain card_large' :
-                                height > 300 ? 'imgMain card_medium' :
-                                    height > 200 ? 'imgMain card_small' :
-                                        height > 100 ? 'imgMain card_x_small' :
-                                            'imgMain card_xx_small'
+                        imgCardClass: height > 500 ? 'imgMain card_xxxx_large' :
+                            height > 450 ? 'imgMain card_xxx_large' :
+                                height > 400 ? 'imgMain card_xx_large' :
+                                    height > 350 ? 'imgMain card_x_large' :
+                                        height > 300 ? 'imgMain card_large' :
+                                            height > 250 ? 'imgMain card_medium' :
+                                                height > 200 ? 'imgMain card_small' :
+                                                    height > 150 ? 'imgMain card_x_small' :
+                                                        height > 100 ? 'imgMain card_xx_small' :
+                                                            height > 50 ? 'imgMain card_xxx_small' :
+                                                                'imgMain card_xxxx_small'
                     };
 
                     if (this.imgCardShowInfo) {
@@ -90,20 +106,7 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
     }
 
 
-    renderedCallback() {
-        // 글자색 변경
-        const titleElements = this.template.querySelectorAll('.imgCardInfoTitle');
-        const dateElements = this.template.querySelectorAll('.imgCardInfoDate');
 
-        // 각 요소에 대해 글자색을 변경
-        titleElements.forEach(titleElement => {
-            titleElement.style.color = this.imgCardInfoTitleColor;
-        });
-
-        dateElements.forEach(dateElement => {
-            dateElement.style.color = this.imgCardInfoDateColor;
-        });
-    }
 
     handleMouseOver(event) {
         const cardElement = event.currentTarget;

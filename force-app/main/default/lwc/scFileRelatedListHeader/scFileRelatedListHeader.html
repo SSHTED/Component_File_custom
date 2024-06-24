@@ -42,87 +42,90 @@
                 </template>
               </div>
             </div>
-            <!-- 좁은 영역일 때 검색 영역 -->
-            <template if:true={isFilter}>
-              <div class="filterArea">
-                  <lightning-input name="search" placeholder="검색어를 입력해주세요." type="search" value={inputSearchValue} onchange={handleSearchValue}></lightning-input>
-              </div>
-            </template>
+          </template>
+
+          <!-- 버튼 영역 -->
+          <!-- 큰 영역일떄 -->
+          <template if:false={isComponentSizeSmall}>
+            <div class="btnGroup">
+              <!-- 검색 -->
+              <lightning-input class="searchBox" type="search" onchange={handleSearch}></lightning-input>
+              <!-- 버튼 그룹 -->
+              <lightning-button-group class="inner_btnGroup">
+                <!-- 파일 업로드 버튼 -->
+                <template if:true={actUploadBtn}>
+                  <lightning-button-icon icon-name="utility:upload" variant="border-filled" alternative-text="파일 업로드"
+                    title="파일 업로드" onclick={handleFileUploadBtnClick}></lightning-button-icon>
+                </template>
+                <!-- 선택 다운로드 버튼 -->
+                <template if:true={actDownloadBtn}>
+                  <lightning-button-icon icon-name="utility:download" variant="border-filled" alternative-text="선택 다운로드"
+                    title="선택 다운로드" onclick={handleDownloadBtnClick}></lightning-button-icon>
+                </template>
+                <!-- 선택 삭제 버튼 -->
+                <template if:true={actDeleteBtn}>
+                  <lightning-button-icon icon-name="utility:delete" variant="border-filled" alternative-text="선택 삭제"
+                    title="선택 삭제" onclick={handleDeleteBtnClick}></lightning-button-icon>
+                </template>
+              </lightning-button-group>
+              <!-- 정렬 버튼 -->
+              <lightning-button-menu class="inner_btnMenu" menu-alignment="auto" variant="border-filled" icon-name="utility:sort" onselect={handleSortBtnClick}>
+                <lightning-menu-item value="파일명" label="정렬: 파일명"></lightning-menu-item>
+                <lightning-menu-item value="생성일자" label="정렬: 생성 일자"></lightning-menu-item>
+                <lightning-menu-item value="확장자" label="정렬: 확장자"></lightning-menu-item>
+                <lightning-menu-item value="크기" label="정렬: 크기"></lightning-menu-item>
+              </lightning-button-menu>
+              <!-- 확장/축소 버튼 -->
+              <lightning-icon class="toggleIcon" icon-name={tableToggleIcon} alternative-text="Toggle" size="x-small" onclick={handleExpandToggle}></lightning-icon>
+            </div>
+          </template>
+
+          <!-- 작은 영역일떄 -->
+          <template if:true={isComponentSizeSmall}>
+            <div class="btnGroup">
+              <!-- 검색영역 확장 버튼 -->
+              <lightning-button-icon class="searchIcon" icon-name="utility:search" variant="border-filled" onclick={handleFilterbtn} alternative-text="확장" title="확장"></lightning-button-icon>
+              <!-- 드롭다운 메뉴 -->
+              <template if:true={isDropdownVisible}>
+                <lightning-button-menu class="inner_btnMenu" menu-alignment="auto" variant="border-filled">
+                  <!-- 파일 업로드 -->
+                  <template if:true={actUploadBtn}>
+                    <lightning-menu-item label="파일 업로드" onclick={handleFileUploadBtnClick}></lightning-menu-item>
+                  </template>
+                  <!-- 선택 다운로드 -->
+                  <template if:true={actDownloadBtn}>
+                    <lightning-menu-item label="선택 다운로드" onclick={handleDownloadBtnClick}></lightning-menu-item>
+                  </template>
+                  <!-- 선택 삭제 -->
+                  <template if:true={actDeleteBtn}>
+                    <lightning-menu-item label="선택 삭제" onclick={handleDeleteBtnClick}></lightning-menu-item>
+                  </template>
+                </lightning-button-menu>
+              </template>
+              <!-- 정렬 버튼 -->
+              <lightning-button-menu class="inner_btnMenu" menu-alignment="auto" variant="border-filled" icon-name="utility:sort"
+                onselect={handleSortBtnClick}>
+                <lightning-menu-item value="파일명" label="정렬: 파일명"></lightning-menu-item>
+                <lightning-menu-item value="생성일자" label="정렬: 생성 일자"></lightning-menu-item>
+                <lightning-menu-item value="확장자" label="정렬: 확장자"></lightning-menu-item>
+                <lightning-menu-item value="크기" label="정렬: 크기"></lightning-menu-item>
+              </lightning-button-menu>
+              <!-- 확장/축소 버튼 -->
+              <lightning-icon class="toggleIcon" icon-name={tableToggleIcon} alternative-text="Toggle" size="x-small" onclick={handleExpandToggle}></lightning-icon>
+            </div>
           </template>
         </div>
       </div>
-
-      <!-- 버튼 영역 -->
-      <!-- 큰 영역일떄 -->
-      <template if:false={isComponentSizeSmall}>
-        <div class="btnGroup">
-          <!-- 검색 -->
-          <lightning-input class="searchBox" type="search" onchange={handleSearch}></lightning-input>
-          <!-- 버튼 그룹 -->
-          <lightning-button-group class="inner_btnGroup">
-            <!-- 파일 업로드 버튼 -->
-            <template if:true={actUploadBtn}>
-              <lightning-button-icon icon-name="utility:upload" variant="border-filled" alternative-text="파일 업로드"
-                title="파일 업로드" onclick={handleFileUploadBtnClick}></lightning-button-icon>
-            </template>
-            <!-- 선택 다운로드 버튼 -->
-            <template if:true={actDownloadBtn}>
-              <lightning-button-icon icon-name="utility:download" variant="border-filled" alternative-text="선택 다운로드"
-                title="선택 다운로드" onclick={handleDownloadBtnClick}></lightning-button-icon>
-            </template>
-            <!-- 선택 삭제 버튼 -->
-            <template if:true={actDeleteBtn}>
-              <lightning-button-icon icon-name="utility:delete" variant="border-filled" alternative-text="선택 삭제"
-                title="선택 삭제" onclick={handleDeleteBtnClick}></lightning-button-icon>
-            </template>
-          </lightning-button-group>
-          <!-- 정렬 버튼 -->
-          <lightning-button-menu class="inner_btnMenu" menu-alignment="auto" variant="border-filled" icon-name="utility:sort" onselect={handleSortBtnClick}>
-            <lightning-menu-item value="파일명" label="정렬: 파일명"></lightning-menu-item>
-            <lightning-menu-item value="생성일자" label="정렬: 생성 일자"></lightning-menu-item>
-            <lightning-menu-item value="확장자" label="정렬: 확장자"></lightning-menu-item>
-            <lightning-menu-item value="크기" label="정렬: 크기"></lightning-menu-item>
-          </lightning-button-menu>
-          <!-- 확장/축소 버튼 -->
-          <lightning-icon class="toggleIcon" icon-name={tableToggleIcon} alternative-text="Toggle" size="x-small" onclick={handleExpandToggle}></lightning-icon>
-        </div>
-      </template>
-
-      <!-- 작은 영역일떄 -->
-      <template if:true={isComponentSizeSmall}>
-        <div class="btnGroup">
-          <!-- 검색영역 확장 버튼 -->
-          <lightning-button-icon class="searchIcon" icon-name="utility:search" variant="border-filled" onclick={handleFilterbtn} alternative-text="확장" title="확장"></lightning-button-icon>
-          <!-- 드롭다운 메뉴 -->
-          <template if:true={isDropdownVisible}>
-            <lightning-button-menu class="inner_btnMenu" menu-alignment="auto" variant="border-filled">
-              <!-- 파일 업로드 -->
-              <template if:true={actUploadBtn}>
-                <lightning-menu-item label="파일 업로드" onclick={handleFileUploadBtnClick}></lightning-menu-item>
-              </template>
-              <!-- 선택 다운로드 -->
-              <template if:true={actDownloadBtn}>
-                <lightning-menu-item label="선택 다운로드" onclick={handleDownloadBtnClick}></lightning-menu-item>
-              </template>
-              <!-- 선택 삭제 -->
-              <template if:true={actDeleteBtn}>
-                <lightning-menu-item label="선택 삭제" onclick={handleDeleteBtnClick}></lightning-menu-item>
-              </template>
-            </lightning-button-menu>
-          </template>
-          <!-- 정렬 버튼 -->
-          <lightning-button-menu class="inner_btnMenu" menu-alignment="auto" variant="border-filled" icon-name="utility:sort"
-            onselect={handleSortBtnClick}>
-            <lightning-menu-item value="파일명" label="정렬: 파일명"></lightning-menu-item>
-            <lightning-menu-item value="생성일자" label="정렬: 생성 일자"></lightning-menu-item>
-            <lightning-menu-item value="확장자" label="정렬: 확장자"></lightning-menu-item>
-            <lightning-menu-item value="크기" label="정렬: 크기"></lightning-menu-item>
-          </lightning-button-menu>
-          <!-- 확장/축소 버튼 -->
-          <lightning-icon class="toggleIcon" icon-name={tableToggleIcon} alternative-text="Toggle" size="x-small" onclick={handleExpandToggle}></lightning-icon>
-        </div>
-      </template>
     </div>
+  </div>
+
+  <div class="filterArea">
+    <!-- 좁은 영역일 때 검색 영역 -->
+    <template if:true={isFilter}>
+      <div>
+          <lightning-input name="search" placeholder="검색어를 입력해주세요." type="search" onchange={handleSearch}></lightning-input>
+      </div>
+    </template>
   </div>
 
   <!-- 업로드 모달 창 -->

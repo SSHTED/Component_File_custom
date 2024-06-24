@@ -53,8 +53,9 @@
 }
 .headerTitle_Info p {
     display: inline-block;
-    margin-right: 5px;
     margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 5px;
 }
 
 /* 버튼 영역 */
@@ -87,4 +88,9 @@
 /* 확장 버튼 */
 .toggleIcon {
     margin-top: 7px;
+}
+/* 좁은 영역 검색 영역 */
+.filterArea {
+    padding: 10px 36px 10px 10px;
+    margin-top: -25px;
 }
