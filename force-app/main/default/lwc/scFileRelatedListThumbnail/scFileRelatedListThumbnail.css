@@ -1,6 +1,5 @@
 /* viewType : Thumbnail */
 .viewType_Thumbnail {
-    max-height: 250px;
     overflow: auto;
 }
 
@@ -20,7 +19,7 @@
     width: 50px;
 }
 .thumbnailTable .th_thumbnail {
-    width: 80px;
+    width: 115.75px;
 }
 .thumbnailTable .th_title {
     max-width: calc(100% - 470px);
@@ -40,10 +39,15 @@
 
 /* 썸네일 이미지 크기 조정 */
 .td_thumbNail .thumbImage {
+    position: relative;
     width: 100%;
-    height: 100%;
+    height: 90px;
 }
 .thumbImage img {
-    width: 100%;
-    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    max-height: 100%;
 }

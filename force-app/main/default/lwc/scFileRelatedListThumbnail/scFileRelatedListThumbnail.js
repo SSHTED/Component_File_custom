@@ -15,6 +15,7 @@ import { NavigationMixin } from 'lightning/navigation';
 export default class ScFileRelatedListThumbnail extends NavigationMixin(LightningElement) {
     // property
     @api actNo;
+    @api thumbnailComponentHeight;
     // data
     @api fileData;
     @api selectedRowIds;
@@ -44,7 +45,18 @@ export default class ScFileRelatedListThumbnail extends NavigationMixin(Lightnin
     ];
 
     connectedCallback() {
+    }
 
+    renderedCallback() {
+        this.handleThumbnailComponentHeight();
+    }
+
+    handleThumbnailComponentHeight() {
+        const thumbnailBox = this.template.querySelector('.viewType_Thumbnail');
+
+        if (thumbnailBox) {
+            thumbnailBox.style.maxHeight = this.thumbnailComponentHeight;
+        }
     }
 
     handleCheckbox(event) {

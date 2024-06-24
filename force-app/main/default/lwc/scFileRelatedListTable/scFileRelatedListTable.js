@@ -14,6 +14,7 @@ import { LightningElement, api } from 'lwc';
 export default class ScFileRelatedListTable extends LightningElement {
     // property
     @api actNo;
+    @api tableComponentHeight;
     // data
     @api fileData;
     @api selectedRowIds;
@@ -44,6 +45,15 @@ export default class ScFileRelatedListTable extends LightningElement {
     }
 
     renderedCallback() {
+        this.handleTableComponentHeight();
+    }
+
+    handleTableComponentHeight() {
+        const tableBox = this.template.querySelector('.viewType_Table');
+
+        if (tableBox) {
+            tableBox.style.maxHeight = this.tableComponentHeight;
+        }
     }
 
     handleCheckbox(event) {

@@ -1,6 +1,5 @@
 /* viewType : Table */
 .viewType_Table {
-    max-height: 150px;
     overflow: auto;
 }
 
