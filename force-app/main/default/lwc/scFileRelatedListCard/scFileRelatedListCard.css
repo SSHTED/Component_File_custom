@@ -20,6 +20,9 @@
 }
 
 /* 이미지 카드 정보 보기 X */
+.card_Icon {
+    grid-row-end: span var(--card_Icon, 6);
+}
 .card_xxxx_small {
     grid-row-end: span var(--card_xxxx_small, 5);
 }
@@ -55,6 +58,9 @@
 }
 
 /* 이미지 카드 정보 보기 O */
+.card_Icon_has_Info {
+    grid-row-end: span var(--card_Icon, 9);
+}
 .card_xxxx_small_has_Info {
     grid-row-end: span var(--card_xxxx_small, 8);
 }
@@ -119,6 +125,13 @@
     transform: translate(-50%, -50%);
     width: 98%;
     height: auto;
+}
+.cardIcon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 48px;
 }
 
 /* 마우스 호버시 이미지 어둡게 처리 */

@@ -15,7 +15,7 @@
                         <img class="cardImg" src={fileData.ImgSrc} alt={fileData.Title}/>
                     </template>
                     <template if:false={fileData.isImage}>
-                        <lightning-icon icon-name={fileData.iconName} size="large"></lightning-icon>
+                        <lightning-icon class="cardIcon" icon-name={fileData.iconName} size="large"></lightning-icon>
                     </template>
 
 

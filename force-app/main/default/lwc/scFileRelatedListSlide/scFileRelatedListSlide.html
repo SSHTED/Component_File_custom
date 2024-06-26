@@ -15,7 +15,7 @@
                 <img class="cardImg" src={fileData.ImgSrc} alt={fileData.Title}/>
               </template>
               <template if:false={fileData.isImage}>
-                <lightning-icon icon-name={fileData.iconName} size="large"></lightning-icon>
+                <lightning-icon class="cardImg" icon-name={fileData.iconName} size="large"></lightning-icon>
               </template>
             </div>
           </template>
@@ -24,19 +24,20 @@
         <div class="main_right">
           <div class="imgArea" onmouseover={showImgInfo} onmouseout={hideImgInfo}>
             <!-- 마우스 호버시 나타나는 이미지 정보 및 기능버튼 -->
-            <div class="slideImgInfo">
-              <p>{imgTitle}</p>
-
-              <div class="btn_area">
-                <div class="action_btn" data-value="expand" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(58,73,98)">
-                    <lightning-icon class="btnIcon" icon-name="utility:expand" size="x-small"></lightning-icon>
-                </div>
-                <div class="action_btn" data-value="download" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(29,204,191)">
-                    <lightning-icon class="btnIcon" icon-name="utility:download" size="x-small"></lightning-icon>
-                </div>
-                <div class="action_btn" data-value="delete" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(255,165,0)">
-                    <lightning-icon class="btnIcon" icon-name="utility:delete" size="x-small"></lightning-icon>
-                </div>
+            <div class="shadowBox">
+              <div class="slideImgInfo">
+                <p>{imgTitle}</p>
+              </div>
+            </div>
+            <div class="btn_area">
+              <div class="action_btn" data-value="expand" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(58,73,98)">
+                  <lightning-icon class="btnIcon" icon-name="utility:expand" size="x-small"></lightning-icon>
+              </div>
+              <div class="action_btn" data-value="download" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(29,204,191)">
+                  <lightning-icon class="btnIcon" icon-name="utility:download" size="x-small"></lightning-icon>
+              </div>
+              <div class="action_btn" data-value="delete" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(255,165,0)">
+                  <lightning-icon class="btnIcon" icon-name="utility:delete" size="x-small"></lightning-icon>
               </div>
             </div>
             <!-- 슬라이드 이미지 -->
@@ -56,21 +57,22 @@
       <!-- 작은 영역일때 -->
       <template if:true={isComponentSizeSmall}>
         <div class="inner_main_slide">
-          <div class="imgArea" >
+          <div class="imgArea" onmouseover={showImgInfo} onmouseout={hideImgInfo}>
             <!-- 마우스 호버시 나타나는 이미지 정보 및 기능버튼 -->
-            <div class="slideImgInfo">
-              <p class="smallTitle">{imgTitle}</p>
-
-              <div class="btn_area">
-                <div class="action_btn" data-value="expand" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(58,73,98)">
-                    <lightning-icon class="btnIcon" icon-name="utility:expand" size="x-small"></lightning-icon>
-                </div>
-                <div class="action_btn" data-value="download" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(29,204,191)">
-                    <lightning-icon class="btnIcon" icon-name="utility:download" size="x-small"></lightning-icon>
-                </div>
-                <div class="action_btn" data-value="delete" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(255,165,0)">
-                    <lightning-icon class="btnIcon" icon-name="utility:delete" size="x-small"></lightning-icon>
-                </div>
+            <div class="shadowBox">
+              <div class="slideImgInfo">
+                <p class="smallTitle">{imgTitle}</p>
+              </div>
+            </div>
+            <div class="btn_area">
+              <div class="action_btn" data-value="expand" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(58,73,98)">
+                  <lightning-icon class="btnIcon" icon-name="utility:expand" size="x-small"></lightning-icon>
+              </div>
+              <div class="action_btn" data-value="download" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(29,204,191)">
+                  <lightning-icon class="btnIcon" icon-name="utility:download" size="x-small"></lightning-icon>
+              </div>
+              <div class="action_btn" data-value="delete" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(255,165,0)">
+                  <lightning-icon class="btnIcon" icon-name="utility:delete" size="x-small"></lightning-icon>
               </div>
             </div>
             <!-- 슬라이드 이미지 -->

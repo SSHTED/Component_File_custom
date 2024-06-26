@@ -52,7 +52,12 @@
             <!-- 썸네일 -->
             <td class="td_thumbNail">
               <div class="thumbImage">
-                <img src={td.ImgSrc} onclick={handleThumbnailClick} data-id={td.Id} data-title={td.Title}>
+                <template if:true={td.isImage}>
+                  <img class="thumbImg" data-id={td.Id} data-title={td.Title} src={td.ImgSrc} alt={fileData.Title} onclick={handleThumbnailClick}/>
+                </template>
+                <template if:false={td.isImage}>
+                  <lightning-icon class="thumbImg" data-id={td.Id} data-title={td.Title} icon-name={td.iconName} size="large" onclick={handleThumbnailClick}></lightning-icon>
+                </template>
               </div>
             </td>
             <!-- 텍스트 -->

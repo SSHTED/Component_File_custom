@@ -25,7 +25,7 @@
     height: 90px;
     border: 1px solid #A4A4A4;
 }
-.main_left_thumbImg img {
+.main_left_thumbImg .cardImg {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -69,34 +69,47 @@
 }
 
 /* 마우스 호버시 나타나는 이미지 정보 및 기능버튼 */
-.imgArea .slideImgInfo {
+.imgArea .shadowBox {
     position: absolute;
     top: 0px;
+    left: 0px;
     width: 100%;
-    padding: 10px 20px;
-    height: 50px;
+    height: 100%;
     opacity: 0.7;
     z-index: 1;
-    background-color: #BDBDBD;
+    background-color: black;
     display: none;
 }
+.slideImgInfo {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
 .slideImgInfo p {
-    float: left;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
     width: 300px;
     font-size: 20px;
-    color: darkslategray;
+    color: white;
 }
 .slideImgInfo .smallTitle {
-    float: left;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
     width: 200px;
     font-size: 20px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: darkslategray;
+    color: white;
 }
 .btn_area {
-    float: right;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 9;
+    display: none;
 }
 .action_btn { 
     cursor: pointer;
