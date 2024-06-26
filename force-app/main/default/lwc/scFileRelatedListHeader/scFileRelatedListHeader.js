@@ -89,13 +89,16 @@ export default class ScFileRelatedListHeader extends LightningElement {
     }
 
     async handleDownloadBtnClick() {
+        // 선택 예외 탭인지 확인
         const isSelectionRequired = this.isSelectionExemptTab(this.activeTabValue);
         const hasSelectedRows = this.selectedRowIds.length > 0;
 
         if (!isSelectionRequired && !hasSelectedRows) {
             alert('다운로드할 항목을 선택해주세요.');
             return;
-        }else{
+        }
+
+        if (isSelectionRequired) {
             this.selectedRowIds = this.fileData.map(file => file.Id);
         }
 
@@ -114,8 +117,8 @@ export default class ScFileRelatedListHeader extends LightningElement {
             if (this.isDownloadCancelled) {
                 break;
             }
-
             const file = selectedFiles[index];
+
             await this.downloadFile(file);
             this.downloadProgress = index + 1;
         }

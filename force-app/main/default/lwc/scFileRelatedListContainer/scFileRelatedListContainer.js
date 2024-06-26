@@ -304,6 +304,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
             this.selectedRowIds = this.selectedRowIds.filter(id => id !== selectedId);
         }
 
+        console.log(' 컨테이너 : this.selectedRowIds:', JSON.stringify(this.selectedRowIds, null, 2));
         console.log('handleCheckboxChange ID:', JSON.stringify(selectedId, null, 2));
     }
 
