@@ -156,6 +156,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
             }));
 
             this.fileData = this.fileData.concat(updatedNewData);
+            this.originalFileData = [...this.fileData];
 
             this.fileCount = this.fileData.length;
             this.updateLatestCreatedDate(this.fileData);
@@ -291,7 +292,8 @@ export default class ScFileRelatedListContainer extends LightningElement {
                 index: index + 1
             };
         });
-
+        
+        this.originalFileData = [...this.fileData];
         this.scFileRelatedListBody.resetCheckboxInComp();
     }
 
