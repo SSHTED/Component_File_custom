@@ -45,6 +45,8 @@ export default class ScFileRelatedListSlide extends NavigationMixin(LightningEle
     }
 
     imageController(direction) {
+        if (!this.fileData || this.fileData.length === 0) return;
+
         const currentIndex = this.fileData.findIndex(file => file.ImgSrc === this.imgSrc);
         const totalFiles = this.fileData.length;
         let targetIndex;

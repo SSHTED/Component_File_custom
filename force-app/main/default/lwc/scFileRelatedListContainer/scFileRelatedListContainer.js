@@ -103,11 +103,12 @@ export default class ScFileRelatedListContainer extends LightningElement {
     }
 
     handleSlide() {
-        setTimeout(() => {
-            // this.scFileRelatedListSlide.nextImage();
-            this.scFileRelatedListSlide.showFirstImage();
-            this.scFileRelatedListSlide.handleSlidePlay();
-        }, 0);
+        if (this.fileData && this.fileData.length > 0) {
+            setTimeout(() => {
+                this.scFileRelatedListSlide.showFirstImage();
+                this.scFileRelatedListSlide.handleSlidePlay();
+            }, 0);
+        }
     }
 
     async getInitFileData() {

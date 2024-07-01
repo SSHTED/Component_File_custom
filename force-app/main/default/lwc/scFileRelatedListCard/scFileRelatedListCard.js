@@ -162,8 +162,8 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
             case 'delete':
                 this.handleDelete(selectedFileId);
                 break;
-
-            default:
+            
+            default:    
         }
     }
 
