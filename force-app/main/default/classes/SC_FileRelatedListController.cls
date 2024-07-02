@@ -18,9 +18,9 @@ global with sharing class SC_FileRelatedListController {
         }
 
         String soql = ' SELECT ' +
-                    '    Id, ContentDocumentId, Title, Description, ReasonForChange, SharingOption' +
+                    '    Id, ContentDocumentId, Title, Owner.Name, Description, ReasonForChange, SharingOption' +
                     '    , SharingPrivacy, PathOnClient, ContentBodyId, FileType, PublishStatus, ContentSize' +
-                    '    , FileExtension, TextPreview, Category__c, VersionDataUrl, CreatedDate, SystemModstamp' +
+                    '    , FileExtension, TextPreview, Category__c, VersionDataUrl, CreatedDate, LastModifiedDate, SystemModstamp' +
                     ' FROM ContentVersion' +
                     ' WHERE ContentDocumentId IN :cdIdList' +
                     '   AND IsLatest = true';
@@ -169,5 +169,13 @@ global with sharing class SC_FileRelatedListController {
     // return object to String
     private static String objectToString(object o) {
         return o == null ? '' : String.valueOf(o);
+    }
+
+    private static String formatDate(Datetime dt) {
+        if (dt == null) {
+            return null;
+        }
+
+        return dt.format('yyyy-mm-dd')
     }
 }
