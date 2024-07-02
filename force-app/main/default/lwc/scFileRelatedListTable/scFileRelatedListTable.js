@@ -38,6 +38,8 @@ export default class ScFileRelatedListTable extends LightningElement {
         { label: '', fieldName: 'checkbox', sortable: false, type: 'checkbox', customClass: 'slds-col_padded th_checkbox' },
         { label: '파일명', fieldName: 'Title', sortable: true, type: 'data', customClass: 'slds-col_padded th_title' },
         { label: '확장자', fieldName: 'FileExtension', sortable: true, type: 'data', customClass: 'slds-col_padded th_extension' },
+        { label: '소유자', fieldName: 'Owner', sortable: true, type: 'data', customClass: 'slds-col_padded th_owner' },
+        { label: '수정일자', fieldName: 'LastModifiedDate', sortable: true, type: 'data', customClass: 'slds-col_padded th_LastModifiedDate' },
         { label: '크기', fieldName: 'ContentSize', sortable: true, type: 'data', customClass: 'slds-col_padded th_size' }
     ];
 

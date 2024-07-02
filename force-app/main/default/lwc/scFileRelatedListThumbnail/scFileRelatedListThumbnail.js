@@ -41,6 +41,8 @@ export default class ScFileRelatedListThumbnail extends NavigationMixin(Lightnin
         { label: '썸네일', fieldName: 'thumbnail', sortable: false, type: 'thumbnail', customClass: 'slds-col_padded th_thumbnail' },
         { label: '파일명', fieldName: 'Title', sortable: true, type: 'data', customClass: 'slds-col_padded th_title' },
         { label: '확장자', fieldName: 'FileExtension', sortable: true, type: 'data', customClass: 'slds-col_padded th_extension' },
+        { label: '소유자', fieldName: 'Owner', sortable: true, type: 'data', customClass: 'slds-col_padded th_owner' },
+        { label: '수정일자', fieldName: 'LastModifiedDate', sortable: true, type: 'data', customClass: 'slds-col_padded th_LastModifiedDate' },
         { label: '크기', fieldName: 'ContentSize', sortable: true, type: 'data', customClass: 'slds-col_padded th_size' }
     ];
 
