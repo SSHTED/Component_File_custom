@@ -137,7 +137,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
                 .slice(0, this.countRecord)
                 .map((fileData, index) => this.processFileData(fileData, index));
 
-            console.log(' processedFileData : ', JSON.stringify(processedFileData, null, 2));
+            console.log(' 정제 후 데이터 : ', JSON.stringify(processedFileData, null, 2));
 
             this.objectApiName = result.ObjectApiName;
 
@@ -194,6 +194,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
             ContentDocumentId: fileData.ContentDocumentId,
             Title: fileData.Title,
             category: fileData.Category__c,
+            Owner: fileData.Owner.Name,
             SharingOption: fileData.SharingOption,      //레코드 공유 옵션 (A: 누구나 액세스 가능, R: 역할 기반 액세스, U: 사용자 액세스 제어 목록 기반 액세스, N: 공유되지 않음)
             SharingPrivacy: fileData.SharingPrivacy,    //레코드의 공유 범위 (N: 네트워크 전용, P: 포탈 공유, O: 조직 전체 공유)
             PathOnClient: fileData.PathOnClient,        //파일 이름
@@ -205,7 +206,8 @@ export default class ScFileRelatedListContainer extends LightningElement {
                 (fileData.ContentSize / (1024 * 1024)).toFixed(2) + " MB",
             FileExtension: "." + fileData.FileExtension,
             VersionDataUrl: fileData.VersionDataUrl,
-            CreatedDate: fileData.CreatedDate,
+            CreatedDate: this.formatDate(fileData.CreatedDate),
+            LastModifiedDate: this.formatDate(fileData.LastModifiedDate),
             index: index + 1
         };
         fileDataArr.ImgSrc = this.getImgSrc(fileData);
@@ -218,6 +220,19 @@ export default class ScFileRelatedListContainer extends LightningElement {
             isImage,
             iconName,
         };
+    }
+
+    formatDate(dateString) {
+        const options = { 
+            year: 'numeric', 
+            month: '2-digit', 
+            day: '2-digit', 
+            hour: '2-digit', 
+            minute: '2-digit', 
+            hour12: true
+        };
+        
+        return new Date(dateString).toLocaleString('ko-KR', options);
     }
 
     getImgSrc(fileData) {
@@ -385,4 +400,19 @@ export default class ScFileRelatedListContainer extends LightningElement {
         this.activeTabValue = event.detail;
         console.log('Parent component received activeTabValue: ', this.activeTabValue);
     }
+
+    // 변환된 날짜를 서버에 다시 저장하고 싶을 때 사용
+    convertToISOString(formattedDate) {
+        // 'YYYY-MM-DD HH:mm' 형식의 문자열을 파싱
+        const [datePart, timePart] = formattedDate.split(' ');
+        const [year, month, day] = datePart.split('-');
+        const [hour, minute] = timePart.split(':');
+    
+        // Date 객체 생성
+        const date = new Date(year, month - 1, day, hour, minute);
+    
+        // ISO 문자열로 변환
+        return date.toISOString();
+    }
+
 }
