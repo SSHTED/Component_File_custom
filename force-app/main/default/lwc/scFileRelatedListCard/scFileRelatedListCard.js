@@ -53,75 +53,83 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
     // 그리드 계산 용 메소드
     @api calculateImageSize(fileData) {
         console.log('calculateImageSize');
-        const fileDataPromises = fileData.map(file => {
-            return new Promise((resolve) => {
-                if (file.isImage) {
-                    let imgElement = new Image();
-                    imgElement.src = file.ImgSrc;
-                    imgElement.onload = () => {
-                        let aspectRatio = imgElement.width / imgElement.height;
-                        let height = 230 / aspectRatio;
-                        const cleanedFile = {
-                            ...file,
-                            imgCardClass: height > 500 ? 'imgMain card_xxxx_large' :
-                                height > 450 ? 'imgMain card_xxx_large' :
-                                    height > 400 ? 'imgMain card_xx_large' :
-                                        height > 350 ? 'imgMain card_x_large' :
-                                            height > 300 ? 'imgMain card_large' :
-                                                height > 250 ? 'imgMain card_medium' :
-                                                    height > 200 ? 'imgMain card_small' :
-                                                        height > 150 ? 'imgMain card_x_small' :
-                                                            height > 100 ? 'imgMain card_xx_small' :
-                                                                height > 50 ? 'imgMain card_xxx_small' :
-                                                                    'imgMain card_xxxx_small'
-                        };
     
-                        if (this.imgCardShowInfo) {
-                            cleanedFile.imgCardClass += '_has_Info';
-                        }
-    
-                        console.log('정제된 파일 imgCardClass:', JSON.stringify(cleanedFile.imgCardClass, null, 2));
-                        resolve(cleanedFile);
-                    };
-                    imgElement.onerror = () => {
-                        console.error('이미지 로드 실패:', file.ImgSrc);
-                        resolve({
-                            ...file,
-                            imgCardClass: 'imgMain card_xx_small'  // 기본 클래스 할당
-                        });
-                    };
-                } else {
-                    let cleanedFile = {
-                        ...file,
-                        imgCardClass: 'imgMain card_Icon'  // isImage가 false인 경우 클래스 할당
-                    };
-                    
-                    if (this.imgCardShowInfo) {
-                        cleanedFile.imgCardClass += '_has_Info';
-                    }
-    
-                    resolve(cleanedFile);
-                }
-            });
-        });
+        const fileDataPromises = fileData.map(file => this.processFile(file));
     
         Promise.all(fileDataPromises)
-            .then(cleanedFileData => {
-                // 새로운 데이터에 대한 이미지 크기 계산 후 this.fileData에 반영
-                this.fileData = this.fileData.map(file => {
-                    const updatedFile = cleanedFileData.find(f => f.Id === file.Id);
-                    return updatedFile ? updatedFile : file;
-                });
-            })
-            .catch(error => {
-                console.error('이미지 로드 중 오류 발생:', error.message);
-            });
+            .then(this.updateFileData.bind(this))
+            .catch(this.handleError);
     }
     
-
-
-
-
+    processFile(file) {
+        return new Promise((resolve) => {
+            if (file.isImage) {
+                this.processImageFile(file, resolve);
+            } else {
+                this.processNonImageFile(file, resolve);
+            }
+        });
+    }
+    
+    processImageFile(file, resolve) {
+        let imgElement = new Image();
+        imgElement.src = file.ImgSrc;
+        imgElement.onload = () => {
+            let aspectRatio = imgElement.width / imgElement.height;
+            let height = 230 / aspectRatio;
+            let imgCardClass = this.getCardClass(height);
+    
+            const cleanedFile = this.createCleanedFile(file, imgCardClass);
+            console.log('정제된 파일 imgCardClass:', JSON.stringify(cleanedFile.imgCardClass, null, 2));
+            resolve(cleanedFile);
+        };
+        imgElement.onerror = () => {
+            console.error('이미지 로드 실패:', file.ImgSrc);
+            resolve(this.createCleanedFile(file, 'imgMain card_xx_small'));
+        };
+    }
+    
+    processNonImageFile(file, resolve) {
+        let imgCardClass = 'imgMain card_Icon';
+        resolve(this.createCleanedFile(file, imgCardClass));
+    }
+    
+    createCleanedFile(file, imgCardClass) {
+        if (this.imgCardShowInfo) {
+            imgCardClass += '_has_Info';
+        }
+        return { ...file, imgCardClass };
+    }
+    
+    getCardClass(height) {
+        const sizeClasses = [
+            { threshold: 500, class: 'xxxx_large' },
+            { threshold: 450, class: 'xxx_large' },
+            { threshold: 400, class: 'xx_large' },
+            { threshold: 350, class: 'x_large' },
+            { threshold: 300, class: 'large' },
+            { threshold: 250, class: 'medium' },
+            { threshold: 200, class: 'small' },
+            { threshold: 150, class: 'x_small' },
+            { threshold: 100, class: 'xx_small' },
+            { threshold: 50, class: 'xxx_small' },
+        ];
+    
+        const sizeClass = sizeClasses.find(size => height > size.threshold) || { class: 'xxxx_small' };
+        return `imgMain card_${sizeClass.class}`;
+    }
+    
+    updateFileData(cleanedFileData) {
+        this.fileData = this.fileData.map(file => {
+            const updatedFile = cleanedFileData.find(f => f.Id === file.Id);
+            return updatedFile ? updatedFile : file;
+        });
+    }
+    
+    handleError(error) {
+        console.error('이미지 로드 중 오류 발생:', error.message);
+    }
+    
     handleMouseOver(event) {
         const cardElement = event.currentTarget;
         const btnArea = cardElement.querySelector('.btn_area');
@@ -162,8 +170,8 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
             case 'delete':
                 this.handleDelete(selectedFileId);
                 break;
-            
-            default:    
+
+            default:
         }
     }
 
