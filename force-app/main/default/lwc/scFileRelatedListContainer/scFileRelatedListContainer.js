@@ -229,7 +229,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
             day: '2-digit', 
             hour: '2-digit', 
             minute: '2-digit', 
-            hour12: true
+            hour12: true   
         };
         
         return new Date(dateString).toLocaleString('ko-KR', options);

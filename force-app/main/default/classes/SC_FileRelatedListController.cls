@@ -170,12 +170,4 @@ global with sharing class SC_FileRelatedListController {
     private static String objectToString(object o) {
         return o == null ? '' : String.valueOf(o);
     }
-
-    private static String formatDate(Datetime dt) {
-        if (dt == null) {
-            return null;
-        }
-
-        return dt.format('yyyy-mm-dd')
-    }
 }
