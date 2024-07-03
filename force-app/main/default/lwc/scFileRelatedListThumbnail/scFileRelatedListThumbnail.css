@@ -27,6 +27,12 @@
 .thumbnailTable .th_extension {
     width: 80px;
 }
+.thumbnailTable .th_owner {
+    width: 100px;
+}
+.thumbnailTable .th_LastModifiedDate {
+    width: 200px;
+}
 .thumbnailTable .th_size {
     width: 100px;
 }

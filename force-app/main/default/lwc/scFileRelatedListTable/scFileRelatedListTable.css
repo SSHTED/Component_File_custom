@@ -25,6 +25,12 @@
 .dataTable .th_extension {
     width: 80px;
 }
+.dataTable .th_owner {
+    width: 100px;
+}
+.dataTable .th_LastModifiedDate {
+    width: 200px;
+}
 .dataTable .th_size {
     width: 100px;
 }
