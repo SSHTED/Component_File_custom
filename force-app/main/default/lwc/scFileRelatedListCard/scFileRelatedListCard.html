@@ -43,11 +43,10 @@
                     <div class="imgCardInfo">
                         <!-- 타이틀 -->
                         <p class="imgCardInfoTitle" title={fileData.Title}>{fileData.Title}</p>
-                        <!-- 업로드 일자 -->
+                        
+                        <!--최종 수정 일자 및 사이즈 -->
                         <p class="imgCardInfoDate">
-                            <lightning-formatted-date-time value={fileData.CreatedDate} year="numeric" month="numeric"
-                                day="numeric" hour="2-digit" minute="2-digit" time-zone="Asia/Seoul"
-                                hour12="false"></lightning-formatted-date-time>
+                            {fileData.LastModifiedDate}&nbsp;/&nbsp;{fileData.ContentSize}
                         </p>
                     </div>
                 </template>

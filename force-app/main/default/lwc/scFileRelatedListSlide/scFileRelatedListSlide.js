@@ -23,6 +23,8 @@ export default class ScFileRelatedListSlide extends NavigationMixin(LightningEle
     imgId;
     imgSrc; // string (URL)
     imgTitle;
+    imgLastModifiedDate;
+    imgContentSize;
     slideInterval;     // 슬라이드 간격을 제어하기 위한 인터벌 변수
     isPlaying = false;
     togglePlayIcon = 'utility:play';
@@ -41,6 +43,8 @@ export default class ScFileRelatedListSlide extends NavigationMixin(LightningEle
             this.imgId = firstFile.Id;
             this.imgSrc = firstFile.ImgSrc;
             this.imgTitle = firstFile.Title;
+            this.imgLastModifiedDate = firstFile.LastModifiedDate;
+            this.imgContentSize = firstFile.ContentSize;
         }
     }
 
@@ -61,6 +65,8 @@ export default class ScFileRelatedListSlide extends NavigationMixin(LightningEle
         this.imgId = targetFile.Id;
         this.imgSrc = targetFile.ImgSrc;
         this.imgTitle = targetFile.Title;
+        this.imgLastModifiedDate = targetFile.LastModifiedDate;
+        this.imgContentSize = targetFile.ContentSize;
     }
 
     previousImage() {
@@ -109,6 +115,8 @@ export default class ScFileRelatedListSlide extends NavigationMixin(LightningEle
         this.imgId = selectedFile.Id;
         this.imgSrc = selectedFile.ImgSrc;
         this.imgTitle = selectedFile.Title;
+        this.imgLastModifiedDate = selectedFile.LastModifiedDate;
+        this.imgContentSize = selectedFile.ContentSize;
     }
 
     handleActionClicked(event) {
