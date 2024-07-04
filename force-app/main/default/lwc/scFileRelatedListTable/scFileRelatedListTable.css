@@ -7,16 +7,17 @@
 .dataTable th {
     position: sticky;
     top: 0;
+    height: 32px;
     z-index: 1;
 }
 
 /* 테이블 컬럼 크기 조정 */
 .dataTable .th_index {
-    width: 50px;
+    padding-left: 20px;
+    width: 52px;
 }
 .dataTable .th_checkbox {
-    padding-left: 24px !important;
-    width: 50px;
+    width: 32px !important;
 }
 
 .dataTable .th_title {
@@ -35,7 +36,13 @@
     width: 100px;
 }
 
-/* td 체크박스 패딩 설정 */
-.dataTable .td_checkBox {
-    padding-left: 24px;
+
+.dataTable .td_index {
+    padding-left: 20px;
+    text-align: center;
+}
+.dataTable .checkbox_item {
+    margin-top: -5px;
+    width: 16px;
+    height: 16px;
 }
