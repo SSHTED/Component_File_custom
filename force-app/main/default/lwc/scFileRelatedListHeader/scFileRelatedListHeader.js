@@ -263,9 +263,9 @@ export default class ScFileRelatedListHeader extends LightningElement {
         this.isShowDownloadModal = false;
         this.isDownloadEnd = false;
     }
-
+    
     get tableToggleIcon() {
-        return this.actSectionOpen ? 'utility:chevrondown' : 'utility:chevronup';
+        return this.actSectionOpen ? 'utility:chevronup' : 'utility:chevrondown';
     }
     get sortDirectionIcon() {
         return this.isSortAscending ? 'utility:arrowdown' : 'utility:arrowup';
