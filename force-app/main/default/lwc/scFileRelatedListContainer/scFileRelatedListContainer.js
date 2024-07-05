@@ -365,6 +365,8 @@ export default class ScFileRelatedListContainer extends LightningElement {
             console.error('calculateImageSize 호출 중 오류 발생:', error.message);
         }
 
+        // 바로 슬라이드 탭에서 검색한 데이터 이미지 보이게
+        this.scFileRelatedListSlide.showFirstImage();
     }
 
     // 정렬 기준 처리
