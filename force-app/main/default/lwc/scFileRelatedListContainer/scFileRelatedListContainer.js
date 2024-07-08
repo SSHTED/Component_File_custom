@@ -163,10 +163,10 @@ export default class ScFileRelatedListContainer extends LightningElement {
             this.updateLatestCreatedDate(this.fileData);
 
             //카트 컴포넌트 이미지 크기 계산
-            if(this.scFileRelatedListCard){
+            if (this.scFileRelatedListCard) {
                 this.scFileRelatedListCard.calculateImageSize(this.fileData);
             }
-            
+
         } catch (error) {
             console.error('Error in handleAfterUploadFile: ', error);
             console.error('Error in handleAfterUploadFile: ', error.message);
@@ -180,7 +180,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
                 category: this.category,
                 latestCreatedDate: this.latestCreatedDate
             };
-            
+
             console.log('getAfterUploadData latestCreatedDate value:', this.latestCreatedDate);
             console.log('after upload  params', JSON.stringify(params));
 
@@ -205,9 +205,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
             ContentBodyId: fileData.ContentBodyId,
             FileType: fileData.FileType,
             PublishStatus: fileData.PublishStatus,      //컨텐츠의 게시 상태 (P: 게시됨, R: 작업용, A: 아카이브됨)
-            ContentSize: fileData.ContentSize < 1024 * 1024 ?
-                (fileData.ContentSize / 1024).toFixed(2) + " KB" :
-                (fileData.ContentSize / (1024 * 1024)).toFixed(2) + " MB",
+            ContentSize: this.formatFileSize(fileData.ContentSize),
             FileExtension: "." + fileData.FileExtension,
             VersionDataUrl: fileData.VersionDataUrl,
             CreatedDate: this.formatDate(fileData.CreatedDate),
@@ -226,16 +224,25 @@ export default class ScFileRelatedListContainer extends LightningElement {
         };
     }
 
-    formatDate(dateString) {
-        const options = { 
-            year: 'numeric', 
-            month: '2-digit', 
-            day: '2-digit', 
-            hour: '2-digit', 
-            minute: '2-digit', 
-            hour12: true   
-        };
+    formatFileSize(sizeInBytes) {
+        const KB = 1024;
+        const MB = KB * 1024;
         
+        return sizeInBytes < MB
+            ? `${(sizeInBytes / KB).toFixed(2)} KB`
+            : `${(sizeInBytes / MB).toFixed(2)} MB`;
+    }
+
+    formatDate(dateString) {
+        const options = {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        };
+
         return new Date(dateString).toLocaleString('ko-KR', options);
     }
 
@@ -262,7 +269,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
     }
 
     isImageFile(fileExtension) {
-        if(fileExtension == null){return}
+        if (fileExtension == null) { return }
         const ImageExtensions = ['png', 'jpg', 'jpeg', 'gif'];
         return ImageExtensions.includes(fileExtension.toLowerCase());
     }
@@ -301,11 +308,11 @@ export default class ScFileRelatedListContainer extends LightningElement {
         // console.log('updateLatestCreatedDate latestCreatedDate value:', this.latestCreatedDate);
 
         const currentTime = new Date().toISOString();
-        
+
         if (!this.latestCreatedDate || currentTime > this.latestCreatedDate) {
             this.latestCreatedDate = currentTime;
         }
-        
+
         console.log('updateLatestCreatedDate latestCreatedDate value:', this.latestCreatedDate);
     }
 
@@ -321,7 +328,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
                 index: index + 1
             };
         });
-        
+
         this.originalFileData = [...this.fileData];
         this.scFileRelatedListBody.resetCheckboxInComp();
     }
@@ -353,33 +360,37 @@ export default class ScFileRelatedListContainer extends LightningElement {
     }
 
     handleSearchFile(event) {
-        const searchKey = event.detail;
-        const searchKeyLowerCase = searchKey.toLowerCase();
-        let filteredData = [...this.fileData];
+        const searchKey = event.detail.toLowerCase();
+        this.fileData = this.filterAndIndexData(searchKey);
+        this.updateUI();
+    }
 
-        if (searchKeyLowerCase === '') {
-            // 검색어가 비어있는 경우 원본 데이터로 돌아감
-            filteredData = [...this.originalFileData];
-        } else {
-            // 검색어가 있는 경우 원본 데이터에서 필터링 수행
-            filteredData = this.originalFileData.filter((fileData) => {
-                return fileData.Title.toLowerCase().includes(searchKeyLowerCase);
-            });
+    filterAndIndexData(searchKey) {
+        let filteredData;
+
+        if (searchKey === '') {
+            filteredData = this.originalFileData;
+        }else{
+            filteredData = this.originalFileData.filter(file =>
+                file.Title.toLowerCase().includes(searchKey)
+            );
         }
 
-        this.fileData = filteredData;
+        return filteredData.map((file, index) => ({
+            ...file,
+            index: index + 1
+        }));
+    }
 
+    updateUI() {
         try {
             if (this.scFileRelatedListCard) {
-                // 이미지 크기 계산
                 this.scFileRelatedListCard.calculateImageSize(this.fileData);
+                this.scFileRelatedListSlide.showFirstImage();
             }
         } catch (error) {
-            console.error('calculateImageSize 호출 중 오류 발생:', error.message);
+            console.error('UI 업데이트 중 오류 발생:', error.message);
         }
-
-        // 바로 슬라이드 탭에서 검색한 데이터 이미지 보이게
-        this.scFileRelatedListSlide.showFirstImage();
     }
 
     // 정렬 기준 처리
@@ -422,10 +433,10 @@ export default class ScFileRelatedListContainer extends LightningElement {
         const [datePart, timePart] = formattedDate.split(' ');
         const [year, month, day] = datePart.split('-');
         const [hour, minute] = timePart.split(':');
-    
+
         // Date 객체 생성
         const date = new Date(year, month - 1, day, hour, minute);
-    
+
         // ISO 문자열로 변환
         return date.toISOString();
     }
