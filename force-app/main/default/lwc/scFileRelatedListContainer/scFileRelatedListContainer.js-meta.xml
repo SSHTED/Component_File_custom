@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>59.0</apiVersion>
+    <apiVersion>60.0</apiVersion>
     <isExposed>true</isExposed>
 
     <masterLabel>스마트 파일목록</masterLabel>
@@ -15,7 +15,7 @@
     <targetConfigs>
         <targetConfig targets="lightning__RecordPage">
             <property name="category" type="String" label="Category" default="" description="파일 구분 기준."/>
-            <property name="title" type="String" label="Title" default=""/>
+            <property name="title" type="String" label="Title" default="타이틀을 입력해주세요"/>
             <property name="icon" type="String" label="Icon" default="standard:file"/>
             <property name="themeColor" type="String" label="테마 색상 변경" datasource="white, red, orange, yellow, green, blue, purple" default="white" description="컴포넌트 테마 색상을 설정합니다."/>
 

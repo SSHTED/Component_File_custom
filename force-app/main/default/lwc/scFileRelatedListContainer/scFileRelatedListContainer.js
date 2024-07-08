@@ -1,7 +1,5 @@
 // scFileRelatedListContainer.js
 import { LightningElement, api } from 'lwc';
-import { RefreshEvent } from 'lightning/refresh';
-
 import getFileData from '@salesforce/apex/SC_FileRelatedListController.getFileData';
 
 /**
@@ -168,7 +166,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
             if(this.scFileRelatedListCard){
                 this.scFileRelatedListCard.calculateImageSize(this.fileData);
             }
-
+            
         } catch (error) {
             console.error('Error in handleAfterUploadFile: ', error);
             console.error('Error in handleAfterUploadFile: ', error.message);
