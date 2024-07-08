@@ -1,5 +1,7 @@
 // scFileRelatedListContainer.js
 import { LightningElement, api } from 'lwc';
+import { RefreshEvent } from 'lightning/refresh';
+
 import getFileData from '@salesforce/apex/SC_FileRelatedListController.getFileData';
 
 /**
@@ -163,9 +165,12 @@ export default class ScFileRelatedListContainer extends LightningElement {
             this.updateLatestCreatedDate(this.fileData);
 
             //카트 컴포넌트 이미지 크기 계산
-            this.scFileRelatedListCard.calculateImageSize(this.fileData);
+            if(this.scFileRelatedListCard){
+                this.scFileRelatedListCard.calculateImageSize(this.fileData);
+            }
 
         } catch (error) {
+            console.error('Error in handleAfterUploadFile: ', error);
             console.error('Error in handleAfterUploadFile: ', error.message);
         }
     }
@@ -177,7 +182,8 @@ export default class ScFileRelatedListContainer extends LightningElement {
                 category: this.category,
                 latestCreatedDate: this.latestCreatedDate
             };
-
+            
+            console.log('getAfterUploadData latestCreatedDate value:', this.latestCreatedDate);
             console.log('after upload  params', JSON.stringify(params));
 
             return this.getFileDataFromServer(params);
@@ -289,11 +295,20 @@ export default class ScFileRelatedListContainer extends LightningElement {
     }
 
     updateLatestCreatedDate(data) {
-        for (const fileData of data) {
-            if (!this.latestCreatedDate || fileData.CreatedDate > this.latestCreatedDate) {
-                this.latestCreatedDate = fileData.CreatedDate;
-            }
+        // for (const fileData of data) {
+        //     if (!this.latestCreatedDate || fileData.CreatedDate > this.latestCreatedDate) {
+        //         this.latestCreatedDate = fileData.CreatedDate;
+        //     }
+        // }
+        // console.log('updateLatestCreatedDate latestCreatedDate value:', this.latestCreatedDate);
+
+        const currentTime = new Date().toISOString();
+        
+        if (!this.latestCreatedDate || currentTime > this.latestCreatedDate) {
+            this.latestCreatedDate = currentTime;
         }
+        
+        console.log('updateLatestCreatedDate latestCreatedDate value:', this.latestCreatedDate);
     }
 
     clearFileData() {
