@@ -59,7 +59,7 @@
               </div>
             </td>
             <!-- 텍스트 -->
-            <td class="slds-truncate" title={td.Title}>{td.Title}</td>
+            <td class="td_title slds-truncate" data-id={td.Id} title={td.Title} onclick={handleThumbnailClick}>{td.Title}</td>
             <td class="slds-truncate" title={td.FileExtension}>{td.FileExtension}</td>
             <td class="slds-truncate" title={td.Owner}>{td.Owner}</td>
             <td class="slds-truncate" title={td.LastModifiedDate}>{td.LastModifiedDate}</td>

@@ -1,4 +1,5 @@
 import { LightningElement, api } from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
 
 /**
  * @file scFileRelatedListTable.js
@@ -11,7 +12,7 @@ import { LightningElement, api } from 'lwc';
  * @updates
  *  - @updatedBy {이름} @updateVersion {수정 버전} @updateDate {수정 날짜}
  */
-export default class ScFileRelatedListTable extends LightningElement {
+export default class ScFileRelatedListTable extends NavigationMixin(LightningElement) {
     // property
     @api actNo;
     @api tableComponentHeight;
@@ -50,6 +51,24 @@ export default class ScFileRelatedListTable extends LightningElement {
         this.handleTableComponentHeight();
     }
 
+    handleThumbnailClick(event) {
+        this.selectedFileId = event.target.dataset.id;
+        // 선택된 파일 객체 찾기
+        const selectedFile = this.fileData.find(file => file.Id === this.selectedFileId);
+        const selectedFileDocId = selectedFile.ContentDocumentId;
+        console.log('table handleThumbnailClick selectedFileDocId >>, ', JSON.stringify(selectedFileDocId));
+
+        this[NavigationMixin.Navigate]({
+            type: 'standard__namedPage',
+            attributes: {
+                pageName: 'filePreview'
+            },
+            state: {
+                recordIds: selectedFileDocId
+            }
+        });
+    }
+    
     handleTableComponentHeight() {
         const tableBox = this.template.querySelector('.viewType_Table');
 

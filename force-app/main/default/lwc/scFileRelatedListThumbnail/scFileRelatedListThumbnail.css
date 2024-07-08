@@ -9,12 +9,14 @@
     top: 0;
     height: 32px;
     z-index: 1;
+    border-right: 1px solid #c9c9c9;
 }
 
 /* 테이블 컬럼 크기 조정 */
 .thumbnailTable .th_index {
     padding-left: 20px;
     width: 52px;
+    border: none;
 }
 .thumbnailTable .th_checkbox {
     width: 32px !important;
@@ -49,6 +51,9 @@
 .thumbnailTable .td_thumbNail {
     padding-left: 10px;
 }
+.thumbnailTable .td_title {
+    cursor: pointer;
+}
 
 /* 썸네일 이미지 크기 조정 */
 .td_thumbNail .thumbImage {
@@ -59,8 +64,7 @@
 .thumbImage .thumbImg {
     position: absolute;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(0, -50%);
     width: auto;
     max-height: 100%;
 }
