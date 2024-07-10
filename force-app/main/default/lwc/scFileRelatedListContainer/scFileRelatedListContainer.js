@@ -40,6 +40,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
     @api viewType_card;
     @api viewType_slide;
     // 이미지 카드 관련
+    @api imgCardShowOnly;
     @api imgCardShowInfo;
     @api imgCardInfoTitleColor;
     @api imgCardInfoDateColor;
@@ -425,6 +426,10 @@ export default class ScFileRelatedListContainer extends LightningElement {
     handleTabActive(event) {
         this.activeTabValue = event.detail;
         console.log('Parent component received activeTabValue: ', this.activeTabValue);
+    }
+
+    handleImgTabDataUpdate(event){
+        this.fileData = event.detail.fileData;
     }
 
     // 변환된 날짜를 서버에 다시 저장하고 싶을 때 사용

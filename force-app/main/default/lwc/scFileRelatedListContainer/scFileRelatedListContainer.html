@@ -38,6 +38,7 @@
                 table-component-height={tableComponentHeight}
                 thumbnail-component-height={thumbnailComponentHeight}
 
+                img-card-show-only={imgCardShowOnly}
                 img-card-show-info={imgCardShowInfo}
                 img-card-info-title-color={imgCardInfoTitleColor}
                 img-card-info-date-color={imgCardInfoDateColor}
@@ -46,9 +47,11 @@
                 act-no={actNo}
 
                 file-data={fileData}
+                original-file-data={originalFileData}
                 selected-row-ids={selectedRowIds}
                 is-component-size-small={isComponentSizeSmall}
-                                
+
+                onupdatefiledatainimgtab={handleImgTabDataUpdate}
                 onafterdeletefile={handleAfterDeleteFile}
                 oncheckboxchange={handleCheckboxChange}
                 oncheckboxchangeall={handleCheckboxChangeAll}

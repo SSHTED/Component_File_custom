@@ -34,6 +34,7 @@
             <property name="tableComponentHeight" type="String" label="테이블 탭 높이" default="150px" description="테이블 최대 높이값(max-height) 설정 항목입니다. px, rem, em 등 단위를 붙여서 입력하세요."/>
             <property name="thumbnailComponentHeight" type="String" label="썸네일 탭 높이" default="250px" description="썸네일 테이블 최대 높이값(max-height) 설정 항목입니다. px, rem, em 등 단위를 붙여서 입력하세요."/>
 
+            <property name="imgCardShowOnly" type="Boolean" label="이미지 카드 이미지만 보기" default="true"/>
             <property name="imgCardShowInfo" type="Boolean" label="이미지 카드 정보 보기" default="true"/>
             <property name="imgCardInfoTitleColor" type="String" label="이미지 카드 타이틀 색상" default="rgb(0,0,0)" description="rgb(xxx,xxx,xxx), #xxxxxx 형식으로 입력하세요"/>
             <property name="imgCardInfoDateColor" type="String" label="이미지 카드 작성일자 색상" default="rgb(0,0,0)" description="rgb(xxx,xxx,xxx), #xxxxxx 형식으로 입력하세요"/>

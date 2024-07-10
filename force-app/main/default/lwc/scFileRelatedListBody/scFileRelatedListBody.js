@@ -21,15 +21,19 @@ export default class ScFileRelatedListBody extends LightningElement {
     @api viewType_thumbnail;
     @api viewType_card;
     @api viewType_slide;
+
+    @api imgCardShowOnly;
     @api imgCardShowInfo;
     @api imgCardInfoTitleColor;
     @api imgCardInfoDateColor;
+
     @api slideDelayTime;
     @api tableComponentHeight;
     @api thumbnailComponentHeight;
 
     //data
     @api fileData;
+    @api originalFileData;
     @api selectedRowIds;
     @api isComponentSizeSmall;
 
@@ -41,7 +45,7 @@ export default class ScFileRelatedListBody extends LightningElement {
 
     defaultViewTypeValue;
     checkboxReset = false;
-    
+
     viewTypeMap = {
         '테이블': 'viewType_table',
         '썸네일': 'viewType_thumbnail',
@@ -107,30 +111,62 @@ export default class ScFileRelatedListBody extends LightningElement {
             this.handleSlideTabDeactivated();
         }
 
+        if (activeTabValue !== this.viewTypeMap['이미지 카드']) {
+            this.restoreOriginalFileData();
+        }
+
         this.resetCheckboxInComp();
         this.dispatchEvent(new CustomEvent('tabactive', { detail: activeTabValue }));
     }
 
-    handleTableTabActivated(){
+    handleTableTabActivated() {
         console.log('테이블 형태의 탭.');
     }
 
-    handleThumbnailTabActivated(){
+    handleThumbnailTabActivated() {
         console.log('썸네일 형태의 탭.');
     }
 
-    handleImageCardTabActivated(){
+    handleImageCardTabActivated() {
         console.log('이미지 형태의 탭.');
+        this.filterImageData();
+        this.calculateImageSizes();
+    }
 
+    filterImageData() {
+        // 이미지 파일만 필터링
+        this.fileData = this.fileData.filter(item => item.isImage === true);
+
+        const event = new CustomEvent('updatefiledatainimgtab', {
+            detail: { fileData: this.fileData }
+        });
+
+        this.dispatchEvent(event);
+    }
+
+    calculateImageSizes() {
+        // 카드 컴포넌트 이미지 크기 계산
+        if (this.scFileRelatedListCard) {
+            this.scFileRelatedListCard.calculateImageSize(this.fileData);
+        }
+    }
+
+    restoreOriginalFileData() {
+        this.fileData = [...this.originalFileData];
+        
+        const event = new CustomEvent('updatefiledatainimgtab', {
+            detail: { fileData: this.fileData }
+        });
+
+        this.dispatchEvent(event);
     }
 
     handleSlideTabActivated() {
         console.log('슬라이드 형태의 탭.');
-
         setTimeout(() => {
             const slideComponent = this.template.querySelector('c-sc-file-related-list-slide');
             console.log('슬라이드 slideComponent', slideComponent);
-    
+
             if (slideComponent) {
                 // slideComponent.nextImage();
                 slideComponent.showFirstImage();
@@ -142,7 +178,7 @@ export default class ScFileRelatedListBody extends LightningElement {
     handleSlideTabDeactivated() {
         const slideComponent = this.template.querySelector('c-sc-file-related-list-slide');
         console.log('슬라이드 slideComponent', slideComponent);
-    
+
         if (slideComponent) {
             slideComponent.handleSlidePlayStop();
         }

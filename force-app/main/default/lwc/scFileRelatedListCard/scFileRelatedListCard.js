@@ -17,6 +17,7 @@ import deleteFilesByRecordId from '@salesforce/apex/SC_FileRelatedListController
 export default class ScFileRelatedListCard extends NavigationMixin(LightningElement) {
     // property
     @api recordId;
+    @api imgCardShowOnly;
     @api imgCardShowInfo;
     @api imgCardInfoTitleColor;
     @api imgCardInfoDateColor;
@@ -36,15 +37,18 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
     }
 
     renderedCallback() {
-        // 글자색 변경
+        this.updateElementColors();
+    }
+
+    //글자색 변경
+    updateElementColors() {
         const titleElements = this.template.querySelectorAll('.imgCardInfoTitle');
         const dateElements = this.template.querySelectorAll('.imgCardInfoDate');
-
-        // 각 요소에 대해 글자색을 변경
+    
         titleElements.forEach(titleElement => {
             titleElement.style.color = this.imgCardInfoTitleColor;
         });
-
+    
         dateElements.forEach(dateElement => {
             dateElement.style.color = this.imgCardInfoDateColor;
         });
