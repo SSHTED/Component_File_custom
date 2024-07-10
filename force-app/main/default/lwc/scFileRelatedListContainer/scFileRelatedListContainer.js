@@ -48,8 +48,8 @@ export default class ScFileRelatedListContainer extends LightningElement {
     //자식 컴포넌트
     scFileRelatedListHeader
     scFileRelatedListBody
-    // scFileRelatedListTable
-    // scFileRelatedListThumbnail
+    scFileRelatedListTable
+    scFileRelatedListThumbnail
     scFileRelatedListCard
     scFileRelatedListSlide
 
@@ -68,48 +68,11 @@ export default class ScFileRelatedListContainer extends LightningElement {
     }
 
     renderedCallback() {
-        this.setChildComponent();
     }
 
     initSetting() {
         this.customClass += 'themeColor_' + this.themeColor;
         this.slideDelayTime = this.slideDelayTime * 1000;
-    }
-
-    setChildComponent() {
-        if (this.actSectionOpen) {
-
-            this.scFileRelatedListHeader = this.template.querySelector('c-sc-file-related-list-header');
-            this.scFileRelatedListBody = this.template.querySelector('c-sc-file-related-list-body');
-            // this.scFileRelatedListTable = this.template.querySelector('c-sc-file-related-list-body').scFileRelatedListTable;
-            // this.scFileRelatedListThumbnail = this.template.querySelector('c-sc-file-related-list-body').scFileRelatedListThumbnail;
-            this.scFileRelatedListCard = this.template.querySelector('c-sc-file-related-list-body').scFileRelatedListCard;
-            this.scFileRelatedListSlide = this.template.querySelector('c-sc-file-related-list-body').scFileRelatedListSlide;
-
-            this.handleDefaultViewType();
-        }
-    }
-
-    handleDefaultViewType() {
-        switch (this.defaultViewType) {
-            case '이미지 카드':
-                this.scFileRelatedListCard.calculateImageSize(this.fileData);
-                break;
-            case '슬라이드':
-                this.handleSlide();
-                break;
-            default:
-                break;
-        }
-    }
-
-    handleSlide() {
-        if (this.fileData && this.fileData.length > 0) {
-            setTimeout(() => {
-                this.scFileRelatedListSlide.showFirstImage();
-                this.scFileRelatedListSlide.handleSlidePlay();
-            }, 0);
-        }
     }
 
     async getInitFileData() {
@@ -121,6 +84,8 @@ export default class ScFileRelatedListContainer extends LightningElement {
 
             const processedData = await this.getFileDataFromServer(params);
             this.updateFileData(processedData);
+            this.setChildComponent();
+            this.handleDefaultViewType();
 
             return processedData;
         } catch (error) {
@@ -147,7 +112,54 @@ export default class ScFileRelatedListContainer extends LightningElement {
             throw error;
         }
     }
+    
+    setChildComponent() {
+        if (this.actSectionOpen) {
+            this.scFileRelatedListHeader = this.template.querySelector('c-sc-file-related-list-header');
+            this.scFileRelatedListBody = this.template.querySelector('c-sc-file-related-list-body');
+            this.scFileRelatedListTable = this.template.querySelector('c-sc-file-related-list-body').scFileRelatedListTable;
+            this.scFileRelatedListThumbnail = this.template.querySelector('c-sc-file-related-list-body').scFileRelatedListThumbnail;
+            this.scFileRelatedListCard = this.template.querySelector('c-sc-file-related-list-body').scFileRelatedListCard;
+            this.scFileRelatedListSlide = this.template.querySelector('c-sc-file-related-list-body').scFileRelatedListSlide;
+        }
+    }
 
+    handleDefaultViewType() {
+        switch (this.defaultViewType) {
+            case '이미지 카드':
+                this.handleImageCard();
+                break;
+            case '슬라이드':
+                this.handleSlide();
+                break;
+            default:
+                break;
+        }
+    }
+
+    handleImageCard() {
+        this.filterImageData();
+        
+        if (this.scFileRelatedListCard) {
+            this.scFileRelatedListCard.calculateImageSize(this.fileData);
+        } 
+    }
+    
+    filterImageData() {
+        if (this.imgCardShowOnly) {
+            this.fileData = this.fileData.filter(item => item.isImage === true);
+        }
+    }
+
+    handleSlide() {
+        if (this.fileData && this.fileData.length > 0) {
+            setTimeout(() => {
+                this.scFileRelatedListSlide.showFirstImage();
+                this.scFileRelatedListSlide.handleSlidePlay();
+            }, 0);
+        }
+    }
+    
     async handleAfterUploadFile() {
         try {
             const newData = await this.getAfterUploadData();
@@ -228,7 +240,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
     formatFileSize(sizeInBytes) {
         const KB = 1024;
         const MB = KB * 1024;
-        
+
         return sizeInBytes < MB
             ? `${(sizeInBytes / KB).toFixed(2)} KB`
             : `${(sizeInBytes / MB).toFixed(2)} MB`;
@@ -300,14 +312,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
         this.updateLatestCreatedDate(this.fileData);
     }
 
-    updateLatestCreatedDate(data) {
-        // for (const fileData of data) {
-        //     if (!this.latestCreatedDate || fileData.CreatedDate > this.latestCreatedDate) {
-        //         this.latestCreatedDate = fileData.CreatedDate;
-        //     }
-        // }
-        // console.log('updateLatestCreatedDate latestCreatedDate value:', this.latestCreatedDate);
-
+    updateLatestCreatedDate() {
         const currentTime = new Date().toISOString();
 
         if (!this.latestCreatedDate || currentTime > this.latestCreatedDate) {
@@ -371,7 +376,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
 
         if (searchKey === '') {
             filteredData = this.originalFileData;
-        }else{
+        } else {
             filteredData = this.originalFileData.filter(file =>
                 file.Title.toLowerCase().includes(searchKey)
             );
@@ -428,7 +433,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
         console.log('Parent component received activeTabValue: ', this.activeTabValue);
     }
 
-    handleImgTabDataUpdate(event){
+    handleImgTabDataUpdate(event) {
         this.fileData = event.detail.fileData;
     }
 

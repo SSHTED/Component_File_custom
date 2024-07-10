@@ -134,14 +134,16 @@ export default class ScFileRelatedListBody extends LightningElement {
     }
 
     filterImageData() {
-        // 이미지 파일만 필터링
-        this.fileData = this.fileData.filter(item => item.isImage === true);
+        if (this.imgCardShowOnly) {
+            // 이미지 파일만 필터링
+            this.fileData = this.fileData.filter(item => item.isImage === true);
 
-        const event = new CustomEvent('updatefiledatainimgtab', {
-            detail: { fileData: this.fileData }
-        });
+            const event = new CustomEvent('updatefiledatainimgtab', {
+                detail: { fileData: this.fileData }
+            });
 
-        this.dispatchEvent(event);
+            this.dispatchEvent(event);
+        }
     }
 
     calculateImageSizes() {
@@ -153,7 +155,7 @@ export default class ScFileRelatedListBody extends LightningElement {
 
     restoreOriginalFileData() {
         this.fileData = [...this.originalFileData];
-        
+
         const event = new CustomEvent('updatefiledatainimgtab', {
             detail: { fileData: this.fileData }
         });

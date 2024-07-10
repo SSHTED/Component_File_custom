@@ -56,16 +56,29 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
 
     // 그리드 계산 용 메소드
     @api calculateImageSize(fileData) {
+        console.log('3 >>>>>>>>>>>>>>>>>> calculateImageSize');
         console.log('calculateImageSize');
     
-        const fileDataPromises = fileData.map(file => this.processFile(file));
+        // 이미 처리된 파일은 다시 처리하지 않도록 합니다.
+        const unprocessedFiles = fileData.filter(file => !file.imgCardClass);
+        
+        if (unprocessedFiles.length === 0) {
+            console.log('All files already processed');
+            return;
+        }
+    
+        const fileDataPromises = unprocessedFiles.map(file => this.processFile(file));
     
         Promise.all(fileDataPromises)
-            .then(this.updateFileData.bind(this))
+            .then(processedFiles => {
+                // 처리된 파일들만 업데이트합니다.
+                this.updateFileData(processedFiles);
+            })
             .catch(this.handleError);
     }
     
     processFile(file) {
+        console.log('4 >>>>>>>>>>>>>>>>>> processFile');
         return new Promise((resolve) => {
             if (file.isImage) {
                 this.processImageFile(file, resolve);
@@ -76,6 +89,12 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
     }
     
     processImageFile(file, resolve) {
+        console.log('5 >>>>>>>>>>>>>>>>>> processImageFile');
+        if (file.imgCardClass) {
+            resolve(file);
+            return;
+        }
+    
         let imgElement = new Image();
         imgElement.src = file.ImgSrc;
         imgElement.onload = () => {
@@ -94,11 +113,18 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
     }
     
     processNonImageFile(file, resolve) {
+        console.log('6 >>>>>>>>>>>>>>>>>> processNonImageFile');
+        if (file.imgCardClass) {
+            resolve(file);
+            return;
+        }
+    
         let imgCardClass = 'imgMain card_Icon';
         resolve(this.createCleanedFile(file, imgCardClass));
     }
     
     createCleanedFile(file, imgCardClass) {
+        console.log('7 >>>>>>>>>>>>>>>>>> createCleanedFile');
         if (this.imgCardShowInfo) {
             imgCardClass += '_has_Info';
         }
@@ -123,11 +149,21 @@ export default class ScFileRelatedListCard extends NavigationMixin(LightningElem
         return `imgMain card_${sizeClass.class}`;
     }
     
-    updateFileData(cleanedFileData) {
-        this.fileData = this.fileData.map(file => {
-            const updatedFile = cleanedFileData.find(f => f.Id === file.Id);
-            return updatedFile ? updatedFile : file;
+    updateFileData(processedFiles) {
+        // 변경된 파일만 업데이트합니다.
+        let hasChanges = false;
+        const updatedFileData = this.fileData.map(file => {
+            const processedFile = processedFiles.find(f => f.Id === file.Id);
+            if (processedFile && JSON.stringify(file) !== JSON.stringify(processedFile)) {
+                hasChanges = true;
+                return processedFile;
+            }
+            return file;
         });
+    
+        if (hasChanges) {
+            this.fileData = updatedFileData;
+        }
     }
     
     handleError(error) {
