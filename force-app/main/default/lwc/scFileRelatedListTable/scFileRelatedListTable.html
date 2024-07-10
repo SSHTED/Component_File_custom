@@ -7,21 +7,21 @@
           <template for:each={extendedTableThead} for:item="th">
             <th key={th.fieldName} class={th.customClass}>
               <!-- No -->
-              <template if:true={th.isIndex}></template>
+              <template lwc:if={th.isIndex}></template>
 
               <!-- 체크박스 -->
-              <template if:true={th.isCheckbox}>
+              <template lwc:if={th.isCheckbox}>
                 <lightning-input class="checkbox_item" type="checkbox" data-id={th.Id} onchange={handleCheckboxAll}></lightning-input>
               </template>
 
               <!-- 텍스트 -->
-              <template if:true={th.isData}>
+              <template lwc:if={th.isData}>
                 <div class="slds-truncate">
-                  <template if:false={th.sortable}>
-                    {th.label}
-                  </template>
-                  <template if:true={th.sortable}>
+                  <template lwc:if={th.sortable}>
                     <span class="" onclick={handleSortData} data-sort-by={th.fieldName}>{th.label}</span>
+                  </template>
+                  <template lwc:else>
+                    {th.label}
                   </template>
                 </div>
               </template>
@@ -33,7 +33,7 @@
         <template for:each={fileData} for:item="td" for:index="index">
           <tr key={td.Id}>
             <!-- No -->
-            <template if:true={actNo}>
+            <template lwc:if={actNo}>
               <td class="td_index">{td.index}</td>
             </template>
 

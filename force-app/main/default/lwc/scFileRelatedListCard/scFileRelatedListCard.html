@@ -11,10 +11,10 @@
                     <!-- <img class="cardImg" src={fileData.ImgSrc} alt={fileData.Title}/> -->
                     
                     <!-- 이미지 또는 아이콘 -->
-                    <template if:true={fileData.isImage}>
+                    <template lwc:if={fileData.isImage}>
                         <img class="cardImg" src={fileData.ImgSrc} alt={fileData.Title}/>
                     </template>
-                    <template if:false={fileData.isImage}>
+                    <template lwc:else>
                         <lightning-icon class="cardIcon" icon-name={fileData.iconName} size="large"></lightning-icon>
                     </template>
 
@@ -39,7 +39,7 @@
                 </div>
 
                 <!-- 이미지 카드 정보 -->
-                <template if:true={imgCardShowInfo}>
+                <template lwc:if={imgCardShowInfo}>
                     <div class="imgCardInfo">
                         <!-- 타이틀 -->
                         <p class="imgCardInfoTitle" title={fileData.Title}>{fileData.Title}</p>
