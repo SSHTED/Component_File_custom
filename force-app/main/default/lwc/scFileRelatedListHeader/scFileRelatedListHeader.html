@@ -9,7 +9,7 @@
           <lightning-icon class="titleIcon" icon-name={icon} size="small"></lightning-icon>
           
           <!-- 큰 영역일때 -->
-          <template if:false={isComponentSizeSmall}>
+          <template lwc:if={isButton}>
             <!-- 타이틀 -->
             <p class="headerTitle_large">
               <a href="#" target="_blank" title={title}>{title}</a>
@@ -18,7 +18,7 @@
             <div>
               <div class="headerTitle_Info">
                 <p>항목 : {fileData.length}</p>
-                <template if:true={isSortBtnClick}>
+                <template lwc:if={isSortBtnClick}>
                   <p>• 정렬 : {sortOptions.sortBy}</p>
                   <lightning-icon icon-name={sortDirectionIcon} alternative-text="direction" size="x-small"></lightning-icon>
                 </template>
@@ -27,7 +27,7 @@
           </template>
 
           <!-- 작은 영역일떄 -->
-          <template if:true={isComponentSizeSmall}>
+          <template lwc:else>
             <!-- 타이틀 -->
             <p class="headerTitle_small">
               <a href="#" target="_blank" title={title}>{title}</a>
@@ -36,7 +36,7 @@
             <div>
               <div class="headerTitle_Info">
                 <p>항목 : {fileData.length}</p>
-                <template if:true={isSortBtnClick}>
+                <template lwc:if={isSortBtnClick}>
                   <p>• 정렬 : {sortOptions.sortBy}</p>
                   <lightning-icon icon-name={sortDirectionIcon} alternative-text="direction" size="x-small"></lightning-icon>
                 </template>
@@ -46,24 +46,24 @@
 
           <!-- 버튼 영역 -->
           <!-- 큰 영역일떄 -->
-          <template if:false={isComponentSizeSmall}>
+          <template lwc:if={isButton}>
             <div class="btnGroup">
               <!-- 검색 -->
               <lightning-input class="searchBox" type="search" onchange={handleSearch}></lightning-input>
               <!-- 버튼 그룹 -->
               <lightning-button-group class="inner_btnGroup">
                 <!-- 파일 업로드 버튼 -->
-                <template if:true={actUploadBtn}>
+                <template lwc:if={actUploadBtn}>
                   <lightning-button-icon icon-name="utility:upload" variant="border-filled" alternative-text="파일 업로드"
                     title="파일 업로드" onclick={handleFileUploadBtnClick}></lightning-button-icon>
                 </template>
                 <!-- 선택 다운로드 버튼 -->
-                <template if:true={actDownloadBtn}>
+                <template lwc:if={actDownloadBtn}>
                   <lightning-button-icon icon-name="utility:download" variant="border-filled" alternative-text="선택 다운로드"
                     title="선택 다운로드" onclick={handleDownloadBtnClick}></lightning-button-icon>
                 </template>
                 <!-- 선택 삭제 버튼 -->
-                <template if:true={actDeleteBtn}>
+                <template lwc:if={actDeleteBtn}>
                   <lightning-button-icon icon-name="utility:delete" variant="border-filled" alternative-text="선택 삭제"
                     title="선택 삭제" onclick={handleDeleteBtnClick}></lightning-button-icon>
                 </template>
@@ -81,23 +81,23 @@
           </template>
 
           <!-- 작은 영역일떄 -->
-          <template if:true={isComponentSizeSmall}>
+          <template lwc:else>
             <div class="btnGroup">
               <!-- 검색영역 확장 버튼 -->
               <lightning-button-icon class="searchIcon" icon-name="utility:search" variant="border-filled" onclick={handleFilterbtn} alternative-text="확장" title="확장"></lightning-button-icon>
               <!-- 드롭다운 메뉴 -->
-              <template if:true={isDropdownVisible}>
+              <template lwc:if={isDropdownVisible}>
                 <lightning-button-menu class="inner_btnMenu" menu-alignment="auto" variant="border-filled">
                   <!-- 파일 업로드 -->
-                  <template if:true={actUploadBtn}>
+                  <template lwc:if={actUploadBtn}>
                     <lightning-menu-item label="파일 업로드" onclick={handleFileUploadBtnClick}></lightning-menu-item>
                   </template>
                   <!-- 선택 다운로드 -->
-                  <template if:true={actDownloadBtn}>
+                  <template lwc:if={actDownloadBtn}>
                     <lightning-menu-item label="선택 다운로드" onclick={handleDownloadBtnClick}></lightning-menu-item>
                   </template>
                   <!-- 선택 삭제 -->
-                  <template if:true={actDeleteBtn}>
+                  <template lwc:if={actDeleteBtn}>
                     <lightning-menu-item label="선택 삭제" onclick={handleDeleteBtnClick}></lightning-menu-item>
                   </template>
                 </lightning-button-menu>
@@ -121,7 +121,7 @@
 
   <div class="filterArea">
     <!-- 좁은 영역일 때 검색 영역 -->
-    <template if:true={isFilter}>
+    <template lwc:if={isFilter}>
       <div>
           <lightning-input name="search" placeholder="검색어를 입력해주세요." type="search" onchange={handleSearch}></lightning-input>
       </div>
@@ -130,7 +130,7 @@
 
   <!-- 업로드 모달 창 -->
   <c-sc-file-related-list-upload-modal 
-    if:true={isShowUploadModal}
+    lwc:if={isShowUploadModal}
     file-data={fileData}
     record-id={recordId}
     category={category}
@@ -138,7 +138,7 @@
   </c-sc-file-related-list-upload-modal>
   <!-- 다운로드 모달 창 -->
   <c-sc-file-related-list-download-modal    
-    if:true={isShowDownloadModal}
+    lwc:if={isShowDownloadModal}
     download-progress={downloadProgress}
     total-files-to-download={totalFilesToDownload}
     is-download-end={isDownloadEnd}

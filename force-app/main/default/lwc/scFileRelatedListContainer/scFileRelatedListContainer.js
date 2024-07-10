@@ -33,6 +33,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
     @api slideDelayTime;
     @api tableComponentHeight;
     @api thumbnailComponentHeight;
+    @api buttonType;
     // 뷰 타입
     @api defaultViewType;
     @api viewType_table;
@@ -159,7 +160,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
             }, 0);
         }
     }
-    
+
     async handleAfterUploadFile() {
         try {
             const newData = await this.getAfterUploadData();

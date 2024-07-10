@@ -24,6 +24,7 @@ export default class ScFileRelatedListHeader extends LightningElement {
     @api actSectionOpen;
     @api sortOptions;
     @api category;
+    @api buttonType;
     // 데이터
     @api fileData;
     @api selectedRowIds;
@@ -50,31 +51,31 @@ export default class ScFileRelatedListHeader extends LightningElement {
     }
 
     renderedCallback() {
-        this.updateComponentSize();
+        this.isButton = this.buttonType === 'button';
     }
 
     // 컴포넌트가 렌더링된 후 초기 사이즈 결정 로직 실행
-    updateComponentSize() {
-        if (this.hasInitialLogicExecuted) {
-            return;
-        }
+    // updateComponentSize() {
+    //     if (this.hasInitialLogicExecuted) {
+    //         return;
+    //     }
 
-        const mainDataElement = this.template.querySelector('.slds-card__header');
+    //     const mainDataElement = this.template.querySelector('.slds-card__header');
 
-        if (!mainDataElement) {
-            console.log('updateComponentSize mainDataElement >>>>> null');
-            return;
-        }
+    //     if (!mainDataElement) {
+    //         console.log('updateComponentSize mainDataElement >>>>> null');
+    //         return;
+    //     }
 
-        const mainDataWidth = mainDataElement.offsetWidth;
-        this.isComponentSizeSmall = mainDataWidth <= 930;
+    //     const mainDataWidth = mainDataElement.offsetWidth;
+    //     this.isComponentSizeSmall = mainDataWidth <= 930;
 
-        this.hasInitialLogicExecuted = true;
+    //     this.hasInitialLogicExecuted = true;
 
-        this.dispatchEvent(new CustomEvent('iscomponentsizesmall', {
-            detail: { isComponentSizeSmall: this.isComponentSizeSmall }
-        }));
-    }
+    //     this.dispatchEvent(new CustomEvent('iscomponentsizesmall', {
+    //         detail: { isComponentSizeSmall: this.isComponentSizeSmall }
+    //     }));
+    // }
 
     handleSearch(event) {
         const searchKey = event.target.value;
