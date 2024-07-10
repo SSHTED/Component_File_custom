@@ -69,6 +69,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
     }
 
     renderedCallback() {
+        this.setChildComponent();
     }
 
     initSetting() {
@@ -85,7 +86,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
 
             const processedData = await this.getFileDataFromServer(params);
             this.updateFileData(processedData);
-            this.setChildComponent();
+            // this.setChildComponent();
             this.handleDefaultViewType();
 
             return processedData;
@@ -113,7 +114,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
             throw error;
         }
     }
-    
+
     setChildComponent() {
         if (this.actSectionOpen) {
             this.scFileRelatedListHeader = this.template.querySelector('c-sc-file-related-list-header');
@@ -140,15 +141,16 @@ export default class ScFileRelatedListContainer extends LightningElement {
 
     handleImageCard() {
         this.filterImageData();
-        
+
         if (this.scFileRelatedListCard) {
             this.scFileRelatedListCard.calculateImageSize(this.fileData);
-        } 
+        }
     }
-    
+
     filterImageData() {
         if (this.imgCardShowOnly) {
             this.fileData = this.fileData.filter(item => item.isImage === true);
+            this.originalFileData = this.fileData;
         }
     }
 
@@ -195,8 +197,8 @@ export default class ScFileRelatedListContainer extends LightningElement {
                 latestCreatedDate: this.latestCreatedDate
             };
 
-            console.log('getAfterUploadData latestCreatedDate value:', this.latestCreatedDate);
-            console.log('after upload  params', JSON.stringify(params));
+            // console.log('getAfterUploadData latestCreatedDate value:', this.latestCreatedDate);
+            // console.log('after upload  params', JSON.stringify(params));
 
             return this.getFileDataFromServer(params);
 
@@ -368,7 +370,9 @@ export default class ScFileRelatedListContainer extends LightningElement {
 
     handleSearchFile(event) {
         const searchKey = event.detail.toLowerCase();
+        
         this.fileData = this.filterAndIndexData(searchKey);
+
         this.updateUI();
     }
 
@@ -393,6 +397,8 @@ export default class ScFileRelatedListContainer extends LightningElement {
         try {
             if (this.scFileRelatedListCard) {
                 this.scFileRelatedListCard.calculateImageSize(this.fileData);
+            }
+            if (this.scFileRelatedListSlide) {
                 this.scFileRelatedListSlide.showFirstImage();
             }
         } catch (error) {
@@ -436,6 +442,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
 
     handleImgTabDataUpdate(event) {
         this.fileData = event.detail.fileData;
+        this.originalFileData = this.fileData;
     }
 
     // 변환된 날짜를 서버에 다시 저장하고 싶을 때 사용
