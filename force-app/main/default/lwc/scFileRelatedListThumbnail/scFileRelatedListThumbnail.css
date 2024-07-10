@@ -19,6 +19,7 @@
     border: none;
 }
 .thumbnailTable .th_checkbox {
+    border: none;
     width: 32px !important;
 }
 .thumbnailTable .th_thumbnail {
@@ -52,7 +53,11 @@
     padding-left: 10px;
 }
 .thumbnailTable .td_title {
+    color: rgb(1, 68, 134);
     cursor: pointer;
+}
+.thumbnailTable .td_title:hover {
+    text-decoration: underline;
 }
 
 /* 썸네일 이미지 크기 조정 */

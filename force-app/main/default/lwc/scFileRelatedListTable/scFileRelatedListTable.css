@@ -19,6 +19,7 @@
     width: 52px;
 }
 .dataTable .th_checkbox {
+    border: none;
     width: 32px !important;
 }
 
@@ -49,5 +50,9 @@
     height: 16px;
 }
 .dataTable .td_title {
+    color: rgb(1, 68, 134);
     cursor: pointer;
+}
+.dataTable .td_title:hover {
+    text-decoration: underline;
 }
