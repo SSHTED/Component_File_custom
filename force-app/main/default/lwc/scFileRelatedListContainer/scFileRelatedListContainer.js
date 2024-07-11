@@ -442,7 +442,6 @@ export default class ScFileRelatedListContainer extends LightningElement {
 
     handleImgTabDataUpdate(event) {
         this.fileData = event.detail.fileData;
-        this.originalFileData = this.fileData;
     }
 
     // 변환된 날짜를 서버에 다시 저장하고 싶을 때 사용
