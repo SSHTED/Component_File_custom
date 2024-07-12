@@ -9,6 +9,7 @@ import updateData from '@salesforce/apex/SC_DataRelatedListController.updateData
 import getReadonlyFields from '@salesforce/apex/SC_DataRelatedListController.getReadonlyFields';
 import executeBatch from '@salesforce/apex/SC_DataRelatedListManualController.BatchManualExecute';
 import modalImages from "@salesforce/resourceUrl/modal_img";
+import isUserInAllowedProfiles from '@salesforce/apex/SC_DataRelatedListController.isUserInAllowedProfiles';
 
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { NavigationMixin } from 'lightning/navigation';
@@ -48,6 +49,7 @@ export default class scDataRelatedList extends NavigationMixin(LightningElement)
     @api setFieldCount; @api setMaxRow;
     @api sectionFirstOpen;
     @api manualUpdateBtn;
+    @api manualUpdateAllowedProfiles;
     @api sumFirstObj; @api sumSecondObj;
     sumObj = {};
     sumResultFirst = {};
@@ -84,7 +86,7 @@ export default class scDataRelatedList extends NavigationMixin(LightningElement)
     isNotChildObj = false;
     checkEncryptedDataView = false;
     isHistory = false;
-
+    isAllowedProfiles = false;
 
     // 이거도 추가한검당
     isBlankTh = false;
@@ -126,8 +128,23 @@ export default class scDataRelatedList extends NavigationMixin(LightningElement)
         }
 
         console.log('aaaa> ', this.isHistory)
+        console.log('manualUpdateAllowedProfiles   > ', this.manualUpdateAllowedProfiles)
     }
     
+    @wire(isUserInAllowedProfiles, { allowedProfile: '$manualUpdateAllowedProfiles'})
+    wiredProfileCheck({error, data}){
+        if(data){
+            console.log('wiredProfileCheck data:' , data);
+            this.isAllowedProfiles = data;
+            console.log('wiredProfileCheck this.isAllowedProfiles:' , this.isAllowedProfiles);
+
+        }else if(error){
+            console.error('프로필 라이센스 호출 에러: ', error);
+            console.error('프로필 라이센스 호출 에러: ', error.message);
+        }
+    }
+    
+
     checkAndUpdateRelated1Lv() {
         if (this.related1Lv && typeof this.related1Lv === 'string') {
             const lowerCaseValue = this.related1Lv.toLowerCase();

@@ -80,7 +80,9 @@
                             </template>
                             <!-- 필드 정보 업데이트 버튼 -->
                             <template if:true={manualUpdateBtn}>
-                                <lightning-button-icon icon-name="utility:refresh" variant="border-filled" onclick={executeBatch} alternative-text="관련 목록 필드 정보 업데이트" title="관련 목록 필드 정보 업데이트"></lightning-button-icon>
+                                <template if:true={isAllowedProfiles}>
+                                    <lightning-button-icon icon-name="utility:refresh" variant="border-filled" onclick={executeBatch} alternative-text="관련 목록 필드 정보 업데이트" title="관련 목록 필드 정보 업데이트"></lightning-button-icon>
+                                </template>
                             </template>
                         </lightning-button-group>
                         

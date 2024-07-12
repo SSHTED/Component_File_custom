@@ -724,6 +724,36 @@ global with sharing class SC_DataRelatedListController {
         return result;
     }
 
+    @AuraEnabled(cacheable=true)
+    public static Boolean isUserInAllowedProfiles(List<String> allowedProfile) {
+        System.debug('프로필 라이센스 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>' + allowedProfile);
+        
+        // 현재 사용자의 프로파일 이름을 가져옵니다.
+        String currentUserProfile = [SELECT Name FROM Profile WHERE Id = :UserInfo.getProfileId()].Name;
+        
+        System.debug('프로필 라이센스 currentUserProfile >>>>>>>>>>>>>>>>>>>>>>>>>>>>>' + currentUserProfile);
+        
+        // allowedProfile이 단일 문자열로 들어왔을 경우 분리
+        if (allowedProfile.size() == 1 && allowedProfile[0].contains(',')) {
+            allowedProfile = allowedProfile[0].split(',');
+        }
+        
+        // 정확히 일치하는지 확인합니다.
+        for (String profile : allowedProfile) {
+            String trimmedProfile = profile.trim(); // 앞뒤 공백 제거
+            System.debug('비교 중: 현재 프로필 [' + currentUserProfile + '] vs 허용된 프로필 [' + trimmedProfile + ']');
+            
+            if (currentUserProfile.equals(trimmedProfile)) {
+                System.debug('프로필 라이센스 result >>>>>>>>>>>>>>>>>>>>>>>>>>>true');
+                return true;
+            }
+        }
+
+        System.debug('프로필 라이센스 result >>>>>>>>>>>>>>>>>>>>>>>>>>>false');
+        return false;
+    }
+
+
     public class UpdatedRow {
         public String id;
         public Map<String, String> values;
