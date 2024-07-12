@@ -71,8 +71,5 @@ jest.config.js
 .forceignore
 .husky
 scripts
-scFileRelatedList
-scDataRelatedList
-SC_DataRelated*
 *scsrMapping*
 *SmSr*

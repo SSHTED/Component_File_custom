@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata" fqn="RelatedList">
+    <apiVersion>58.0</apiVersion>
+    <isExposed>true</isExposed>
+
+    <masterLabel>스마트 관련목록</masterLabel>
+    <description>스마트 관련목록</description>
+
+    <targets>
+        <target>lightning__RecordPage</target><!-- 레코드 페이지 -->
+        <target>lightning__AppPage</target><!-- 앱 페이지 -->
+        <target>lightning__HomePage</target><!-- 홈 페이지 -->
+        <target>lightning__Tab</target><!-- Lightning 구성 요소 탭 -->
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            
+            <property name="related1Lv" type="String" label="1Lv 관계" default=""/>
+            <property name="Lv1Icon" type="String" label="1Lv 아이콘" default=""/>
+            <property name="Lv1Title" type="String" label="1Lv 사용자 정의 제목" default=""/>
+            <property name="related2Lv" type="String" label="2Lv 관계" default=""/>
+            <property name="Lv2Icon" type="String" label="2Lv 아이콘" default=""/>
+            <property name="Lv2Title" type="String" label="2Lv 사용자 정의 제목" default=""/>
+
+            <property name="viewType" type="String" label="보기 방식 변경" datasource="List, Tile" default="List"/>
+            <property name="themeColor" type="String" label="테마 색상 변경" datasource="standard, red, orange, yellow, green, blue, purple" default="standard"/>
+
+            <property name="buttonType" type="String" label="버튼 타입 변경" datasource="button, dropdown" default="button"/>
+
+            <property name="activationCreateBtn" type="Boolean" label="새로만들기 버튼 생성 여부" default="false"/>
+            <property name="activationSelectedDeleteBtn" type="Boolean" label="선택 삭제 버튼 생성 여부"/>
+            <property name="downloadBtn" type="Boolean" label="파일 다운로드 버튼 생성 여부" default="false"/>
+            <property name="changeOwnerBtn" type="Boolean" label="소유자 변경 버튼 생성 여부" default="false"/>
+
+            <property name="setFieldCount" type="Integer" label="필드 개수 설정"/>
+            <property name="setMaxRow" type="Integer" label="최대 행 수" default="5"/>
+            
+            <property name="sectionFirstOpen" type="Boolean" label="섹션 초기 오픈 여부" default="true"/>
+            <property name="activationNo" type="Boolean" label="no 활성화 여부" default="false"/>
+            <property name="activationSearch" type="Boolean" label="검색기능 활성화 여부" default="false"/>
+            <property name="activationEditMode" type="Boolean" label="편집모드 활성화 여부" default="false"/>
+
+            <property name="manualUpdateBtn" type="Boolean" label="관계 목록 데이터 수동 업데이트 버튼" default='false' description="페이지 편집에서 관련 목록의 필드가 수정되었을 때, 업데이트 필요"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

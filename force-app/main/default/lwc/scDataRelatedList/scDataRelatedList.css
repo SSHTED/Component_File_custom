@@ -1,0 +1,495 @@
+.article {
+    border: 1px solid #c9c9c9;
+    border-radius: 3px;
+}
+/* 테마 색상 */
+/* white */
+.themeColor_standard {
+    background-color: #F3F3F3;
+}
+/* red */
+.themeColor_red {
+    background-color: rgba(250,219,216);
+}
+.themeColor_red .mainData .th1lv {
+    background-color: rgba(245,183,177);
+}
+.themeColor_red .outter_tile_box {
+    background-color: rgba(245,183,177);
+}
+.themeColor_red .themeBackground {
+    background-color: rgba(250,219,216);
+}
+/* orange */
+.themeColor_orange {
+    background-color: rgba(253,235,208);
+}
+.themeColor_orange .mainData .th1lv {
+    background-color: rgba(250,215,160);
+}
+.themeColor_orange .outter_tile_box {
+    background-color: rgba(2250,215,160);
+}
+.themeColor_orange .themeBackground {
+    background-color: rgba(253,235,208);
+}
+/* yellow */
+.themeColor_yellow {
+    background-color: rgba(252,243,207);
+}
+.themeColor_yellow .mainData .th1lv {
+    background-color: rgba(249,231,159);
+}
+.themeColor_yellow .outter_tile_box {
+    background-color: rgba(249,231,159);
+}
+.themeColor_yellow .themeBackground {
+    background-color: rgba(252,243,207);
+}
+/* green */
+.themeColor_green {
+    background-color: rgba(212,239,223);
+}
+.themeColor_green .mainData .th1lv {
+    background-color: rgba(169,223,191);
+}
+.themeColor_green .outter_tile_box {
+    background-color: rgba(169,223,191);
+}
+.themeColor_green .themeBackground {
+    background-color: rgba(212,239,223);
+}
+/* blue */
+.themeColor_blue {
+    background-color: rgba(214,234,248);
+}
+.themeColor_blue .mainData .th1lv {
+    background-color: rgba(174,214,241);
+}
+.themeColor_blue .outter_tile_box {
+    background-color: rgba(174,214,241);
+}
+.themeColor_blue .themeBackground {
+    background-color: rgba(214,234,248);
+}
+/* purple */
+.themeColor_purple {
+    background-color: rgba(235,222,240);
+}
+.themeColor_purple .mainData .th1lv {
+    background-color: rgba(215,189,226);
+}
+.themeColor_purple .outter_tile_box {
+    background-color: rgba(215,189,226);
+}
+.themeColor_purple .themeBackground {
+    background-color: rgba(235,222,240);
+}
+
+
+/* 헤더 */
+.slds-card__header {
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: -12px;
+    height: 64px;
+}
+.header {
+    position: relative;
+    padding-left: 15px;
+}
+/* 1Lv 아이콘, 타이틀 */
+.icon1Lv {
+    float: left;
+    margin-right: 12px;
+}
+.title1Lv {
+    float: left;
+    margin-top: 2px;
+}
+.title1Lv a {
+    text-decoration: none;
+    color:inherit;
+}
+.title1Lv a:hover {
+    text-decoration: underline;
+    color: #31669b;
+}
+/* 꺾쇠 아이콘 */
+.chevronRightIcon {
+    float: left;
+    margin-top: 4px;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+/* 2Lv 아이콘, 타이틀 */
+.icon2Lv {
+    float: left;
+    margin-top: 4px;
+    margin-left: 5px;
+    margin-right: 10px;
+}
+.title2Lv {
+    float: left;
+    margin-top: 4px;
+}
+.title2Lv p {
+    font-size:13px;
+}
+
+
+/* 버튼 영역 */
+.btnGroup {
+    position:absolute;
+    right: 10px;
+}
+.saveBtn {
+    float: left;
+    margin-right: 10px;
+}
+.editToggle {
+    float: left;
+    margin-right: 10px;
+    margin-top: 4px;
+}
+.searchBox {
+    float: left;
+    margin-top: -19px;
+    margin-right: 10px;
+}
+lightning-button-group {
+    float:left;
+}
+.expandBtn {
+    margin-left: 10px;
+}
+.chevronUpDownIcon {
+    margin-left: 10px;
+    margin-right: 5px;
+    cursor:pointer;
+}
+.dropMenu {
+    margin-left: 10px;
+    background-color: white;
+}
+
+
+/* 바디 */
+.body {
+    padding: 0;
+}
+/* 작은 영역일때 검색 영역 */
+.searchBox_small {
+    width: calc(100% - 30px);
+    height: 50px;
+    margin-top: -35px;
+    margin-left: 15px;
+}
+
+
+/* View Type : List */
+.listBox {
+    margin-bottom:-13px;
+    padding: 0;
+    background-color:#ffffff;
+}
+.mainData_List {
+    border-left: 1px solid #c9c9c9;
+    border-right: 1px solid #c9c9c9;
+}
+.mainData_List .th1lv {
+    height: 32px;
+}
+.th_2LvIndexBlank {
+    width: 52px;
+}
+.th_No1Lv {
+    border: none;
+    padding-left: 20px;
+    height: 32px;
+    width: 52px;
+}
+.th_checkBox {
+    border: none;
+    width: 32px;
+    height: 32px;
+}
+.th_blank1Lv {
+    width: 50px;
+    height: 32px;
+}
+th {
+    border-right: 1px solid #c9c9c9;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.errorMessage {
+    padding: 20px;
+    width:100%;
+    text-align: center;
+    background-color: white;
+}
+.errorMessage p {
+    font-size: 15px;
+}
+.td_index {
+    padding-left: 20px;
+}
+.td_picklist1Lv {
+    margin-top: -20px;
+}
+.dataCell {
+    width: 95%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.count_2Lv {
+    width: 100px;
+    text-align: center;
+}
+.td2Lv {
+    padding-left: 0;
+    padding-right: 0;
+}
+.th_No2Lv {
+    width: 50px;
+}
+.th_blank2Lv {
+    width: 50px;
+}
+.td_picklist2Lv {
+    position: absolute;
+    top: -15px;
+    width: 90%;
+}
+.inputCheckBox {
+    margin-top: 4px;
+    height: 16px;
+    width: 16px;
+}
+
+
+/* View Type : Tile */
+/* 큰 영역일때 타일 크기 조정 */
+.tileBox {
+    padding: 0;
+}
+.mainData_Tile {
+    margin-bottom: -16px;
+    width: 100%;
+    border-top: 1px solid #c9c9c9;
+    background-color:white;
+}
+.mainData_Tile .slds-box {
+    border: none;
+}
+.outter_tile_box {
+    margin-left: 10px;
+    display: inline-block;
+    width: 95%;
+    height: 100px;
+    border-radius: 20px;
+}
+.outter_tile_box .tile_box {
+    width: 99%;
+    height: 100px;
+    border-radius: 8px;
+    float: right;
+    background-color: white;
+    border: 2px solid whitesmoke;
+    padding: 8px 13px;
+}
+.tile_box .left_tileBox {
+    float:left;
+    width:5%;
+    height:100%;
+}
+.tileCheckbox {
+    height: 16px;
+    width: 16px;
+}
+.rowIndex {
+    font-size: 15px;
+}
+.diagonal-line {
+    margin-top: 5px;
+    margin-left: 5px;
+    width: 15px;
+    height: 1px;
+    background-color: black;
+    transform: rotate(-45deg);
+    transform-origin: 0 0; /* 회전 중심을 좌측 상단으로 설정 */
+}
+.tile_box .center_tileBox {
+    padding: 0 5px;
+    float:left;
+    width:85%;
+    height:100%;
+}
+.tileboxIcon {
+    float: left;
+}
+.tileBoxDataArea {
+    float: left;
+    height: 100%;
+    width: 70%;
+    overflow: hidden;
+}
+.tileDataLabel {
+    width: 50%;
+}
+.tileDataValue {
+    width: 50%;
+}
+.right_tileBox {
+    float: left;
+    height: 100%;
+    width: 10%;
+}
+.custom_menu {
+    float: right;
+}
+
+
+/* 푸터 */
+.slds-card__footer {
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border: 1px solid #c9c9c9;
+    background-color:#F3F3F3;
+}
+
+
+
+
+/* 모달 */
+/* 모달 닫기 버튼 스타일 */
+.modalColseIcn {
+    --slds-c-icon-color-foreground-default: white;
+}
+/* 모달 팝업 시 뒷 배경 어둡게 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명한 검은색 배경 */
+    z-index: 999;
+}
+/* 새로만들기 모달 */
+.newRecordModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    width: 933px;
+    outline: 2px solid whitesmoke;
+    border-radius: 3px;
+}
+/* 모달 내부 영역 크기 조정 */
+.inner_modal_body {
+    margin: 0 auto;
+    width: 175px;
+    line-height: 25px;
+}
+/* 모달 내부 텍스트 스타일 */
+.inner_modal_body .modal_label {
+    font-size: 17px;
+    margin-bottom: 5px;
+}
+/* 소유자 변경 모달 */
+.changeOwnerModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    width: 933px;
+    outline: 2px solid whitesmoke;
+    border-radius: 3px;
+}
+.modalheaderTitle {
+    font-size: 20px;
+}
+.modalBody {
+    height: 300px;
+}
+.inputtext {
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding-top: 4px;
+    padding-left: 10px;
+    width: 850px;
+    height: 44px;
+    border-radius: 5px;
+    outline: 1px solid grey;
+}
+.inputtext .modal_input {
+    width: 745px;
+    height: 32px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-left: 10px;
+    outline: none;
+    border: none;
+}
+/* 소유자 변경 검색 결과 영역 스타일 */
+.ownerListbox {
+    position: absolute;
+    top: 173px;
+    left: 45px;
+    width: 840px;
+    height: 210px;
+    z-index: 999;
+    background-color: white;
+    outline: 1px solid grey;
+    border-radius: 5px;
+    overflow: auto;
+}
+.modalFooterBtn {
+    margin-left: 10px;
+}
+/* 엑셀 다운로드 모달 */
+.slds-text-heading_medium {
+    font-weight: 600;
+}
+.slds-modal__content {
+    padding: 20px;
+}
+.downloadModalBody {
+    margin: 0 auto;
+    width: 70%;
+}
+.upperdataPicker {
+    position: relative;
+    top: 10px;
+    left: 10px;
+    margin-right: 1.5em;
+    margin-bottom: 1.5em;
+}
+.upperlowerdataPicker {
+    margin: 0;
+    position: relative;
+    left: 10px;
+}
+.slds-text-heading_small {
+    margin-bottom: 1em;
+}
+.modal_img {
+    width: 95%;
+    margin: 0 auto;
+}
+.pickerIcon {
+    --slds-c-icon-color-foreground-default: white;
+}
+
+
+.pointerEventNone {
+    pointer-events: none;
+}
