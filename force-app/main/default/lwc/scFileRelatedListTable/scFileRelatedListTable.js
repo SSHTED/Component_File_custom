@@ -22,7 +22,7 @@ export default class ScFileRelatedListTable extends NavigationMixin(LightningEle
 
     //ScFileRelatedListBody 에서 호출하기 위해 @api 추가
     @api resetCheckboxAll() {
-        const checkboxes = this.template.querySelectorAll('.checkbox-item');
+        const checkboxes = this.template.querySelectorAll('.checkbox_item');
         checkboxes.forEach(checkbox => {
             checkbox.checked = false;
         });
