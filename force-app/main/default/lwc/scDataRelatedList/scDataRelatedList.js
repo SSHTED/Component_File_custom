@@ -48,7 +48,7 @@ export default class scDataRelatedList extends NavigationMixin(LightningElement)
     @api downloadBtn; @api changeOwnerBtn;
     @api setFieldCount; @api setMaxRow;
     @api sectionFirstOpen;
-    @api manualUpdateBtn;
+    // @api manualUpdateBtn;
     @api manualUpdateAllowedProfiles;
     @api sumFirstObj; @api sumSecondObj;
     sumObj = {};
@@ -112,10 +112,6 @@ export default class scDataRelatedList extends NavigationMixin(LightningElement)
         this.modalImage1 = modalimgUrl + '/modal_image1.png';
         this.modalImage2 = modalimgUrl + '/modal_image2.png';
 
-
-
-        // 요기에 만들어 둘게여 수정해주십셔 ㅎㅎ
-
         if(!this.activationNo) {
             this.isBlankTh = true;
         }
@@ -129,6 +125,37 @@ export default class scDataRelatedList extends NavigationMixin(LightningElement)
 
         console.log('aaaa> ', this.isHistory)
         console.log('manualUpdateAllowedProfiles   > ', this.manualUpdateAllowedProfiles)
+
+        this.adjustTileBoxWidth();
+        window.addEventListener('resize', this.adjustTileBoxWidth);
+    }
+
+    disconnectedCallback() {
+        window.removeEventListener('resize', this.adjustTileBoxWidth);
+    }
+
+    adjustTileBoxWidth = () => {
+        const tileBoxes = this.template.querySelectorAll('lightning-layout-item');
+        const mainDataTile = this.template.querySelector('.mainData_Tile');
+
+        if (!mainDataTile) {
+            return;
+        }
+
+        const mainDataTileWidth = mainDataTile.offsetWidth;
+
+        let newWidth;
+        if (mainDataTileWidth >= 1200) {
+            newWidth = '25%';
+        } else if (mainDataTileWidth >= 768 && mainDataTileWidth < 1200) {
+            newWidth = '50%';
+        } else {
+            newWidth = '100%';
+        }
+
+        tileBoxes.forEach(tileBox => {
+            tileBox.style.width = newWidth;
+        });
     }
     
     @wire(isUserInAllowedProfiles, { allowedProfile: '$manualUpdateAllowedProfiles'})
@@ -604,7 +631,11 @@ export default class scDataRelatedList extends NavigationMixin(LightningElement)
 
     filterData() {
         const searchKey = this.inputSearchValue.toLowerCase();
-
+        // 검색어가 비어있는지 확인
+        if (!searchKey) {
+            this.isExpandDataTable = false; // 검색어가 비어있으면 isExpandDataTable을 false로 설정
+        }
+        
         this.filteredData = this.fullMyData.map(row => {
             // Lv1ClientData에서 일치하는 항목 검색
             let matchesInLv1 = row.Lv1ClientData.some(cell =>
@@ -625,6 +656,12 @@ export default class scDataRelatedList extends NavigationMixin(LightningElement)
             }
             return null;
         }).filter(row => row !== null);
+
+        // 필터링된 데이터에 새로운 인덱스 부여
+        this.filteredData = this.filteredData.map((row, index) => ({
+            ...row,
+            index: index + 1  // 1부터 시작하는 새로운 인덱스
+        }));
 
         if (this.setMaxRow) {
             this.MyData = this.filteredData.slice(0, this.setMaxRow);

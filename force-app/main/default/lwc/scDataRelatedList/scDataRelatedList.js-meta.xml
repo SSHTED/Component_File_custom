@@ -40,8 +40,8 @@
             <property name="activationSearch" type="Boolean" label="검색기능 활성화 여부" default="false"/>
             <property name="activationEditMode" type="Boolean" label="편집모드 활성화 여부" default="false"/>
 
-            <property name="manualUpdateBtn" type="Boolean" label="관계 목록 데이터 수동 업데이트 버튼" default='false' description="페이지 편집에서 관련 목록의 필드가 수정되었을 때, 업데이트 필요"/>
-            <property name="manualUpdateAllowedProfiles" type="String" label="관계 목록 데이터 업데이트 가능한 프로필" default='' description=", 로 구분해주세요 (ex. A, B, C)"/>
+            <!-- <property name="manualUpdateBtn" type="Boolean" label="관계 목록 데이터 수동 업데이트 버튼" default='false' description="페이지 편집에서 관련 목록의 필드가 수정되었을 때, 업데이트 필요"/> -->
+            <property name="manualUpdateAllowedProfiles" type="String" label="관계 목록 데이터 업데이트 가능한 프로필" default='' description=", 로 구분해주세요 (ex. A, B, C). 입력한 프로필만 업데이트 버튼이 표시됩니다."/>
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>

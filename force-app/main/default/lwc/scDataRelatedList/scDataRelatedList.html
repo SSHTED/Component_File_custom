@@ -79,10 +79,10 @@
                                 <lightning-button-icon icon-name="utility:download" variant="border-filled" value="excel" onclick={handleCellEvent} alternative-text="엑셀 파일 다운로드" title="엑셀 파일 다운로드"></lightning-button-icon>
                             </template>
                             <!-- 필드 정보 업데이트 버튼 -->
-                            <template if:true={manualUpdateBtn}>
-                                <template if:true={isAllowedProfiles}>
+                            <template if:true={isAllowedProfiles}>
+                                <!-- <template if:true={isAllowedProfiles}> -->
                                     <lightning-button-icon icon-name="utility:refresh" variant="border-filled" onclick={executeBatch} alternative-text="관련 목록 필드 정보 업데이트" title="관련 목록 필드 정보 업데이트"></lightning-button-icon>
-                                </template>
+                                <!-- </template> -->
                             </template>
                         </lightning-button-group>
                         
@@ -147,7 +147,7 @@
                                 <template if:true={downloadBtn}>
                                     <lightning-menu-item value="excel" label="엑셀 파일 다운로드"></lightning-menu-item>
                                 </template>
-                                <template if:true={manualUpdateBtn}>
+                                <template if:true={isAllowedProfiles}>
                                     <lightning-menu-item value="refresh" onclick={executeBatch} label="필드 정보 업데이트"></lightning-menu-item>
                                 </template>
                             </lightning-button-menu>
@@ -372,7 +372,7 @@
                                                                 <tr>
                                                                     <template if:true={activationNo}>
                                                                         <th class="th_No2Lv slds-text-align_center slds-cell_action-mode" scope="col">
-                                                                            No
+                                                                            <!-- No -->
                                                                         </th>
                                                                     </template>
                                                                     <template for:each={Lv2Columns} for:item="col">
@@ -540,13 +540,13 @@
                             <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
                                 <lightning-layout multiple-rows>
                                     <template for:each={MyData} for:item="row">
-                                        <lightning-layout-item key={row.Id} size="12" small-device-size="6" medium-device-size="4" large-device-size="3" padding="around-small">
+                                        <lightning-layout-item key={row.Id} size="12" small-device-size="6" medium-device-size="4" large-device-size="3" class="tile-item">
                                             <div class="outter_tile_box">
                                                 <div class="tile_box">
                                                     <div class="left_tileBox">
                                                         <!-- 체크박스 -->
                                                         <template if:true={activationCheckedFields}>
-                                                            <input class="tileCheckbox" type="checkbox" name="options" checked={row.selected} data-id={row.Id} onchange={handleRowSelection}/>
+                                                            <input class="tileCheckbox" type="checkbox" name="options" checked={row.selected} data-id={row.Id} onchange={handleRowSelection} />
                                                         </template>
                                                         <!-- No -->
                                                         <template if:true={activationNo}>
@@ -554,7 +554,7 @@
                                                             <div class="diagonal-line"></div>
                                                         </template>
                                                     </div>
-            
+                        
                                                     <div class="center_tileBox">
                                                         <!-- 본문 데이터 -->
                                                         <div class="tileboxIcon slds-media__figure">
@@ -562,28 +562,27 @@
                                                                 <lightning-icon icon-name={Lv1Icon} size="small"></lightning-icon>
                                                             </span>
                                                         </div>
-                                                        
+                        
                                                         <div class="tileBoxDataArea slds-tile__detail">
                                                             <dl class="slds-list_horizontal slds-wrap">
                                                                 <template for:each={row.Lv1ClientData} for:item="cell">
-                                                                    
                                                                     <dt key={cell.key} class="tileDataLabel slds-item_label slds-text-color_weak slds-truncate" title={cell.label}>
                                                                         {cell.label}:
                                                                     </dt>
-                                                                    
+                        
                                                                     <dd key={cell.key} class="tileDataValue slds-item_detail slds-truncate" title={cell.value}>
                                                                         <template if:true={cell.url}>
                                                                             <a data-url={cell.url} onclick={movePageOnlyDataArea}>{cell.value}</a>
                                                                         </template>
                                                                         <template if:false={cell.url}>
                                                                             {cell.value}
-                                                                        </template>                                        
+                                                                        </template>
                                                                     </dd>
                                                                 </template>
                                                             </dl>
                                                         </div>
                                                     </div>
-            
+                        
                                                     <!-- 액션버튼 -->
                                                     <div class="right_tileBox">
                                                         <div>
@@ -600,6 +599,7 @@
                                 </lightning-layout>
                             </div>
                         </div>
+                        
                     </div>
                 </template>
             </template>
