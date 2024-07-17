@@ -85,8 +85,9 @@ export default class ScFileRelatedListContainer extends LightningElement {
             };
 
             const processedData = await this.getFileDataFromServer(params);
+            this.fileData= processedData;
+            this.originalFileData = processedData; 
             this.updateFileData(processedData);
-            // this.setChildComponent();
             this.handleDefaultViewType();
 
             return processedData;
@@ -150,7 +151,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
     filterImageData() {
         if (this.imgCardShowOnly) {
             this.fileData = this.fileData.filter(item => item.isImage === true);
-            this.originalFileData = this.fileData;
+            // this.originalFileData = this.fileData;
         }
     }
 
