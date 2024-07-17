@@ -10,6 +10,7 @@ import getReadonlyFields from '@salesforce/apex/SC_DataRelatedListController.get
 import executeBatch from '@salesforce/apex/SC_DataRelatedListManualController.BatchManualExecute';
 import modalImages from "@salesforce/resourceUrl/modal_img";
 import isUserInAllowedProfiles from '@salesforce/apex/SC_DataRelatedListController.isUserInAllowedProfiles';
+import setupScheduler from '@salesforce/apex/SC_DataRelatedListController.setupScheduler';
 
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { NavigationMixin } from 'lightning/navigation';
@@ -93,28 +94,67 @@ export default class scDataRelatedList extends NavigationMixin(LightningElement)
 
 
     connectedCallback() {
+        this.setupActionButtons();
+        this.setupTableVisibility();
+        this.setupThemeColor();
+        this.setupModalImages();
+        this.setupBlankTh();
+        this.setupScheduler();
+    }
+
+    setupActionButtons() {
         if (this.activationSelectedDeleteBtn || this.changeOwnerBtn) {
             this.activationCheckedFields = true;
         }
         if (!this.activationCreateBtn && !this.activationSelectedDeleteBtn && !this.downloadBtn && !this.changeOwnerBtn) {
             this.isVisibleActionBtn = false;
         }
-        this.isTableVisible = this.sectionFirstOpen;
+    }
 
+    setupTableVisibility() {
+        this.isTableVisible = this.sectionFirstOpen;
+    }
+
+    setupThemeColor() {
         if (this.themeColor) {
             this.customClass += 'article themeColor_' + this.themeColor;
             console.log("커스텀 클래스 이름은 " + this.customClass);
         }
+    }
 
-        // static resource 경로 설정
+    setupModalImages() {
         let modalimgUrl = modalImages;
-
         this.modalImage1 = modalimgUrl + '/modal_image1.png';
         this.modalImage2 = modalimgUrl + '/modal_image2.png';
+    }
 
+    setupBlankTh() {
         if(!this.activationNo) {
             this.isBlankTh = true;
         }
+    }
+
+    setupScheduler() {
+        const batchSize = 200; // 기본 배치 크기
+        const cronExpression = '0 0 0 * * ?'; // 매일 자정에 실행
+        
+        let objNameList = [this.related1Lv];
+        if (this.related2Lv) {
+            objNameList.push(this.related2Lv);
+        }
+
+        const paramMap = JSON.stringify({
+            recordTypeId: this.recordTypeId,
+            objNameList: objNameList
+        });
+
+        setupScheduler({ batchSize, cronExpression, paramMap })
+            .then(result => {
+                console.log('스케쥴 설정', JSON.stringify(result, null, 2));
+            })
+            .catch(error => {
+                console.error('Error setting up scheduler:', error);
+            });
     }
 
     renderedCallback() {
@@ -631,10 +671,11 @@ export default class scDataRelatedList extends NavigationMixin(LightningElement)
 
     filterData() {
         const searchKey = this.inputSearchValue.toLowerCase();
+        this.isExpandDataTable = false; 
         // 검색어가 비어있는지 확인
-        if (!searchKey) {
-            this.isExpandDataTable = false; // 검색어가 비어있으면 isExpandDataTable을 false로 설정
-        }
+        // if (!searchKey) {
+            // this.isExpandDataTable = false; // 검색어가 비어있으면 isExpandDataTable을 false로 설정
+        // }
         
         this.filteredData = this.fullMyData.map(row => {
             // Lv1ClientData에서 일치하는 항목 검색

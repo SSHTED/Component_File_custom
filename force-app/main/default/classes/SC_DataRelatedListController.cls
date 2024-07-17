@@ -760,6 +760,27 @@ global with sharing class SC_DataRelatedListController {
         return false;
     }
 
+    //컴포넌트 삽입 시 스케쥴 설정
+    @AuraEnabled
+    public static String setupScheduler(Integer batchSize, String cronExpression, String paramMap) {
+        try {
+            String jobName = '스마트 관련목록 스케쥴러';
+            
+            // 기존 작업 삭제
+            List<CronTrigger> existingJobs = [SELECT Id FROM CronTrigger WHERE CronJobDetail.Name = :jobName];
+            if(!existingJobs.isEmpty()) {
+                System.abortJob(existingJobs[0].Id);
+            }
+            
+            // 새 스케줄러 설정
+            SC_DataRelatedListScheduler scheduler = new SC_DataRelatedListScheduler(batchSize, paramMap);
+            String jobId = System.schedule(jobName, cronExpression, scheduler);
+            
+            return 'Scheduler Job ID: ' + jobId + ' cronExpression: ' + cronExpression + ' scheduler: ' + scheduler;
+        } catch(Exception e) {
+            return 'Error setupScheduler: ' + e.getMessage();
+        }
+    }
 
     public class UpdatedRow {
         public String id;
