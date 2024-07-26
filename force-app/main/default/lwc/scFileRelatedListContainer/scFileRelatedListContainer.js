@@ -30,6 +30,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
     @api countRecord;
     @api isActiveNo;
     @api isActiveDel;
+    @api showSlideThumbnail;
     @api slideDelayTime;
     @api tableComponentHeight;
     @api thumbnailComponentHeight;
@@ -65,7 +66,7 @@ export default class ScFileRelatedListContainer extends LightningElement {
 
     connectedCallback() {
         this.initSetting();
-        this.getInitFileData()
+        this.getInitFileData();
     }
 
     renderedCallback() {
@@ -151,7 +152,6 @@ export default class ScFileRelatedListContainer extends LightningElement {
     filterImageData() {
         if (this.imgCardShowOnly) {
             this.fileData = this.fileData.filter(item => item.isImage === true);
-            // this.originalFileData = this.fileData;
         }
     }
 

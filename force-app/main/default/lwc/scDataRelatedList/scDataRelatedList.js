@@ -88,8 +88,6 @@ export default class scDataRelatedList extends NavigationMixin(LightningElement)
     checkEncryptedDataView = false;
     isHistory = false;
     isAllowedProfiles = false;
-
-    // 이거도 추가한검당
     isBlankTh = false;
 
 

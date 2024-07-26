@@ -27,6 +27,7 @@ export default class ScFileRelatedListBody extends LightningElement {
     @api imgCardInfoTitleColor;
     @api imgCardInfoDateColor;
 
+    @api showSlideThumbnail;
     @api slideDelayTime;
     @api tableComponentHeight;
     @api thumbnailComponentHeight;

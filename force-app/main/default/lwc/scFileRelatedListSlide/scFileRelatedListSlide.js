@@ -18,6 +18,7 @@ export default class ScFileRelatedListSlide extends NavigationMixin(LightningEle
     @api fileData;
     @api selectedRowIds;  // string[]
     @api isComponentSizeSmall;  // boolean
+    @api showSlideThumbnail;  // boolean
     @api slideDelayTime;
 
     imgId;
@@ -28,9 +29,10 @@ export default class ScFileRelatedListSlide extends NavigationMixin(LightningEle
     slideInterval;     // 슬라이드 간격을 제어하기 위한 인터벌 변수
     isPlaying = false;
     togglePlayIcon = 'utility:play';
+    slideCustomClass;
 
     connectedCallback() {
-
+        this.slideCustomClass = this.showSlideThumbnail ? 'main_slideImg_short' : 'main_slideImg_long';
     }
 
     renderedCallback() {

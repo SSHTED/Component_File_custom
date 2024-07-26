@@ -1,55 +1,11 @@
 <!-- scFileRelatedListSlide.html -->
 <template>
-
     <div class="main_slide">
-      <!-- 작은 영역일때 -->
-      <template lwc:if={isComponentSizeSmall}>
-        <template lwc:if={fileData.length}>
-          <div class="inner_main_slide">
-            <div class="imgArea" onmouseover={showImgInfo} onmouseout={hideImgInfo}>
-              <!-- 마우스 호버시 나타나는 이미지 정보 및 기능버튼 -->
-              <div class="shadowBox">
-                <div class="slideImgInfo">
-                  <div class="slideImgInfoText">
-                    <span class="slideImgInfoTitle">{imgTitle}</span>
-                    <p>{imgLastModifiedDate}</p>
-                    <p>&nbsp;/&nbsp;{imgContentSize}</p> 
-                  </div>
-                </div>
-              </div>
-              <div class="btn_area">
-                <div class="action_btn" data-value="expand" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(58,73,98)">
-                    <lightning-icon class="btnIcon" icon-name="utility:expand" size="x-small"></lightning-icon>
-                </div>
-                <div class="action_btn" data-value="download" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(29,204,191)">
-                    <lightning-icon class="btnIcon" icon-name="utility:download" size="x-small"></lightning-icon>
-                </div>
-                <div class="action_btn" data-value="delete" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(255,165,0)">
-                    <lightning-icon class="btnIcon" icon-name="utility:delete" size="x-small"></lightning-icon>
-                </div>
-              </div>
-              <!-- 슬라이드 이미지 -->
-              <div class="slideImgBox">
-                <img src={imgSrc} alt="슬라이드 이미지"/>
-              </div>
-            </div>
-            
-            <!-- 슬라이드 하단 이미지 재생/이동 버튼 -->
-            <div class="functionArea" >
-              <lightning-icon class="prevBtn" icon-name="utility:chevronleft" size="small" onclick={previousImage}></lightning-icon>
-              <lightning-icon class="playBtn" icon-name={togglePlayIcon} size="small" onclick={handleSlidePlay}></lightning-icon>
-              <lightning-icon class="nextBtn" icon-name="utility:chevronright" size="small" onclick={nextImage}></lightning-icon>
-            </div>
-          </div>
-        </template>
-      </template>
-
-      <!-- 큰 영역일때 -->
-      <template lwc:else>
-        <!-- 슬라이드 이미지 좌측 썸네일 영역 -->
-        <div class="main_left">
+      <!-- 슬라이드 이미지 좌측 썸네일 영역 -->
+      <template lwc:if={showSlideThumbnail}>
+        <div class="main_thumbnail">
           <template for:each={fileData} for:item="fileData" for:index="index">
-            <div class="main_left_thumbImg" key={fileData.Id} data-img-title={fileData.Title} data-img-url={fileData.ImgSrc} onclick={handleSlideNaviClick} data-index={index}>
+            <div class="main_thumbImg" key={fileData.Id} data-img-title={fileData.Title} data-img-url={fileData.ImgSrc} onclick={handleSlideNaviClick} data-index={index}>
               <!-- <img src={fileData.ImgSrc} alt="썸네일 이미지"/> -->
 
               <!-- 이미지 또는 아이콘 -->
@@ -62,86 +18,44 @@
             </div>
           </template>
         </div>
-        <!-- 이미지 슬라이드 영역 -->
-        <div class="main_right">
-          <template lwc:if={fileData.length}>
-            <div class="imgArea" onmouseover={showImgInfo} onmouseout={hideImgInfo}>
-              <!-- 마우스 호버시 나타나는 이미지 정보 및 기능버튼 -->
-              <div class="shadowBox">
-                <div class="slideImgInfo">
-                  <div class="slideImgInfoText">
-                    <span class="slideImgInfoTitle">{imgTitle}</span>
-                    <p>{imgLastModifiedDate}</p>
-                    <p>&nbsp;/&nbsp;{imgContentSize}</p> 
-                  </div>
-                </div>
-              </div>
-              <div class="btn_area">
-                <div class="action_btn" data-value="expand" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(58,73,98)">
-                    <lightning-icon class="btnIcon" icon-name="utility:expand" size="x-small"></lightning-icon>
-                </div>
-                <div class="action_btn" data-value="download" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(29,204,191)">
-                    <lightning-icon class="btnIcon" icon-name="utility:download" size="x-small"></lightning-icon>
-                </div>
-                <div class="action_btn" data-value="delete" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(255,165,0)">
-                    <lightning-icon class="btnIcon" icon-name="utility:delete" size="x-small"></lightning-icon>
-                </div>
-              </div>
-              <!-- 슬라이드 이미지 -->
-              <div class="slideImgBox">
-                <img src={imgSrc} alt="슬라이드 이미지" />
-              </div>
-            </div>
-            <!-- 슬라이드 하단 이미지 재생/이동 버튼 -->
-            <div class="functionArea" onmouseover={showImgInfo} onmouseout={hideImgInfo}>
-              <lightning-icon class="prevBtn" icon-name="utility:chevronleft" size="small" onclick={previousImage}></lightning-icon>
-              <lightning-icon class="playBtn" icon-name={togglePlayIcon} size="small" onclick={handleSlidePlay}></lightning-icon>
-              <lightning-icon class="nextBtn" icon-name="utility:chevronright" size="small" onclick={nextImage}></lightning-icon>
-            </div>
-          </template>
-        </div>
       </template>
-      
-      <!-- 작은 영역일때 -->
-      <template lwc:if={isComponentSizeSmall}>
+      <!-- 이미지 슬라이드 영역 -->
+      <div class={slideCustomClass}>
         <template lwc:if={fileData.length}>
-          <div class="inner_main_slide">
-            <div class="imgArea" onmouseover={showImgInfo} onmouseout={hideImgInfo}>
-              <!-- 마우스 호버시 나타나는 이미지 정보 및 기능버튼 -->
-              <div class="shadowBox">
-                <div class="slideImgInfo">
-                  <div class="slideImgInfoText">
-                    <span class="slideImgInfoTitle">{imgTitle}</span>
-                    <p>{imgLastModifiedDate}</p>
-                    <p>&nbsp;/&nbsp;{imgContentSize}</p> 
-                  </div>
+          <div class="imgArea" onmouseover={showImgInfo} onmouseout={hideImgInfo}>
+            <!-- 마우스 호버시 나타나는 이미지 정보 및 기능버튼 -->
+            <div class="shadowBox">
+              <div class="slideImgInfo">
+                <div class="slideImgInfoText">
+                  <span class="slideImgInfoTitle">{imgTitle}</span>
+                  <p>{imgLastModifiedDate}</p>
+                  <p>&nbsp;/&nbsp;{imgContentSize}</p> 
                 </div>
-              </div>
-              <div class="btn_area">
-                <div class="action_btn" data-value="expand" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(58,73,98)">
-                    <lightning-icon class="btnIcon" icon-name="utility:expand" size="x-small"></lightning-icon>
-                </div>
-                <div class="action_btn" data-value="download" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(29,204,191)">
-                    <lightning-icon class="btnIcon" icon-name="utility:download" size="x-small"></lightning-icon>
-                </div>
-                <div class="action_btn" data-value="delete" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(255,165,0)">
-                    <lightning-icon class="btnIcon" icon-name="utility:delete" size="x-small"></lightning-icon>
-                </div>
-              </div>
-              <!-- 슬라이드 이미지 -->
-              <div class="slideImgBox">
-                <img src={imgSrc} alt="슬라이드 이미지"/>
               </div>
             </div>
-            
-            <!-- 슬라이드 하단 이미지 재생/이동 버튼 -->
-            <div class="functionArea" >
-              <lightning-icon class="prevBtn" icon-name="utility:chevronleft" size="small" onclick={previousImage}></lightning-icon>
-              <lightning-icon class="playBtn" icon-name={togglePlayIcon} size="small" onclick={handleSlidePlay}></lightning-icon>
-              <lightning-icon class="nextBtn" icon-name="utility:chevronright" size="small" onclick={nextImage}></lightning-icon>
+            <div class="btn_area">
+              <div class="action_btn" data-value="expand" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(58,73,98)">
+                  <lightning-icon class="btnIcon" icon-name="utility:expand" size="x-small"></lightning-icon>
+              </div>
+              <div class="action_btn" data-value="download" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(29,204,191)">
+                  <lightning-icon class="btnIcon" icon-name="utility:download" size="x-small"></lightning-icon>
+              </div>
+              <div class="action_btn" data-value="delete" data-id={imgId} onclick={handleActionClicked} style="background-color:rgb(255,165,0)">
+                  <lightning-icon class="btnIcon" icon-name="utility:delete" size="x-small"></lightning-icon>
+              </div>
+            </div>
+            <!-- 슬라이드 이미지 -->
+            <div class="slideImgBox">
+              <img src={imgSrc} alt="슬라이드 이미지" />
             </div>
           </div>
+          <!-- 슬라이드 하단 이미지 재생/이동 버튼 -->
+          <div class="functionArea" onmouseover={showImgInfo} onmouseout={hideImgInfo}>
+            <lightning-icon class="prevBtn" icon-name="utility:chevronleft" size="small" onclick={previousImage}></lightning-icon>
+            <lightning-icon class="playBtn" icon-name={togglePlayIcon} size="small" onclick={handleSlidePlay}></lightning-icon>
+            <lightning-icon class="nextBtn" icon-name="utility:chevronright" size="small" onclick={nextImage}></lightning-icon>
+          </div>
         </template>
-      </template>
+      </div>
     </div>
   </template>
