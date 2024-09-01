@@ -141,11 +141,13 @@ global with sharing class SC_FileRelatedListController {
             System.debug('deleteContentDocuments: ' + deleteContentDocuments);
             
             // 삭제할 ContentDocumentLink 레코드 가져오기
-            List<ContentDocumentLink> deleteContentDocumentLinks = [SELECT Id FROM ContentDocumentLink WHERE ContentDocumentId IN :deleteContentDocumentIdSet AND LinkedEntityId = :recordId];
-            System.debug('deleteContentDocumentLinks: ' + deleteContentDocumentLinks);
+            // List<ContentDocumentLink> deleteContentDocumentLinks = [SELECT Id FROM ContentDocumentLink WHERE ContentDocumentId IN :deleteContentDocumentIdSet AND LinkedEntityId = :recordId];
+            // System.debug('deleteContentDocumentLinks: ' + deleteContentDocumentLinks);
             
-            if (!deleteContentDocuments.isEmpty() && !deleteContentDocumentLinks.isEmpty()) {
-                delete deleteContentDocumentLinks;
+            // if (!deleteContentDocuments.isEmpty() && !deleteContentDocumentLinks.isEmpty()) {
+            if (!deleteContentDocuments.isEmpty()) {
+                // delete deleteContentDocumentLinks;
+                // doc 삭제 시 Link 및 version 자동 삭제
                 delete deleteContentDocuments;
 
                 Database.setSavepoint();
